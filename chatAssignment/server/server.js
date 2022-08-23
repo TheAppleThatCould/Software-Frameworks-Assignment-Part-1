@@ -13,15 +13,13 @@ const server = require("./listen.js");
 
 const PORT = 3000;
 
+app.use(express.urlencoded({extended: true}));
+app.use(express.json())
+
 app.use(cors());
 
 sockets.connect(io, PORT);
 
 server.listen(http, PORT)
 
-
-
-
-
-
-
+app.post('/login', require("./api/auth.js"));
