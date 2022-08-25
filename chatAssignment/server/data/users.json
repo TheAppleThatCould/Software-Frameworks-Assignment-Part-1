@@ -1,6 +1,9 @@
 {
     "userDetails": [
-         {"userName": "Bob", "birthDate": "11/04/1999", "age": 20, "email": "email1@gmail.com", "password": "111", "valid": false},
+          {"userName": "super", "birthDate": "11/04/1999", "age": 20, "email": "super@gmail.com", "password": "super",
+               "role": "super", "groups": [], "valid": false},
+         {"userName": "Bob", "birthDate": "11/04/1999", "age": 20, "email": "email1@gmail.com", "password": "111",
+               "role": "normal", "groups": [], "valid": false},
          {"userName": "John", "birthDate": "1/05/1996", "age": 22, "email": "email2@gmail.com", "password": "222", "valid": false},
          {"userName": "Dez", "birthDate": "15/06/1998", "age": 26, "email": "email3@gmail.com", "password": "333", "valid": false}
     ] 
