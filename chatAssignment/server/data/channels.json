@@ -1,0 +1,14 @@
+{
+    "channels": [
+          {"channelID": "c001", "name": "testChannel1", "groupID": "g001"},
+          {"channelID": "c002", "name": "testChannel2", "groupID": "g001"},
+          {"channelID": "c003", "name": "testChannel3", "groupID": "g002"}
+    ],
+
+    "chatHistory": [
+        {"channelID": "c001", "history": [{"userID": "u001", "message": "test1"}]},
+        {"channelID": "c002", "history": [{"userID": "u001", "message": "test2"}]},
+        {"channelID": "c003", "history": [{"userID": "u001", "message": "test3"}]}
+    ]
+ }
+ 
