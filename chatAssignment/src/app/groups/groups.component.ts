@@ -19,7 +19,7 @@ export class GroupsComponent implements OnInit {
   user = {userID: ''};
 
   // The array that will contain all the groups the user is apart of.
-  groupArray = [];
+  groupArray = [{name: ""}];
 
   constructor(private router: Router, private httpClient: HttpClient) {
     this.valid = sessionStorage.getItem("valid") === 'true' || false;
@@ -34,19 +34,16 @@ export class GroupsComponent implements OnInit {
    }
 
   ngOnInit(): void {
+
   }
 
   getGroupDetails(){
     console.log("test test", this.user)
     this.httpClient.post(BACKEND_URL + '/getGroups', this.user, httpOptions).subscribe((data: any) =>{
       alert(JSON.stringify(data));
-
-      if(data.valid){
-        // sessionStorage.setItem('valid', data.valid.toString());
-
-        this.router.navigateByUrl('/account');
-        
-      }})
+      this.groupArray = data;
+      console.log("test this.groupArray: ", this.groupArray)
+    })
   }
 
 }
