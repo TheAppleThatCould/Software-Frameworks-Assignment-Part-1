@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ChatAreaComponent } from './chat-area/chat-area.component';
+import { GroupsComponent } from './groups/groups.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ChatAreaComponent } from './chat-area/chat-area.component';
     AppComponent,
     LoginComponent,
     AccountComponent,
-    ChatAreaComponent
+    ChatAreaComponent,
+    GroupsComponent
   ],
   imports: [
     BrowserModule,
