@@ -26,10 +26,12 @@ export class LoginComponent implements OnInit {
       alert(JSON.stringify(this.userDetail));
       console.log("Data is: ", data)
       if(data.valid){
+        sessionStorage.setItem('userID', data.userID.toString());
         sessionStorage.setItem('userName', data.userName.toString());
         sessionStorage.setItem('birthDate', data.birthDate.toString());
         sessionStorage.setItem('age', data.age.toString());
         sessionStorage.setItem('email', data.email.toString());
+        sessionStorage.setItem('role', data.role.toString());
         sessionStorage.setItem('valid', data.valid.toString());
 
         this.router.navigateByUrl('/account');
