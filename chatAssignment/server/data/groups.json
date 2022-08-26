@@ -1,7 +1,7 @@
 {
     "groups": [
-          {"groupID": "g001", "name": "testGroup1"},
-          {"groupID": "g002", "name": "testGroup2"}
+          {"groupID": "g001", "name": "testGroup1", "userID": ["u001"]},
+          {"groupID": "g002", "name": "testGroup2", "userID": ["u001", "u002"]}
     ] 
  }
  
