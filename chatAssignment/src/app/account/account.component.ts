@@ -13,7 +13,7 @@ export class AccountComponent implements OnInit {
   age = "";
   valid: boolean = false; 
 
-  constructor(private router: Router) { 
+  constructor(private router: Router) {
     this.userName = sessionStorage.getItem("userName") || "";
     this.birthDate = sessionStorage.getItem("birthDate") || "";
     this.email = sessionStorage.getItem("email") || "";

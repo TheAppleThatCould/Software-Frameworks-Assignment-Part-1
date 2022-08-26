@@ -23,3 +23,6 @@ sockets.connect(io, PORT);
 server.listen(http, PORT)
 
 app.post('/login', require("./api/auth.js"));
+
+app.post('/getGroups', require("./api/group.js").getGroupDetailsByUserID);
+

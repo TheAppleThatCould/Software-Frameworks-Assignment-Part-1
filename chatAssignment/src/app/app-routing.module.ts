@@ -3,11 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component'; 
 import { AccountComponent } from './account/account.component';
 import { ChatAreaComponent } from './chat-area/chat-area.component';
+import { GroupsComponent } from './groups/groups.component';
 
 const routes: Routes = [
   {path: "login", component: LoginComponent},
   {path: "account", component: AccountComponent},
   {path: "chatArea", component: ChatAreaComponent},
+  {path: "groups", component: GroupsComponent},
+
 ];
 
 @NgModule({
