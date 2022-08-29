@@ -22,15 +22,13 @@ export class ChatAreaComponent implements OnInit {
   message = [{channelID: "", userID: "", userName: "", message: ""}];
   ioConnection: any;
 
-  constructor(private socketService: SocketService, private route: ActivatedRoute, private httpClient: HttpClient) {
-    this.userName = sessionStorage.getItem("userName") || "";
-    this.userID = sessionStorage.getItem("userID") || "";
-
-  }
+  constructor(private socketService: SocketService, private route: ActivatedRoute, private httpClient: HttpClient) {}
 
   ngOnInit(): void {
+    this.userName = localStorage.getItem("userName") || "";
+    this.userID = localStorage.getItem("userID") || "";
+
     this.channelID = this.route.snapshot.params['id'];
-    // console.log("Message detail on chatArea component: ", this.channelID, this.userName);
     this.getChatHistory(this.channelID);
     this.initToConnection();
   }

@@ -21,20 +21,17 @@ export class GroupsComponent implements OnInit {
   // The array that will contain all the groups the user is apart of.
   groupArray = [{groupID: "", name: ""}];
 
-  constructor(private router: Router, private httpClient: HttpClient) {
-    this.valid = sessionStorage.getItem("valid") === 'true' || false;
-    this.user.userID = sessionStorage.getItem("userID") || "";
+  constructor(private router: Router, private httpClient: HttpClient) {}
 
+  ngOnInit(): void {
+    this.valid = localStorage.getItem("valid") === 'true' || false;
+    this.user.userID = localStorage.getItem("userID") || "";
 
     if(this.valid == false){
       this.router.navigateByUrl('/login');
     } else {
       this.getGroupDetails()
     }
-   }
-
-  ngOnInit(): void {
-
   }
 
   getGroupDetails(){

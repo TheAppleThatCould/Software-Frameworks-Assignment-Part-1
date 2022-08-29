@@ -13,19 +13,18 @@ export class AccountComponent implements OnInit {
   age = "";
   valid: boolean = false; 
 
-  constructor(private router: Router) {
-    this.userName = sessionStorage.getItem("userName") || "";
-    this.birthDate = sessionStorage.getItem("birthDate") || "";
-    this.email = sessionStorage.getItem("email") || "";
-    this.age = sessionStorage.getItem("age") || "";
-    this.valid = sessionStorage.getItem("valid") === 'true' || false;
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    this.userName = localStorage.getItem("userName") || "";
+    this.birthDate = localStorage.getItem("birthDate") || "";
+    this.email = localStorage.getItem("email") || "";
+    this.age = localStorage.getItem("age") || "";
+    this.valid = localStorage.getItem("valid") === 'true' || false;
 
     if(this.valid == false){
       this.router.navigateByUrl('/login');
     }
-  }
-
-  ngOnInit(): void {
   }
 
 }
