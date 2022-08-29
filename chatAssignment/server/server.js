@@ -26,3 +26,6 @@ app.post('/login', require("./api/auth.js"));
 
 app.post('/getGroups', require("./api/group.js").getGroupDetailsByUserID);
 
+app.post('/getChannels', require("./api/channel.js").getChannelByGroupID);
+
+

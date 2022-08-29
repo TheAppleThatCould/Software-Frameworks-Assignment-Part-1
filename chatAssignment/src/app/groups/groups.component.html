@@ -1,6 +1,6 @@
 <h1>List of groups</h1>
 <ul>
     <li *ngFor="let group of groupArray">
-        {{group.name}}
+        <a [routerLink]="['/channels', group.groupID]">{{group.name}}</a>
     </li>
 </ul>

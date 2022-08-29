@@ -19,7 +19,7 @@ export class GroupsComponent implements OnInit {
   user = {userID: ''};
 
   // The array that will contain all the groups the user is apart of.
-  groupArray = [{name: ""}];
+  groupArray = [{groupID: "", name: ""}];
 
   constructor(private router: Router, private httpClient: HttpClient) {
     this.valid = sessionStorage.getItem("valid") === 'true' || false;
