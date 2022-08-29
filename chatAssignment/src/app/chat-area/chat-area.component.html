@@ -6,10 +6,9 @@
         </div>
         <div class="form-group">
             <button (click)="chat()" class="btn btn-primary"> Send</button>
-
         </div>
     </form>
 </div>
 
 
-<li *ngFor="let m of message">{{m}}</li>
+<li *ngFor="let m of message">User: {{m.userID}}. Message: {{m.message}}</li>

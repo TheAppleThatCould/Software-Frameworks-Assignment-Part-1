@@ -15,8 +15,8 @@ const BACKEND_URL = "http://localhost:3000";
 })
 export class ChatAreaComponent implements OnInit {
   messageContent: string = "";
-  message: string[] = [];
-  ioConnection:any;
+  message = [{userID: "", message: ""}];
+  ioConnection: any;
 
   channelID: string = "";
   chatHistory = [];
@@ -25,9 +25,10 @@ export class ChatAreaComponent implements OnInit {
 
   ngOnInit(): void {
     this.channelID =  this.route.snapshot.params['id'];
-    alert("this is the channelID: " +  this.channelID);
+    // alert("this is the channelID: " +  this.channelID);
 
     this.getChatHistory(this.channelID);
+
     this.initToConnection();
   }
 
@@ -48,12 +49,14 @@ export class ChatAreaComponent implements OnInit {
     }
   }
 
-
   getChatHistory(channelID: string){
     console.log("test", channelID)
     this.httpClient.post(BACKEND_URL + "/getChannelHistory", {channelID}, httpOptions).subscribe((data: any) =>{
       alert(JSON.stringify(data));
       this.chatHistory = data;
+      this.message = data[0].history;
+      alert(this.message);
+
     })
   }
 }
