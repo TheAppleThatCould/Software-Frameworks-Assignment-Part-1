@@ -40,7 +40,7 @@ export class GroupsComponent implements OnInit {
   getGroupDetails(){
     console.log("test test", this.user)
     this.httpClient.post(BACKEND_URL + '/getGroups', this.user, httpOptions).subscribe((data: any) =>{
-      alert(JSON.stringify(data));
+      // alert(JSON.stringify(data));
       this.groupArray = data;
       console.log("test this.groupArray: ", this.groupArray)
     })

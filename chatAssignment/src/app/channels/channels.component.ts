@@ -22,17 +22,13 @@ export class ChannelsComponent implements OnInit {
 
   ngOnInit(): void {
     this.groupID =  this.route.snapshot.params['id'];
-    alert("this is the groupID: " +  this.groupID);
-
     this.getChannels(this.groupID);
-
   }
 
 
   getChannels(groupID: string){
     console.log("test")
     this.httpClient.post(BACKEND_URL + "/getChannels", {groupID}, httpOptions).subscribe((data: any) =>{
-      alert(JSON.stringify(data));
       this.channelArray = data;
     })
   }

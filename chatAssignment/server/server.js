@@ -30,5 +30,8 @@ app.post('/getChannels', require("./api/channel.js").getChannelByGroupID);
 
 app.post('/getChannelHistory', require("./api/channel.js").getChannelHistoryByChannelID);
 
+app.post('/writeChannelHistory', require("./api/channel.js").writeChannelHistoryByChannelID);
+
+
 
 

@@ -14,21 +14,24 @@ const BACKEND_URL = "http://localhost:3000";
   styleUrls: ['./chat-area.component.css']
 })
 export class ChatAreaComponent implements OnInit {
+  userName = "";
+  userID = "";
+  channelID: string = "";
+
   messageContent: string = "";
-  message = [{userID: "", userName: "", message: ""}];
+  message = [{channelID: "", userID: "", userName: "", message: ""}];
   ioConnection: any;
 
-  channelID: string = "";
-  chatHistory = [];
+  constructor(private socketService: SocketService, private route: ActivatedRoute, private httpClient: HttpClient) {
+    this.userName = sessionStorage.getItem("userName") || "";
+    this.userID = sessionStorage.getItem("userID") || "";
 
-  constructor(private socketService: SocketService, private route: ActivatedRoute, private httpClient: HttpClient) { }
+  }
 
   ngOnInit(): void {
-    this.channelID =  this.route.snapshot.params['id'];
-    // alert("this is the channelID: " +  this.channelID);
-
+    this.channelID = this.route.snapshot.params['id'];
+    // console.log("Message detail on chatArea component: ", this.channelID, this.userName);
     this.getChatHistory(this.channelID);
-
     this.initToConnection();
   }
 
@@ -36,14 +39,16 @@ export class ChatAreaComponent implements OnInit {
     this.socketService.initSocket();
     this.ioConnection = this.socketService.getMessage()
       .subscribe((message: any) => {
-        this.message.push(message);
+        this.message.push({channelID: this.channelID, userID: this.userID, userName: this.userName, message: message});
       });
   }
 
   public chat(){
     if(this.messageContent){
       this.socketService.send(this.messageContent);
+      this.writeChatHistory({channelID: this.channelID, userID: this.userID, userName: this.userName, message: this.messageContent});
       this.messageContent = "";
+
     } else {
       console.log("no message")
     }
@@ -52,11 +57,14 @@ export class ChatAreaComponent implements OnInit {
   getChatHistory(channelID: string){
     console.log("test", channelID)
     this.httpClient.post(BACKEND_URL + "/getChannelHistory", {channelID}, httpOptions).subscribe((data: any) =>{
-      alert(JSON.stringify(data));
-      this.chatHistory = data;
-      this.message = data[0].history;
-      alert(this.message);
-
+      // alert(JSON.stringify(data));
+      this.message = data;
     })
+  }
+
+  writeChatHistory(newMessage: Object){
+    console.log("Message detail on chatArea component: ", this.channelID, this.userName);
+
+    this.httpClient.post(BACKEND_URL + "/writeChannelHistory", newMessage, httpOptions).subscribe((data: any) =>{})
   }
 }
