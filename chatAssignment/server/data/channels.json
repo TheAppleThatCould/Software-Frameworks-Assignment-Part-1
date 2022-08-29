@@ -1,8 +1,8 @@
 {
     "channels": [
-          {"channelID": "c001", "name": "testChannel1", "groupID": "g001"},
-          {"channelID": "c002", "name": "testChannel2", "groupID": "g001"},
-          {"channelID": "c003", "name": "testChannel3", "groupID": "g002"}
+          {"channelID": "c001", "name": "testChannel1", "groupID": "g001", "userID": ["u001"]},
+          {"channelID": "c002", "name": "testChannel2", "groupID": "g001", "userID": ["u001"]},
+          {"channelID": "c003", "name": "testChannel3", "groupID": "g002", "userID": ["u001"]}
     ]
  }
  
