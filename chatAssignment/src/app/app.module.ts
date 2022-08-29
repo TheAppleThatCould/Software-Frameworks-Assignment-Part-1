@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ChatAreaComponent } from './chat-area/chat-area.component';
 import { GroupsComponent } from './groups/groups.component';
 import { ChannelsComponent } from './channels/channels.component';
+import { AdminAreaComponent } from './admin-area/admin-area.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ChannelsComponent } from './channels/channels.component';
     AccountComponent,
     ChatAreaComponent,
     GroupsComponent,
-    ChannelsComponent
+    ChannelsComponent,
+    AdminAreaComponent
   ],
   imports: [
     BrowserModule,
