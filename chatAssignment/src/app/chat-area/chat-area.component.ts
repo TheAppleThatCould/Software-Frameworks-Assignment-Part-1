@@ -15,7 +15,7 @@ const BACKEND_URL = "http://localhost:3000";
 })
 export class ChatAreaComponent implements OnInit {
   messageContent: string = "";
-  message = [{userID: "", message: ""}];
+  message = [{userID: "", userName: "", message: ""}];
   ioConnection: any;
 
   channelID: string = "";
