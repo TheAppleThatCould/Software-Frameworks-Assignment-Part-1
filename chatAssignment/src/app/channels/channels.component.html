@@ -1,1 +1,6 @@
-<p>channels works!</p>
+<h1>List of channels</h1>
+<ul>
+    <li *ngFor="let channel of channelArray">
+        <a [routerLink]="['/chatArea', channel.channelID]">{{channel.name}}</a>
+    </li>
+</ul>

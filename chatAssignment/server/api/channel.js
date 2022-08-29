@@ -22,7 +22,7 @@ module.exports = {
     getChannelHistoryByChannelID: function(req, res){
         fs.readFile("./data/chatHistory.json", 'utf8', function(err, data){
             if (err) throw err;
-            console.log("THIS IS THE data DATA FROM THE GROUP API CALL: ", data)
+            console.log("THIS IS THE data DATA FROM THE getChannelHistoryByChannelID API CALL: ", data)
 
             let channelArray = JSON.parse(data);
             let channelsHistoryData = [];

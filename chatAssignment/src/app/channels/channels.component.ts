@@ -6,16 +6,17 @@ const httpOptions = {
 };
 
 const BACKEND_URL = "http://localhost:3000";
+
 @Component({
   selector: 'app-channels',
   templateUrl: './channels.component.html',
   styleUrls: ['./channels.component.css']
 })
 export class ChannelsComponent implements OnInit {
+  groupID: string = "";
+  channelArray = [{channelID: "", name: "", groupID: ""}];
 
-  groupID: string = ""
 
-  channelArray = [];
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) { }
 
@@ -24,6 +25,7 @@ export class ChannelsComponent implements OnInit {
     alert("this is the groupID: " +  this.groupID);
 
     this.getChannels(this.groupID);
+
   }
 
 
