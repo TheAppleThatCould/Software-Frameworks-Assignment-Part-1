@@ -18,5 +18,23 @@ module.exports = {
 
             res.send(channelsData);
         })
+    },
+    getChannelHistoryByChannelID: function(req, res){
+        fs.readFile("./data/chatHistory.json", 'utf8', function(err, data){
+            if (err) throw err;
+            console.log("THIS IS THE data DATA FROM THE GROUP API CALL: ", data)
+
+            let channelArray = JSON.parse(data);
+            let channelsHistoryData = [];
+            let channelID = req.body.channelID;
+            
+            channelArray.chatHistory.map((el) => {
+                if(el.channelID == channelID){
+                    channelsHistoryData.push(el);
+                }
+            })
+
+            res.send(channelsHistoryData);
+        })
     }
 };

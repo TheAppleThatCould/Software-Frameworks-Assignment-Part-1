@@ -28,4 +28,7 @@ app.post('/getGroups', require("./api/group.js").getGroupDetailsByUserID);
 
 app.post('/getChannels', require("./api/channel.js").getChannelByGroupID);
 
+app.post('/getChannelHistory', require("./api/channel.js").getChannelHistoryByChannelID);
+
+
 
