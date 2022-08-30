@@ -48,5 +48,33 @@ module.exports = {
         })
 
         res.send({valid: false})
+    },
+
+    createChannel: function(req, res){
+        fs.readFile("./data/channels.json", function(err, data){
+            let channelArray = JSON.parse(data);
+            let channelsData = [];
+            let valid = true;
+
+            channelArray.channels.map(el => {
+                channelsData.push(el);
+
+                if(el.channelID == req.body.channelID){
+                    valid = false
+                }
+            })
+            channelsData.push(req.body)
+            console.log("valid channel: ", valid)
+
+
+            if(valid){
+                fs.writeFile("./data/channels.json", JSON.stringify({channels: channelsData}), function(err){
+                    if (err) throw err;
+                })
+                res.send(true)
+            } else {
+                res.send(false)
+            }
+        })
     }
 };

@@ -4,3 +4,23 @@
         <a [routerLink]="['/chatArea', channel.channelID]">{{channel.name}}</a>
     </li>
 </ul>
+
+
+<div *ngIf="adminAccess">
+    <button mat-raised-button (click)="createChannelDisplay = !createChannelDisplay">Create Channel</button><br>
+
+    <div *ngIf="createChannelDisplay">
+        <form>
+            <label>ChannelID: </label>
+            <input type="text" id="channelID" class="form-control" [(ngModel)]="channelData.channelID" name="channelID"/>
+            <br>
+
+            <label>Channel Name: </label>
+            <input type="text" id="name" class="form-control" [(ngModel)]="channelData.name" name="name"/>
+            <br>
+
+            <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="createChannel()">Create Group</button>
+        </form>
+
+    </div>
+</div>

@@ -49,7 +49,7 @@ export class GroupsComponent implements OnInit {
       this.getGroupDetails()
     }
     
-    this.adminAccess = localStorage.getItem("accessAdminArea") === "true" || false;
+    this.adminAccess = localStorage.getItem("adminAccess") === "true" || false;
   }
 
   getGroupDetails(){

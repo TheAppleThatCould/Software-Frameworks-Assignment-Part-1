@@ -32,10 +32,11 @@ app.post('/createGroup', require("./api/group.js").createGroup);
 
 
 app.post('/getChannels', require("./api/channel.js").getChannelByGroupID);
-
+app.post("/createChannel", require("./api/channel.js").createChannel)
 app.post('/getChannelHistory', require("./api/channel.js").getChannelHistoryByChannelID);
-
 app.post('/writeChannelHistory', require("./api/channel.js").writeChannelHistoryByChannelID);
+
+
 
 app.post('/getUserByUserName', require("./api/user.js").getUserByUserName);
 app.post('/updateUser', require("./api/user.js").updateUser);

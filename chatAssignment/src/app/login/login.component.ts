@@ -35,9 +35,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('valid', data.valid.toString());
 
         if(data.role.toString() == "super" || data.role.toString() == "groupAdmin"){
-          localStorage.setItem('accessAdminArea', "true");
+          localStorage.setItem('adminAccess', "true");
         }else {
-          localStorage.setItem('accessAdminArea', "false");
+          localStorage.setItem('adminAccess', "false");
         }
         this.router.navigateByUrl('/account');
         
