@@ -11,6 +11,7 @@ export class AccountComponent implements OnInit {
   birthDate = "";
   email = "";
   age = "";
+  role = "";
   valid: boolean = false; 
 
   constructor(private router: Router) {}
@@ -20,6 +21,7 @@ export class AccountComponent implements OnInit {
     this.birthDate = localStorage.getItem("birthDate") || "";
     this.email = localStorage.getItem("email") || "";
     this.age = localStorage.getItem("age") || "";
+    this.role = localStorage.getItem("role") || "";
     this.valid = localStorage.getItem("valid") === 'true' || false;
 
     if(this.valid == false){
