@@ -13,6 +13,9 @@ const BACKEND_URL = "http://localhost:3000";
   styleUrls: ['./groups.component.css']
 })
 export class GroupsComponent implements OnInit {
+  // display link to adminArea component 
+  accessAdminArea = false;
+
   // Think about setting up a service to check if the user is login.
   // Because there going be alot of pages that need to check that.
   valid: boolean = false;
@@ -32,6 +35,9 @@ export class GroupsComponent implements OnInit {
     } else {
       this.getGroupDetails()
     }
+
+    this.accessAdminArea = localStorage.getItem("accessAdminArea") === "true" || false;
+    console.log("access admin area: ", this.accessAdminArea)
   }
 
   getGroupDetails(){

@@ -4,3 +4,8 @@
         <a [routerLink]="['/channels', group.groupID]">{{group.name}}</a>
     </li>
 </ul>
+
+
+<div *ngIf="accessAdminArea">
+    <a class="nav-link" routerLink="/adminArea">Admin Area</a>
+</div>

@@ -10,7 +10,7 @@ export class AppComponent {
   title = 'chatAssignment';
 
   constructor(private router: Router){}
-
+  
   public logout(){
     localStorage.clear();
     this.router.navigateByUrl('/login');
