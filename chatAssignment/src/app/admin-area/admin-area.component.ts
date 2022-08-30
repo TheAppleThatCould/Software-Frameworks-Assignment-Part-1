@@ -13,8 +13,11 @@ interface UserData {
   userName: string;
   email: string;
   birthDate: string;
+  age: number;
+  password: string;
   role: string;
   userID: string;
+  valid: boolean;
 }
 
 @Component({
@@ -24,29 +27,24 @@ interface UserData {
 })
 export class AdminAreaComponent implements OnInit {
   userName = ""
-  userData: UserData | undefined;
+  userData: UserData = {userName: "", email: "", birthDate: "", age: 0, password: "", role: "", userID: "", valid: false};
 
   searchUserDisplay = false;
   createUserDisplay = false;
+  searchGroupDisplay = false;
+
+
 
   constructor(private userAPIService: UserAPIServiceService, private httpClient: HttpClient) { }
 
   ngOnInit(): void {
   }
 
-  searchUser(userName:string){
+  searchUser(userName: string){
     this.httpClient.post(BACKEND_URL + '/getUserByUserName', {userName}, httpOptions).subscribe((data: any) =>{
       alert(JSON.stringify(data));
       this.userData = data[0];
     })
-  }
-
-  checkEmptyobject(obj: any){
-    if(Object.keys(obj).length != 0){
-      return true
-    } else {
-      return false
-    }
   }
 
   // updateUser(){
@@ -54,18 +52,23 @@ export class AdminAreaComponent implements OnInit {
   // }
 
   updateUserRole(role: string){
-    if(this.userData != undefined){
-      this.userData["role"] = role
-      this.httpClient.post(BACKEND_URL + '/updateUser', this.userData, httpOptions).subscribe((data: any) =>{})
-    }
+    this.userData["role"] = role
+    this.httpClient.post(BACKEND_URL + '/updateUser', this.userData, httpOptions).subscribe((data: any) =>{})
   }
 
   deleteUser(){
+    
+  }
+
+  createUser(){
+    this.httpClient.post(BACKEND_URL + '/createUser', this.userData, httpOptions).subscribe((data: any) =>{})
   }
 
   clearDisplays(){
     this.searchUserDisplay = false;
     this.createUserDisplay = false;
+    this.searchGroupDisplay = false;
+
   }
 
 }

@@ -38,7 +38,37 @@ module.exports = {
             fs.writeFile("./data/users.json", JSON.stringify({userDetails: userData}), function(err){
                 if (err) throw err;
             })
+            res.send(true)
             console.log("THIS IS UPDATEUSER userData: ", {userDetails: userData})
+        })
+    },
+
+    createUser: function(req, res){
+        fs.readFile("./data/users.json", 'utf8', function(err, data){
+            if (err) throw err;
+
+            let userArray = JSON.parse(data);
+            let validUser = true;
+
+            //Check if there is already a user with that userName and password
+            userArray.userDetails.map((el) => {
+                if(el.userName == req.body.userName || el.userID == req.body.userID){
+                    validUser = false
+                }
+            })
+
+            userArray.userDetails.push(req.body)
+
+            if(validUser){
+                fs.writeFile("./data/users.json", JSON.stringify(userArray), function(err){
+                    if (err) throw err;
+                })
+                console.log("User is valid")
+                res.send(true)
+            }else {
+                console.log("User not valid")
+                res.send(false)
+            }
         })
     }
 };

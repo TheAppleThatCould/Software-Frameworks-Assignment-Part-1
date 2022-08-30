@@ -3,6 +3,9 @@
 
 <button mat-raised-button (click)="clearDisplays(); searchUserDisplay = true">Seach for User</button>
 <button mat-raised-button (click)="clearDisplays(); createUserDisplay = true">Create User</button>
+<br>
+<button mat-raised-button (click)="clearDisplays(); searchGroupDisplay = true">Seach for groups</button>
+
 
 
 <div *ngIf="searchUserDisplay">
@@ -13,7 +16,7 @@
     </form>
 
 
-    <div *ngIf="userData != undefined && checkEmptyobject(userData)">
+    <div *ngIf="userData != undefined && userData.userName != '' ">
         <h3>User Information: </h3>
         <p>UserID: {{userData.userID}}</p>
         <p>UserName: {{userData.userName}}</p>
@@ -23,24 +26,51 @@
 
         <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateUserRole('super')">Update To SuperUser</button>
         <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateUserRole('normal')">Update To Normal</button>
+        <button mat-raised-button (click)="deleteUser()">Delete</button>
+    </div>
+</div>
 
 
+<div *ngIf="createUserDisplay">
+        <form>
+            <label>UserID: </label>
+            <input type="text" id="userName" class="form-control" [(ngModel)]="userData.userID" name="userID"/>
+            <br>
 
+            <label>UserName: </label>
+            <input type="text" id="userName" class="form-control" [(ngModel)]="userData.userName" name="userName"/>
+            <br>
 
-        <!-- <form>
-            <p>UserID: {{userData.userID}}</p>
-            <p>UserName: {{userData.userName}}</p>
-            <p>Email: {{userData.email}}</p>
-            <p>Birthday: {{userData.birthDate}}</p>
+            <label>Email: </label>
+            <input type="text" id="userName" class="form-control" [(ngModel)]="userData.email" name="email"/>
+            <br>
 
-            <label>role: </label>
+            <label>Birth Date: </label>
+            <input type="text" id="userName" class="form-control" [(ngModel)]="userData.birthDate" name="birthDate"/>
+            <br>
+
+            <label>Age: </label>
+            <input type="text" id="userName" class="form-control" [(ngModel)]="userData.age" name="age"/>
+            <br>
+
+            <label>Password: </label>
+            <input type="text" id="userName" class="form-control" [(ngModel)]="userData.password" name="Password"/>
+            <br>
+
+            <label>Role: </label>
             <input type="text" id="userName" class="form-control" [(ngModel)]="userData.role" name="userRole"/>
             <br>
 
-            <button mat-raised-button (click)="deleteUser()">Delete</button>
-            <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateUser()">Update</button>
-        </form> -->
+            <label>Valid: </label>
+            <input type="text" id="userName" class="form-control" [(ngModel)]="userData.valid" name="valid"/>
+            <br>
 
-    </div>
+            <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="createUser()">Create User</button>
+        </form>
+
 </div>
+
+
+
+
 

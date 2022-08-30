@@ -34,3 +34,4 @@ app.post('/writeChannelHistory', require("./api/channel.js").writeChannelHistory
 
 app.post('/getUserByUserName', require("./api/user.js").getUserByUserName);
 app.post('/updateUser', require("./api/user.js").updateUser);
+app.post('/createUser', require("./api/user.js").createUser)
