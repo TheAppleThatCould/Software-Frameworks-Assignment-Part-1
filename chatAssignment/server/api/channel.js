@@ -1,6 +1,28 @@
 var fs = require('fs')
 
 module.exports = {
+    getChannelByUserID: function(req, res){
+        fs.readFile("./data/channels.json", 'utf8', function(err, data){
+            if (err) throw err;
+
+            let channelArray = JSON.parse(data);
+            let channelsData = [];
+            let groupID = req.body.groupID;
+            let userID = req.body.userID;
+            
+            channelArray.channels.map((el) => {
+                if(el.groupID == groupID){
+                    el.userID.map(channelUserID => {
+                        if(channelUserID == userID){
+                            channelsData.push(el);
+                        }
+                    })
+                }
+            })
+
+            res.send(channelsData);
+        })
+    },
     getChannelByGroupID: function(req, res){
         fs.readFile("./data/channels.json", 'utf8', function(err, data){
             if (err) throw err;

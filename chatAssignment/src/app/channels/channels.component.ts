@@ -29,31 +29,39 @@ export class ChannelsComponent implements OnInit {
   createChannelDisplay: boolean = false;
   channelData: ChannelData = {channelID: "", name: "", groupID: "", userID: [""]};
 
+  userID = "";
 
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) { }
 
   ngOnInit(): void {
     this.groupID =  this.route.snapshot.params['id'];
-    this.getAllChannels(this.groupID);
+    this.userID = localStorage.getItem("userID") || "";
 
     let adminAccessNum = localStorage.getItem("adminAccess") || '4';
     this.adminAccess = +adminAccessNum;
+
+
+    if(this.adminAccess <= 0){
+      this.getChannelsByGroupID(this.groupID);
+    }else{
+      this.getChannels(this.groupID, this.userID)
+    }
   }
 
 
-  getAllChannels(groupID: string){
-    this.httpClient.post(BACKEND_URL + "/getChannels", {groupID}, httpOptions).subscribe((data: any) =>{
+  getChannelsByGroupID(groupID: string){
+    this.httpClient.post(BACKEND_URL + "/getChannelsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
       this.channelArray = data;
       console.log("test", this.channelArray)
 
     })
   }
 
-  getChannels(groupID: string){
-    this.httpClient.post(BACKEND_URL + "/getChannels", {groupID}, httpOptions).subscribe((data: any) =>{
+  getChannels(groupID: string, userID: string){
+    this.httpClient.post(BACKEND_URL + "/getChannelsByUserID", {groupID, userID}, httpOptions).subscribe((data: any) =>{
       this.channelArray = data;
-      console.log("test", this.channelArray)
+      console.log("getChannels test", this.channelArray)
 
     })
   }
