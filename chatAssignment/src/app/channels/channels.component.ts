@@ -21,10 +21,10 @@ interface ChannelData {
   styleUrls: ['./channels.component.css']
 })
 export class ChannelsComponent implements OnInit {
-  adminAccess = false;
+  adminAccess = 4;
 
   groupID: string = "";
-  channelArray = [{channelID: "", name: "", groupID: ""}];
+  channelArray = [{channelID: "", name: "", groupID: "", userID: [""]}];
 
   createChannelDisplay: boolean = false;
   channelData: ChannelData = {channelID: "", name: "", groupID: "", userID: [""]};
@@ -35,16 +35,26 @@ export class ChannelsComponent implements OnInit {
 
   ngOnInit(): void {
     this.groupID =  this.route.snapshot.params['id'];
-    this.getChannels(this.groupID);
+    this.getAllChannels(this.groupID);
 
-    this.adminAccess = localStorage.getItem("adminAccess") === "true" || false;
+    let adminAccessNum = localStorage.getItem("adminAccess") || '4';
+    this.adminAccess = +adminAccessNum;
   }
 
 
-  getChannels(groupID: string){
-    console.log("test")
+  getAllChannels(groupID: string){
     this.httpClient.post(BACKEND_URL + "/getChannels", {groupID}, httpOptions).subscribe((data: any) =>{
       this.channelArray = data;
+      console.log("test", this.channelArray)
+
+    })
+  }
+
+  getChannels(groupID: string){
+    this.httpClient.post(BACKEND_URL + "/getChannels", {groupID}, httpOptions).subscribe((data: any) =>{
+      this.channelArray = data;
+      console.log("test", this.channelArray)
+
     })
   }
 

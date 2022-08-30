@@ -23,7 +23,7 @@ interface GroupData {
 })
 export class GroupsComponent implements OnInit {
   // display link to adminArea component 
-  adminAccess = false;
+  adminAccess = 4;
 
   // Think about setting up a service to check if the user is login.
   // Because there going be alot of pages that need to check that.
@@ -49,7 +49,9 @@ export class GroupsComponent implements OnInit {
       this.getGroupDetails()
     }
     
-    this.adminAccess = localStorage.getItem("adminAccess") === "true" || false;
+    let adminAccessNum = localStorage.getItem("adminAccess") || '4';
+    this.adminAccess = +adminAccessNum;
+
   }
 
   getGroupDetails(){

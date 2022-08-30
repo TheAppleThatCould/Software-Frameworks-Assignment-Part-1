@@ -34,17 +34,27 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('role', data.role.toString());
         localStorage.setItem('valid', data.valid.toString());
 
-        if(data.role.toString() == "super" || data.role.toString() == "groupAdmin"){
-          localStorage.setItem('adminAccess', "true");
-        }else {
-          localStorage.setItem('adminAccess', "false");
-        }
+        this.setUserAccessPermission(data.role.toString())
+
         this.router.navigateByUrl('/account');
         
       } else {
         this.displayErrorMessage = true;
       }
     })
+  }
+
+
+  setUserAccessPermission(userRole: string){
+    if(userRole == "super" ){
+      localStorage.setItem('adminAccess', "1");
+    } else if(userRole == "groupAdmin"){
+      localStorage.setItem('adminAccess', "2");
+    } else if(userRole == "groupAssistant"){
+      localStorage.setItem('adminAccess', "3");
+    } else {
+      localStorage.setItem('adminAccess', "4");
+    }
   }
 
 }
