@@ -35,10 +35,10 @@ module.exports = {
                 }
             })
 
-            
+            fs.writeFile("./data/users.json", JSON.stringify({userDetails: userData}), function(err){
+                if (err) throw err;
+            })
             console.log("THIS IS UPDATEUSER userData: ", {userDetails: userData})
-
-            // res.send(userData);
         })
     }
 };

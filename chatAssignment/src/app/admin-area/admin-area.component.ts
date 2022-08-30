@@ -49,8 +49,15 @@ export class AdminAreaComponent implements OnInit {
     }
   }
 
-  updateUser(){
-    this.httpClient.post(BACKEND_URL + '/updateUser', this.userData, httpOptions).subscribe((data: any) =>{})
+  // updateUser(){
+  //   this.httpClient.post(BACKEND_URL + '/updateUser', this.userData, httpOptions).subscribe((data: any) =>{})
+  // }
+
+  updateUserRole(role: string){
+    if(this.userData != undefined){
+      this.userData["role"] = role
+      this.httpClient.post(BACKEND_URL + '/updateUser', this.userData, httpOptions).subscribe((data: any) =>{})
+    }
   }
 
   deleteUser(){

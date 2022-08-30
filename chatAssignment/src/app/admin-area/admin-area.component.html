@@ -15,8 +15,19 @@
 
     <div *ngIf="userData != undefined && checkEmptyobject(userData)">
         <h3>User Information: </h3>
+        <p>UserID: {{userData.userID}}</p>
+        <p>UserName: {{userData.userName}}</p>
+        <p>Email: {{userData.email}}</p>
+        <p>Birthday: {{userData.birthDate}}</p>
+        <p>Role: {{userData.role}}</p>
 
-        <form>
+        <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateUserRole('super')">Update To SuperUser</button>
+        <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateUserRole('normal')">Update To Normal</button>
+
+
+
+
+        <!-- <form>
             <p>UserID: {{userData.userID}}</p>
             <p>UserName: {{userData.userName}}</p>
             <p>Email: {{userData.email}}</p>
@@ -28,7 +39,7 @@
 
             <button mat-raised-button (click)="deleteUser()">Delete</button>
             <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateUser()">Update</button>
-        </form>
+        </form> -->
 
     </div>
 </div>
