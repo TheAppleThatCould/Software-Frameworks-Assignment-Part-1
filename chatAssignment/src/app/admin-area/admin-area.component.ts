@@ -8,6 +8,15 @@ const httpOptions = {
 
 const BACKEND_URL = "http://localhost:3000";
 
+
+interface UserData {
+  userName: string;
+  email: string;
+  birthDate: string;
+  role: string;
+  userID: string;
+}
+
 @Component({
   selector: 'app-admin-area',
   templateUrl: './admin-area.component.html',
@@ -15,7 +24,7 @@ const BACKEND_URL = "http://localhost:3000";
 })
 export class AdminAreaComponent implements OnInit {
   userName = ""
-  userData = {};
+  userData: UserData | undefined;
 
   searchUserDisplay = false;
   createUserDisplay = false;
@@ -30,6 +39,21 @@ export class AdminAreaComponent implements OnInit {
       alert(JSON.stringify(data));
       this.userData = data[0];
     })
+  }
+
+  checkEmptyobject(obj: any){
+    if(Object.keys(obj).length != 0){
+      return true
+    } else {
+      return false
+    }
+  }
+
+  updateUser(){
+    this.httpClient.post(BACKEND_URL + '/updateUser', this.userData, httpOptions).subscribe((data: any) =>{})
+  }
+
+  deleteUser(){
   }
 
   clearDisplays(){

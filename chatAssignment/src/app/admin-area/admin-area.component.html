@@ -11,5 +11,25 @@
         <input type="text" id="userName" class="form-control" [(ngModel)]="userName" name="searchUserName"/>
         <button type="submit" class="btn btn-primary btn-block mb-4" (click)="[searchUser(userName)]">Search</button>
     </form>
+
+
+    <div *ngIf="userData != undefined && checkEmptyobject(userData)">
+        <h3>User Information: </h3>
+
+        <form>
+            <p>UserID: {{userData.userID}}</p>
+            <p>UserName: {{userData.userName}}</p>
+            <p>Email: {{userData.email}}</p>
+            <p>Birthday: {{userData.birthDate}}</p>
+
+            <label>role: </label>
+            <input type="text" id="userName" class="form-control" [(ngModel)]="userData.role" name="userRole"/>
+            <br>
+
+            <button mat-raised-button (click)="deleteUser()">Delete</button>
+            <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateUser()">Update</button>
+        </form>
+
+    </div>
 </div>
 
