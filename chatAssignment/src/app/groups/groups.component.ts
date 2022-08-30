@@ -7,6 +7,15 @@ const httpOptions = {
 
 const BACKEND_URL = "http://localhost:3000";
 
+
+interface GroupData {
+  groupID: string;
+  name: string;
+  userID: string[];
+  adminID: string;
+  assistantID: string[];
+}
+
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
@@ -14,7 +23,7 @@ const BACKEND_URL = "http://localhost:3000";
 })
 export class GroupsComponent implements OnInit {
   // display link to adminArea component 
-  accessAdminArea = false;
+  adminAccess = false;
 
   // Think about setting up a service to check if the user is login.
   // Because there going be alot of pages that need to check that.
@@ -23,6 +32,10 @@ export class GroupsComponent implements OnInit {
 
   // The array that will contain all the groups the user is apart of.
   groupArray = [{groupID: "", name: ""}];
+
+  groupData: GroupData = {groupID: '', name: '', userID: [""], adminID: "", assistantID: [""]};
+  createUserDisplay: boolean = false;
+
 
   constructor(private router: Router, private httpClient: HttpClient) {}
 
@@ -35,18 +48,28 @@ export class GroupsComponent implements OnInit {
     } else {
       this.getGroupDetails()
     }
-
-    this.accessAdminArea = localStorage.getItem("accessAdminArea") === "true" || false;
-    console.log("access admin area: ", this.accessAdminArea)
+    
+    this.adminAccess = localStorage.getItem("accessAdminArea") === "true" || false;
   }
 
   getGroupDetails(){
     console.log("test test", this.user)
-    this.httpClient.post(BACKEND_URL + '/getGroups', this.user, httpOptions).subscribe((data: any) =>{
-      // alert(JSON.stringify(data));
+    this.httpClient.post(BACKEND_URL + '/getGroupsByUserID', this.user, httpOptions).subscribe((data: any) =>{
       this.groupArray = data;
-      console.log("test this.groupArray: ", this.groupArray)
+      console.log("getGroupDetails this.groupArray: ", this.groupArray)
+
     })
   }
 
+  getAllGroups(){
+    this.httpClient.get(BACKEND_URL + '/getGroups', httpOptions).subscribe((data: any) =>{
+      this.groupArray = data;
+      console.log("getAllGroups this.groupArray: ", this.groupArray)
+    })
+  }
+
+  createGroup(){
+    console.log(this.groupData);
+    this.httpClient.post(BACKEND_URL + '/createGroup', this.groupData, httpOptions).subscribe((data: any) =>{})
+  }
 }

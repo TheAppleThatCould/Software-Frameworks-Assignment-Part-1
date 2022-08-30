@@ -1,7 +1,1 @@
-{
-    "groups": [
-          {"groupID": "g001", "name": "testGroup1", "userID": ["u001"], "adminID": "u002", "assistantID": "u003"},
-          {"groupID": "g002", "name": "testGroup2", "userID": ["u001", "u002"], "adminID": "u002", "assistantID": ""}
-    ] 
- }
- 
+{"groups":[{"groupID":"g001","name":"testGroup1","userID":["u001"],"adminID":"u002","assistantID":["u003"]},{"groupID":"g002","name":"testGroup2","userID":["u001","u002"],"adminID":"u002","assistantID":[""]},{"groupID":"g003","name":"testGroup3","userID":[""],"adminID":"","assistantID":[""]},{"groupID":"g004","name":"Best Group around","userID":[""],"adminID":"","assistantID":[""]}]}

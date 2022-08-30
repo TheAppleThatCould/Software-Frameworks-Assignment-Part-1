@@ -6,6 +6,29 @@
 </ul>
 
 
-<div *ngIf="accessAdminArea">
+
+
+<div *ngIf="adminAccess">
+    <br>
+    <button mat-raised-button (click)="getAllGroups()">Display All Groups</button>
+
+    <button mat-raised-button (click)="createUserDisplay = !createUserDisplay">Create Group</button><br>
+
+    <div *ngIf="createUserDisplay">
+        <form>
+            <label>groupID: </label>
+            <input type="text" id="groupID" class="form-control" [(ngModel)]="groupData.groupID" name="groupID"/>
+            <br>
+
+            <label>UserName: </label>
+            <input type="text" id="name" class="form-control" [(ngModel)]="groupData.name" name="name"/>
+            <br>
+
+            <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="createGroup()">Create Group</button>
+        </form>
+
+    </div>
+
+    <br>
     <a class="nav-link" routerLink="/adminArea">Admin Area</a>
 </div>

@@ -24,7 +24,12 @@ server.listen(http, PORT)
 
 app.post('/login', require("./api/auth.js"));
 
-app.post('/getGroups', require("./api/group.js").getGroupDetailsByUserID);
+app.get('/getGroups', require("./api/group.js").getGroups);
+app.post('/getGroupsByUserID', require("./api/group.js").getGroupDetailsByUserID);
+app.post('/getGroupsByGroupName', require("./api/group.js").getGroupsByGroupName);
+app.post('/createGroup', require("./api/group.js").createGroup);
+
+
 
 app.post('/getChannels', require("./api/channel.js").getChannelByGroupID);
 

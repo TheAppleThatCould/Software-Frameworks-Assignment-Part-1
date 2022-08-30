@@ -20,20 +20,29 @@ interface UserData {
   valid: boolean;
 }
 
+interface GroupData {
+  groupID: string;
+  name: string;
+  userID: string[];
+  adminID: string;
+  assistantID: string[];
+}
+
 @Component({
   selector: 'app-admin-area',
   templateUrl: './admin-area.component.html',
   styleUrls: ['./admin-area.component.css']
 })
 export class AdminAreaComponent implements OnInit {
-  userName = ""
+  userName: string = ""
   userData: UserData = {userName: "", email: "", birthDate: "", age: 0, password: "", role: "", userID: "", valid: false};
 
-  searchUserDisplay = false;
-  createUserDisplay = false;
-  searchGroupDisplay = false;
+  groupName: string = ""
+  groupData: GroupData = {groupID: '', name: '', userID: [""], adminID: "", assistantID: [""]};
 
-
+  searchUserDisplay: boolean = false;
+  createUserDisplay: boolean = false;
+  searchGroupDisplay: boolean = false;
 
   constructor(private userAPIService: UserAPIServiceService, private httpClient: HttpClient) { }
 
@@ -47,17 +56,13 @@ export class AdminAreaComponent implements OnInit {
     })
   }
 
-  // updateUser(){
-  //   this.httpClient.post(BACKEND_URL + '/updateUser', this.userData, httpOptions).subscribe((data: any) =>{})
-  // }
-
   updateUserRole(role: string){
     this.userData["role"] = role
     this.httpClient.post(BACKEND_URL + '/updateUser', this.userData, httpOptions).subscribe((data: any) =>{})
   }
 
   deleteUser(){
-    
+    //TODO: CHECK IF I NEED TO ADD THIS FUNCTIONALITY
   }
 
   createUser(){
@@ -71,4 +76,11 @@ export class AdminAreaComponent implements OnInit {
 
   }
 
+  // searchGroup(groupName: string){
+  //   this.httpClient.post(BACKEND_URL + '/getGroupsByGroupName', {groupName}, httpOptions).subscribe((data: any) =>{
+  //     alert(JSON.stringify(data))
+  //     this.groupData = data;
+  //     console.log(this.groupData)
+  //   })
+  // }
 }
