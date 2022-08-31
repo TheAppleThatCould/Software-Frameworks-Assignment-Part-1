@@ -69,7 +69,11 @@ export class GroupsComponent implements OnInit {
 
   createGroup(){
     console.log(this.groupData);
-    this.httpClient.post(BACKEND_URL + '/createGroup', this.groupData, httpOptions).subscribe((data: any) =>{})
+    this.httpClient.get(BACKEND_URL + '/getGroups', httpOptions).subscribe((data: any) =>{
+      let groupArray = data;
+      this.groupData.groupID = groupArray.groupID;
+      this.httpClient.post(BACKEND_URL + '/createGroup', this.groupData, httpOptions).subscribe((data: any) =>{})
+    })
   }
 
   deleteGroup(groupID: string){
