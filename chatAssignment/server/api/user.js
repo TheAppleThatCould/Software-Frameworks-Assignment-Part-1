@@ -8,6 +8,28 @@ module.exports = {
             res.send(userArray);
         })
     },
+    deleteUser:  function(req, res){
+        fs.readFile("./data/users.json", 'utf8', function(err, data){
+            if (err) throw err;
+            let userArray = JSON.parse(data);
+            let userData = [];
+            let userID = req.body.userID;
+
+            userArray.userDetails.map(el=>{
+                if(el.userID != userID){
+                    userData.push(el)
+                }
+            })
+
+            console.log("deleteUser function -> New userData: ", userData)
+            
+            fs.writeFile("./data/users.json", JSON.stringify({userDetails: userData}), function(err){
+                if (err) throw err;
+            })
+
+            res.send(true);
+        })
+    },
     getUserByUserName: function(req, res){
         fs.readFile("./data/users.json", 'utf8', function(err, data){
             if (err) throw err;

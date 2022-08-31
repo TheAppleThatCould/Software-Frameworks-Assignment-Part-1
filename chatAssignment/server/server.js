@@ -35,6 +35,7 @@ app.post('/getGroupsByGroupID', require("./api/group.js").getGroupsByGroupID);
 
 app.get('/getChannel', require("./api/channel.js").getChannel);
 app.post("/createChannel", require("./api/channel.js").createChannel)
+app.post("/deleteChannel", require("./api/channel.js").deleteChannel);
 app.post("/addUserToChannel", require("./api/channel.js").addUserToChannel)
 app.post("/getChannelByChannelName", require("./api/channel.js").getChannelByChannelName)
 app.post('/getChannelsByUserID', require("./api/channel.js").getChannelByUserID)
@@ -53,10 +54,10 @@ app.post('/createUser', require("./api/user.js").createUser)
 
 //Need to create theses api
 
-// app.post("/deleteUser", require("./api/user.js").deleteUser);
 
-app.post("/deleteChannel", require("./api/channel.js").deleteChannel);
 
+
+app.post("/deleteUser", require("./api/user.js").deleteUser);
 // app.post("/removeUserFromChannel", require("./api/channel.js").removeUserFromChannel);
 
 

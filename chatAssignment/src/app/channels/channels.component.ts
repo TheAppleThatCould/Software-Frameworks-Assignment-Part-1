@@ -46,7 +46,7 @@ export class ChannelsComponent implements OnInit {
     this.adminAccess = +adminAccessNum;
 
     // If the user has super role, display all the groups
-    if(this.adminAccess <= 0){
+    if(this.adminAccess <= 2){
       this.getChannelsByGroupID(this.groupID);
     }else{
       this.getChannels(this.groupID, this.userID)

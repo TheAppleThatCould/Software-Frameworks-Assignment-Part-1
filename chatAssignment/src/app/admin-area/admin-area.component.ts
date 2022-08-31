@@ -64,8 +64,8 @@ export class AdminAreaComponent implements OnInit {
     this.httpClient.post(BACKEND_URL + '/updateUser', this.userData, httpOptions).subscribe((data: any) =>{})
   }
 
-  deleteUser(){
-    //TODO: CHECK IF I NEED TO ADD THIS FUNCTIONALITY
+  deleteUser(userID: string){
+    this.httpClient.post(BACKEND_URL + '/deleteUser', {userID}, httpOptions).subscribe((data: any) =>{})
   }
 
   createUser(){
