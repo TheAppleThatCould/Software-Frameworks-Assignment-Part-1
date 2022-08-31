@@ -122,7 +122,7 @@ export class ChannelsComponent implements OnInit {
     })
   }
 
-  removeUserFromChannel(){
+  removeUserFromGroup(){
     let groupID = this.groupID
     let userName = this.addUserData.userName;
 
@@ -130,6 +130,23 @@ export class ChannelsComponent implements OnInit {
       if(data[0] != undefined){
         let userID = data[0].userID;
         this.httpClient.post(BACKEND_URL + "/removeUserFromGroup", {userID, groupID}, httpOptions).subscribe((data: any) =>{})
+      }
+    })
+  }
+
+  removeUserFromChannel(){
+    let userName = this.addUserData.userName
+    let channelName = this.addUserData.channelName
+
+    this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
+      if(data[0] != undefined){
+        let userID = data[0].userID;
+
+        this.httpClient.post(BACKEND_URL + "/getChannelByChannelName", {channelName}, httpOptions).subscribe((data: any) =>{
+          let channelID = data.channelID;
+
+          this.httpClient.post(BACKEND_URL + "/removeUserFromChannel", {userID, channelID}, httpOptions).subscribe((data: any) =>{})
+        })
       }
     })
   }

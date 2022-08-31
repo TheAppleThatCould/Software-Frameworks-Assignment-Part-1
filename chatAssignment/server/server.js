@@ -58,6 +58,6 @@ app.post('/createUser', require("./api/user.js").createUser)
 
 
 app.post("/deleteUser", require("./api/user.js").deleteUser);
-// app.post("/removeUserFromChannel", require("./api/channel.js").removeUserFromChannel);
+app.post("/removeUserFromChannel", require("./api/channel.js").removeUserFromChannel);
 
 

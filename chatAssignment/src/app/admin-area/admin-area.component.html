@@ -80,6 +80,8 @@
         <p>Email: {{user.email}}</p>
         <p>Birthday: {{user.birthDate}}</p>
         <p>Role: {{user.role}}</p>
+        <button mat-raised-button (click)="deleteUser(user.userID)">Delete</button>
+
     </div>
 </div>
 

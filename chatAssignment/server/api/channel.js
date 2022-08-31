@@ -29,6 +29,35 @@ module.exports = {
             })
         })
     },
+    removeUserFromChannel: function(req, res){
+        fs.readFile("./data/channels.json", 'utf8', function(err, data){
+            if (err) throw err;
+            let channelArray = JSON.parse(data);
+            let channelsData = [];
+            let userID = req.body.userID;
+            let channelID = req.body.channelID;
+
+            channelArray.channels.map(el =>{
+                if(el.channelID == channelID){
+                    el.userID.map((userIDInChannel, index) => {
+                        if(userIDInChannel == userID){
+                            el.userID.splice(index,1)
+                        } 
+                    })
+                }
+                channelsData.push(el)
+            })
+
+            console.log("removeUserFromChannel function -> New channelsData: ", channelsData)
+            
+            fs.writeFile("./data/groups.json", JSON.stringify({channels: channelsData}), function(err){
+                if (err) throw err;
+                else {
+                    res.send(true);
+                }
+            })
+        })
+    },
     getChannelByChannelName: function(req, res){
         fs.readFile("./data/channels.json", 'utf8', function(err, data){
             if (err) throw err;
