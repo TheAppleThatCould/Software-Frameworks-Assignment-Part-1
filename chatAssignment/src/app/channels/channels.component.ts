@@ -32,8 +32,8 @@ export class ChannelsComponent implements OnInit {
   userID = "";
 
   adddUserToChannelDisplay: boolean = false;
+  adddUserToGroupDisplay: boolean = false;
   addUserData = {channelName: "", userName: ""};
-
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) { }
 
@@ -41,10 +41,11 @@ export class ChannelsComponent implements OnInit {
     this.groupID =  this.route.snapshot.params['id'];
     this.userID = localStorage.getItem("userID") || "";
 
+    // get the current user access permission and parse it as a string to adminAccess variable
     let adminAccessNum = localStorage.getItem("adminAccess") || '4';
     this.adminAccess = +adminAccessNum;
 
-
+    // If the user has super role, display all the groups
     if(this.adminAccess <= 0){
       this.getChannelsByGroupID(this.groupID);
     }else{
@@ -55,6 +56,7 @@ export class ChannelsComponent implements OnInit {
   clearDisplays(){
     this.createChannelDisplay = false;
     this.adddUserToChannelDisplay = false;
+    this.adddUserToGroupDisplay = false;
   }
 
 
@@ -106,4 +108,17 @@ export class ChannelsComponent implements OnInit {
     this.httpClient.post(BACKEND_URL + "/addUserToChannel", {userID, channelID}, httpOptions).subscribe((data: any) =>{})
   }
 
+
+  addUserToGroup(){
+    //addUserToGroup
+    let groupID = this.groupID
+    let userName = this.addUserData.userName;
+
+    this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
+      if(data[0] != undefined){
+        let userID = data[0].userID;
+        this.httpClient.post(BACKEND_URL + '/addUserToGroup', {userID, groupID}, httpOptions).subscribe((data: any) =>{})
+      }
+    })
+  }
 }

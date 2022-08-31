@@ -19,15 +19,13 @@ module.exports = {
             if (err) throw err;
             let groupArray = JSON.parse(data);
             let groupsData = [];
-
             let userID = req.body.userID;
             let groupID = req.body.groupID;
-
             let isInGroup = false
 
             groupArray.groups.map(el =>{
                 if(el.groupID == groupID){
-                    el.userID(userIDInGroup =>{
+                    el.userID.map(userIDInGroup =>{
                         //checking to see if the user is already apart of the group
                         if(userIDInGroup == userID){
                             isInGroup = true
@@ -36,24 +34,24 @@ module.exports = {
                         if(!isInGroup){
                            el.userID.push(userID)
                         }
-                        groupsData.push(el)
                     })
                 }
+                groupsData.push(el)
             })
             console.log("Data to save: ", groupsData)
 
-            // fs.writeFile("./data/groups.json", JSON.stringify(groupsData), function(err){
-            //     if (err) throw err;
-            // })
-            res.send(true);
+            fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
+                if (err) throw err;
+                else {
+                    res.send(true);
+                }
+            })
         })
     },
 
     getGroupDetailsByUserID: function(req, res){
-        console.log("THIS IS THE REQ DATA FROM THE GROUP API CALL: ", req.body)
         fs.readFile("./data/groups.json", 'utf8', function(err, data){
             if (err) throw err;
-            console.log("THIS IS THE data DATA FROM THE GROUP API CALL: ", data)
 
             let groupArray = JSON.parse(data);
             let groupsData = [];

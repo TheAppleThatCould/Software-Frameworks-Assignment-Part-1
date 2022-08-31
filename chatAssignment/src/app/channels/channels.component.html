@@ -8,9 +8,8 @@
 
 <div *ngIf="adminAccess">
     <button mat-raised-button (click)="clearDisplays(); createChannelDisplay = !createChannelDisplay">Create Channel</button><br>
-
-    <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToChannelDisplay = !adddUserToChannelDisplay">Add user to channel</button>
-
+    <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToChannelDisplay = !adddUserToChannelDisplay">Add User to Channel</button>
+    <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToGroupDisplay = !adddUserToGroupDisplay">Add user to Group</button>
 
     <div *ngIf="createChannelDisplay">
         <form>
@@ -32,11 +31,21 @@
             <input type="text" id="channelName" class="form-control" [(ngModel)]="addUserData.channelName" name="channelName"/>
             <br>
 
-            <label>User's userName: </label>
+            <label>User's Username: </label>
             <input type="text" id="userName" class="form-control" [(ngModel)]="addUserData.userName" name="userName"/>
             <br>
 
             <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="getUserAndChannelID()">add user</button>
+        </form>
+    </div>
+
+    <div *ngIf="adddUserToGroupDisplay">
+        <form>
+            <label>User's Username: </label>
+            <input type="text" id="userName" class="form-control" [(ngModel)]="addUserData.userName" name="userName"/>
+            <br>
+
+            <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="addUserToGroup()">add user</button>
         </form>
     </div>
 </div>

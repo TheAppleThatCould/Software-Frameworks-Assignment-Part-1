@@ -71,4 +71,5 @@ export class GroupsComponent implements OnInit {
     console.log(this.groupData);
     this.httpClient.post(BACKEND_URL + '/createGroup', this.groupData, httpOptions).subscribe((data: any) =>{})
   }
+
 }
