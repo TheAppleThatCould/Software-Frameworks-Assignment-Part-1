@@ -55,7 +55,6 @@ export class AdminAreaComponent implements OnInit {
 
   searchUser(userName: string){
     this.httpClient.post(BACKEND_URL + '/getUserByUserName', {userName}, httpOptions).subscribe((data: any) =>{
-      alert(JSON.stringify(data));
       this.userData = data[0];
     })
   }
@@ -83,7 +82,6 @@ export class AdminAreaComponent implements OnInit {
   getAllUsers(){
     this.httpClient.get(BACKEND_URL + '/getAllUsers', httpOptions).subscribe((data: any) =>{
       this.userArray = data.userDetails;
-      console.log("THIS IS ALL THE USERS: ", this.userArray)
     })
 
   }

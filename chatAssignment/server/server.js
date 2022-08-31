@@ -27,6 +27,7 @@ app.post('/login', require("./api/auth.js"));
 app.get('/getGroups', require("./api/group.js").getGroups);
 app.post('/createGroup', require("./api/group.js").createGroup);
 app.post('/addUserToGroup', require("./api/group.js").addUserToGroup)
+
 app.post('/getGroupsByUserID', require("./api/group.js").getGroupDetailsByUserID);
 app.post('/getGroupsByGroupName', require("./api/group.js").getGroupsByGroupName);
 app.post('/getGroupsByGroupID', require("./api/group.js").getGroupsByGroupID);
@@ -46,3 +47,17 @@ app.get("/getAllUsers", require("./api/user.js").getAllUsers)
 app.post('/getUserByUserName', require("./api/user.js").getUserByUserName);
 app.post('/updateUser', require("./api/user.js").updateUser);
 app.post('/createUser', require("./api/user.js").createUser)
+
+
+
+//Need to create theses api
+
+app.post("/deleteGroup", require("./api/group.js").deleteGroup);
+// app.post("/deleteChannel", require("./api/channel.js").deleteChannel);
+// app.post("/deleteUser", require("./api/user.js").deleteUser);
+
+
+// app.post("/removeUserFromGroup", require("./api/group.js").removeUserFromGroup);
+// app.post("/removeUserFromChannel", require("./api/channel.js").removeUserFromChannel);
+
+

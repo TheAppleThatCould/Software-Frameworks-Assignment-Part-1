@@ -49,6 +49,28 @@ module.exports = {
         })
     },
 
+    deleteGroup: function(req, res){
+        fs.readFile("./data/groups.json", 'utf8', function(err, data){
+            if (err) throw err;
+            let groupArray = JSON.parse(data);
+            let groupsData = [];
+            let groupID = req.body.groupID;
+
+            groupArray.groups.map(el =>{
+                if(el.groupID != groupID){
+                    groupsData.push(el)
+                }
+            })
+            console.log("DeleteGroup function -> New groupsData: ", groupsData)
+            // fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
+            //     if (err) throw err;
+            //     else {
+            //         res.send(true);
+            //     }
+            // })
+        })
+    },
+
     getGroupDetailsByUserID: function(req, res){
         fs.readFile("./data/groups.json", 'utf8', function(err, data){
             if (err) throw err;
