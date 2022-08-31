@@ -36,6 +36,8 @@ interface GroupData {
 export class AdminAreaComponent implements OnInit {
   userName: string = ""
   userData: UserData = {userName: "", email: "", birthDate: "", age: 0, password: "", role: "", userID: "", valid: false};
+  userArray: UserData[] = [];
+
 
   groupName: string = ""
   groupData: GroupData = {groupID: '', name: '', userID: [""], adminID: "", assistantID: [""]};
@@ -43,10 +45,12 @@ export class AdminAreaComponent implements OnInit {
   searchUserDisplay: boolean = false;
   createUserDisplay: boolean = false;
   searchGroupDisplay: boolean = false;
+  displayAllUsersDisplay: boolean = false;
 
   constructor(private userAPIService: UserAPIServiceService, private httpClient: HttpClient) { }
 
   ngOnInit(): void {
+    this.getAllUsers();
   }
 
   searchUser(userName: string){
@@ -73,6 +77,14 @@ export class AdminAreaComponent implements OnInit {
     this.searchUserDisplay = false;
     this.createUserDisplay = false;
     this.searchGroupDisplay = false;
+    this.displayAllUsersDisplay = false;
+  }
+
+  getAllUsers(){
+    this.httpClient.get(BACKEND_URL + '/getAllUsers', httpOptions).subscribe((data: any) =>{
+      this.userArray = data.userDetails;
+      console.log("THIS IS ALL THE USERS: ", this.userArray)
+    })
 
   }
 

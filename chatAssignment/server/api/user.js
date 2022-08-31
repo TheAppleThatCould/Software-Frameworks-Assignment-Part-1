@@ -1,6 +1,13 @@
 var fs = require('fs')
 
 module.exports = {
+    getAllUsers: function(req, res){
+        fs.readFile("./data/users.json", 'utf8', function(err, data){
+            if (err) throw err;
+            let userArray = JSON.parse(data);
+            res.send(userArray);
+        })
+    },
     getUserByUserName: function(req, res){
         fs.readFile("./data/users.json", 'utf8', function(err, data){
             if (err) throw err;
@@ -70,5 +77,5 @@ module.exports = {
                 res.send(false)
             }
         })
-    }
+    },
 };

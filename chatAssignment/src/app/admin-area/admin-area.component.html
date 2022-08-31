@@ -3,6 +3,8 @@
 
 <button mat-raised-button (click)="clearDisplays(); searchUserDisplay = true">Seach for User</button>
 <button mat-raised-button (click)="clearDisplays(); createUserDisplay = true">Create User</button>
+<button mat-raised-button (click)="clearDisplays(); displayAllUsersDisplay = true">Display All Users</button>
+
 <br>
 <!-- <button mat-raised-button (click)="clearDisplays(); searchGroupDisplay = true">Seach for groups</button> -->
 
@@ -70,6 +72,16 @@
 
 </div>
 
+<div *ngIf="displayAllUsersDisplay">
+    <div *ngFor="let user of userArray">
+        <h3>Users Information: </h3>
+        <p>UserID: {{user.userID}}</p>
+        <p>UserName: {{user.userName}}</p>
+        <p>Email: {{user.email}}</p>
+        <p>Birthday: {{user.birthDate}}</p>
+        <p>Role: {{user.role}}</p>
+    </div>
+</div>
 
 
 <!-- <div *ngIf="searchGroupDisplay">
