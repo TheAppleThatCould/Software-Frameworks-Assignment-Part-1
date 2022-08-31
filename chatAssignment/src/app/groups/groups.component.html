@@ -2,6 +2,7 @@
 <ul>
     <li *ngFor="let group of groupArray">
         <a [routerLink]="['/channels', group.groupID]">{{group.name}}</a>
+        <button (click)="deleteGroup(group.groupID)">Delete</button>
     </li>
 </ul>
 

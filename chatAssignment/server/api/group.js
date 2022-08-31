@@ -30,11 +30,10 @@ module.exports = {
                         if(userIDInGroup == userID){
                             isInGroup = true
                         }
-
-                        if(!isInGroup){
-                           el.userID.push(userID)
-                        }
                     })
+                    if(!isInGroup){
+                        el.userID.push(userID)
+                     }
                 }
                 groupsData.push(el)
             })
@@ -62,12 +61,41 @@ module.exports = {
                 }
             })
             console.log("DeleteGroup function -> New groupsData: ", groupsData)
-            // fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
-            //     if (err) throw err;
-            //     else {
-            //         res.send(true);
-            //     }
-            // })
+            fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
+                if (err) throw err;
+                else {
+                    res.send(true);
+                }
+            })
+        })
+    },
+    removeUserFromGroup:  function(req, res){
+        fs.readFile("./data/groups.json", 'utf8', function(err, data){
+            if (err) throw err;
+            let groupArray = JSON.parse(data);
+            let groupsData = [];
+            let userID = req.body.userID;
+            let groupID = req.body.groupID;
+
+            groupArray.groups.map(el =>{
+                if(el.groupID == groupID){
+                    el.userID.map((userIDInGroup, index) => {
+                        if(userIDInGroup == userID){
+                            el.userID.splice(index,1)
+                        } 
+                    })
+                }
+                groupsData.push(el)
+            })
+
+            console.log("removeUserFromGroup function -> New groupsData: ", groupsData)
+
+            fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
+                if (err) throw err;
+                else {
+                    res.send(true);
+                }
+            })
         })
     },
 

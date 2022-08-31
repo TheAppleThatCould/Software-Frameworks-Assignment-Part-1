@@ -8,10 +8,12 @@
 
 <div *ngIf="adminAccess">
     <button mat-raised-button (click)="clearDisplays(); createChannelDisplay = !createChannelDisplay">Create Channel</button><br>
-    <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToChannelDisplay = !adddUserToChannelDisplay">Add User to Channel</button>
+    <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToChannelDisplay = !adddUserToChannelDisplay">Add/remove User to/from Channel</button><br>
     <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToGroupDisplay = !adddUserToGroupDisplay">Add user to Group</button>
 
     <div *ngIf="createChannelDisplay">
+        <br>
+        
         <form>
             <label>ChannelID: </label>
             <input type="text" id="channelID" class="form-control" [(ngModel)]="channelData.channelID" name="channelID"/>
@@ -26,6 +28,8 @@
     </div>
 
     <div *ngIf="adddUserToChannelDisplay">
+        <br>
+
         <form>
             <label>Channel Name: </label>
             <input type="text" id="channelName" class="form-control" [(ngModel)]="addUserData.channelName" name="channelName"/>
@@ -35,17 +39,21 @@
             <input type="text" id="userName" class="form-control" [(ngModel)]="addUserData.userName" name="userName"/>
             <br>
 
-            <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="getUserAndChannelID()">add user</button>
+            <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="getUserAndChannelID()">Add User</button>
+
         </form>
     </div>
 
     <div *ngIf="adddUserToGroupDisplay">
+        <br>
         <form>
             <label>User's Username: </label>
             <input type="text" id="userName" class="form-control" [(ngModel)]="addUserData.userName" name="userName"/>
             <br>
 
             <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="addUserToGroup()">add user</button>
+            <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="removeUserFromChannel()">Remove User</button>
+
         </form>
     </div>
 </div>

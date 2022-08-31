@@ -121,4 +121,16 @@ export class ChannelsComponent implements OnInit {
       }
     })
   }
+
+  removeUserFromChannel(){
+    let groupID = this.groupID
+    let userName = this.addUserData.userName;
+
+    this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
+      if(data[0] != undefined){
+        let userID = data[0].userID;
+        this.httpClient.post(BACKEND_URL + "/removeUserFromGroup", {userID, groupID}, httpOptions).subscribe((data: any) =>{})
+      }
+    })
+  }
 }

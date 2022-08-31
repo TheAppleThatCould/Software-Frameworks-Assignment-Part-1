@@ -53,11 +53,12 @@ app.post('/createUser', require("./api/user.js").createUser)
 //Need to create theses api
 
 app.post("/deleteGroup", require("./api/group.js").deleteGroup);
+app.post("/removeUserFromGroup", require("./api/group.js").removeUserFromGroup);
+
 // app.post("/deleteChannel", require("./api/channel.js").deleteChannel);
 // app.post("/deleteUser", require("./api/user.js").deleteUser);
 
 
-// app.post("/removeUserFromGroup", require("./api/group.js").removeUserFromGroup);
 // app.post("/removeUserFromChannel", require("./api/channel.js").removeUserFromChannel);
 
 
