@@ -2,15 +2,39 @@
 <ul>
     <li *ngFor="let channel of channelArray">
         <a [routerLink]="['/chatArea', channel.channelID]">{{channel.name}}</a>
-        <button (click)="deleteChannel(channel.channelID)">Delete</button>
+        <button *ngIf="adminAccess <= 2" (click)="deleteChannel(channel.channelID)">Delete</button>
+
+        <div *ngIf="adminAccess <= 2">
+            <!-- Note: It might make the UI cleaner to have these button implemented -->
+            <!-- Only super user may delete this group -->
+            <!-- <button (click)="addUserToGroup()">Add</button>
+            <button (click)="removeUserFromGroup()">Remove User</button> -->
+
+
+        </div>
     </li>
 </ul>
 
 
-<div *ngIf="adminAccess">
-    <button mat-raised-button (click)="clearDisplays(); createChannelDisplay = !createChannelDisplay">Create Channel</button><br>
-    <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToChannelDisplay = !adddUserToChannelDisplay">Add/remove User to/from Channel</button><br>
-    <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToGroupDisplay = !adddUserToGroupDisplay">Add user to Group</button><br>
+<div *ngIf="adminAccess <= 3">
+    <div *ngIf="adminAccess <= 3">
+        <!-- Group assistant can access these functionality -->
+        <button mat-raised-button (click)="clearDisplays(); createChannelDisplay = !createChannelDisplay">Create Channel</button><br>
+        <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToChannelDisplay = !adddUserToChannelDisplay">Add/remove User to/from Channel</button><br>
+
+    </div>
+
+    <div *ngIf="adminAccess <= 2">
+        <!-- Group admin can access these functionality -->
+        <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToGroupDisplay = !adddUserToGroupDisplay">Add user to Group</button><br>
+
+
+        <!-- NEED TO IMPLEMENT  -->
+        <!-- <button (click)="addGroupAssistant()">ASIGN GROUP ASSISTANT</button> -->
+
+
+    </div>
+    
     <!-- <button class="btn btn-primary btn-block mb-4" (click)="getAllChannels()">Display All Channels</button><br> -->
 
 

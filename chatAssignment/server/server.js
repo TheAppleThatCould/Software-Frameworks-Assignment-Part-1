@@ -29,6 +29,7 @@ app.post('/createGroup', require("./api/group.js").createGroup);
 app.post("/deleteGroup", require("./api/group.js").deleteGroup);
 app.post('/addUserToGroup', require("./api/group.js").addUserToGroup)
 app.post("/removeUserFromGroup", require("./api/group.js").removeUserFromGroup);
+
 app.post('/getGroupsByUserID', require("./api/group.js").getGroupDetailsByUserID);
 app.post('/getGroupsByGroupName', require("./api/group.js").getGroupsByGroupName);
 app.post('/getGroupsByGroupID', require("./api/group.js").getGroupsByGroupID);
@@ -36,6 +37,7 @@ app.post('/getGroupsByGroupID', require("./api/group.js").getGroupsByGroupID);
 app.get('/getChannel', require("./api/channel.js").getChannel);
 app.post("/createChannel", require("./api/channel.js").createChannel)
 app.post("/deleteChannel", require("./api/channel.js").deleteChannel);
+app.post("/removeUserFromChannel", require("./api/channel.js").removeUserFromChannel);
 app.post("/addUserToChannel", require("./api/channel.js").addUserToChannel)
 app.post("/getChannelByChannelName", require("./api/channel.js").getChannelByChannelName)
 app.post('/getChannelsByUserID', require("./api/channel.js").getChannelByUserID)
@@ -45,7 +47,9 @@ app.post('/getChannelsByGroupID', require("./api/channel.js").getChannelByGroupI
 app.post('/getChannelHistory', require("./api/channel.js").getChannelHistoryByChannelID);
 app.post('/writeChannelHistory', require("./api/channel.js").writeChannelHistoryByChannelID);
 
+
 app.get("/getAllUsers", require("./api/user.js").getAllUsers)
+app.post("/deleteUser", require("./api/user.js").deleteUser);
 app.post('/getUserByUserName', require("./api/user.js").getUserByUserName);
 app.post('/updateUser', require("./api/user.js").updateUser);
 app.post('/createUser', require("./api/user.js").createUser)
@@ -54,10 +58,13 @@ app.post('/createUser', require("./api/user.js").createUser)
 
 //Need to create theses api
 
+// app.post("/updateGroupAdmin", require("./api/group.js").updateGroupAdmin);
+
+//Note: Send back an object that can replace the groupAssistant array.
+// app.post("/updateGroupAssistant", require("./api/group.js").updateGroupAssistant);
 
 
 
-app.post("/deleteUser", require("./api/user.js").deleteUser);
-app.post("/removeUserFromChannel", require("./api/channel.js").removeUserFromChannel);
+
 
 

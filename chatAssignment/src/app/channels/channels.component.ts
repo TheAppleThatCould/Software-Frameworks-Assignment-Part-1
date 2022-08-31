@@ -14,6 +14,14 @@ interface ChannelData {
   userID: string[];
 }
 
+interface GroupData {
+  groupID: string;
+  name: string;
+  userID: string[];
+  adminID: string;
+  assistantID: string[];
+}
+
 
 @Component({
   selector: 'app-channels',
@@ -45,20 +53,55 @@ export class ChannelsComponent implements OnInit {
     let adminAccessNum = localStorage.getItem("adminAccess") || '4';
     this.adminAccess = +adminAccessNum;
 
-    // If the user has super role, display all the groups
-    if(this.adminAccess <= 2){
+    if(this.adminAccess == 3 || this.adminAccess == 2){
+      this.assignGroupPermission()
+    }
+    // If the user has super role, display all the channel
+    if(this.adminAccess <= 3){
       this.getChannelsByGroupID(this.groupID);
     }else{
       this.getChannels(this.groupID, this.userID)
     }
   }
 
+  assignGroupPermission(){
+    // a function that will check if the user is a groupadmin or groupassis of this group and grant corresponding permission
+    let groupArray: GroupData = {groupID: '', name: '', userID: [""], adminID: "", assistantID: [""]};
+    let groupID = this.groupID;
+    let isGroupAssis = false;
+    let isGroupAdmin = false;
+
+    // If the user have permission of a groupAssis or groupAdmin then check if the user is one for this group.
+    this.httpClient.post(BACKEND_URL + "/getGroupsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
+      groupArray = data;
+      if(this.adminAccess == 3){
+        groupArray.assistantID.map(assistantID =>{
+          if(assistantID == this.userID){
+            isGroupAssis = true;
+          }
+        })
+      } else if(this.adminAccess == 2){
+        if(groupArray.adminID == this.userID){
+          isGroupAdmin = true;
+        }
+      }
+
+      if(isGroupAssis){
+        this.adminAccess = 3
+      } else if(isGroupAdmin){
+        this.adminAccess = 2
+      } else {
+        this.adminAccess = 4
+      }
+    })
+  }
+
+
   clearDisplays(){
     this.createChannelDisplay = false;
     this.adddUserToChannelDisplay = false;
     this.adddUserToGroupDisplay = false;
   }
-
 
   getChannelsByGroupID(groupID: string){
     this.httpClient.post(BACKEND_URL + "/getChannelsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
@@ -75,7 +118,7 @@ export class ChannelsComponent implements OnInit {
   }
 
   createChannel(){
-    // A function that will create a channel with access permission to all users apart of the same group.
+    // A function that will create a channel that grants access permission to all users apart of the same group.
     let groupID = this.groupID;
     this.httpClient.post(BACKEND_URL + "/getGroupsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
       this.channelData.groupID = this.groupID;
@@ -85,7 +128,7 @@ export class ChannelsComponent implements OnInit {
   }
 
   getUserAndChannelID(){
-    //A function that will get the user and channel id and calls the addUserChannel function.
+    //A function that will get the user and channel id and calls the addUserChannel function while passing in the two ids.
     let userName = this.addUserData.userName
     let channelName = this.addUserData.channelName
 
