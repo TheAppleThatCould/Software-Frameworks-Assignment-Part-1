@@ -7,7 +7,10 @@
 
 
 <div *ngIf="adminAccess">
-    <button mat-raised-button (click)="createChannelDisplay = !createChannelDisplay">Create Channel</button><br>
+    <button mat-raised-button (click)="clearDisplays(); createChannelDisplay = !createChannelDisplay">Create Channel</button><br>
+
+    <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToChannelDisplay = !adddUserToChannelDisplay">Add user to channel</button>
+
 
     <div *ngIf="createChannelDisplay">
         <form>
@@ -21,6 +24,19 @@
 
             <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="createChannel()">Create Channel</button>
         </form>
+    </div>
 
+    <div *ngIf="adddUserToChannelDisplay">
+        <form>
+            <label>Channel Name: </label>
+            <input type="text" id="channelName" class="form-control" [(ngModel)]="addUserData.channelName" name="channelName"/>
+            <br>
+
+            <label>User's userName: </label>
+            <input type="text" id="userName" class="form-control" [(ngModel)]="addUserData.userName" name="userName"/>
+            <br>
+
+            <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="getUserAndChannelID()">add user</button>
+        </form>
     </div>
 </div>

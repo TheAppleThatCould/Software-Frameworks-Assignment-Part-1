@@ -1,6 +1,25 @@
 var fs = require('fs')
 
 module.exports = {
+    getChannelByChannelName: function(req, res){
+        fs.readFile("./data/channels.json", 'utf8', function(err, data){
+            if (err) throw err;
+            console.log("THIS IS THE data DATA FROM THE GROUP API CALL: ", data)
+            console.log("THIS IS THE data DATA FROM THE GROUP API CALL: ", req.body)
+
+            let channelArray = JSON.parse(data);
+            let channelsData = {};
+            let channelName = req.body.channelName;
+            
+            channelArray.channels.map((el) => {
+                if(el.name == channelName){
+                    channelsData = el;
+                }
+            })
+
+            res.send(channelsData);
+        })
+    },
     getChannelByUserID: function(req, res){
         fs.readFile("./data/channels.json", 'utf8', function(err, data){
             if (err) throw err;
@@ -26,7 +45,6 @@ module.exports = {
     getChannelByGroupID: function(req, res){
         fs.readFile("./data/channels.json", 'utf8', function(err, data){
             if (err) throw err;
-            console.log("THIS IS THE data DATA FROM THE GROUP API CALL: ", data)
 
             let channelArray = JSON.parse(data);
             let channelsData = [];
@@ -104,16 +122,37 @@ module.exports = {
         fs.readFile("./data/channels.json", function(err, data){
             let channelArray = JSON.parse(data);
             let channelData = [];
+            let isUserInChannel = false;
             let valid = true;
 
             channelArray.channels.map(el => {
                 if(el.channelID == req.body.channelID){
-                    el.userID.push(req.body.userID)
+                    el.userID.map(userID=>{
+                        if(userID == req.body.userID){
+                            isUserInChannel = true
+                        }
+                    })
+
+                    if(!isUserInChannel){
+                        el.userID.push(req.body.userID)
+                    }
                 }
                 channelData.push(el)
             })
 
             console.log("channelData for new user to channel",channelData)
+
+            fs.writeFile("./data/channels.json", JSON.stringify({channels: channelData}), function(err){
+                if (err) throw err;
+                else {
+                    res.send(true)
+                }
+            })
         })
     },
+    // removeUserFromChannel: function(req, res){
+    //     fs.readFile("./data/channels.json", function(err, data){
+ 
+    //     })
+    // }
 };

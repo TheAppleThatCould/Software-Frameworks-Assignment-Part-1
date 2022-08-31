@@ -31,6 +31,9 @@ export class ChannelsComponent implements OnInit {
 
   userID = "";
 
+  adddUserToChannelDisplay: boolean = false;
+  addUserData = {channelName: "", userName: ""};
+
 
   constructor(private route: ActivatedRoute, private httpClient: HttpClient) { }
 
@@ -47,6 +50,11 @@ export class ChannelsComponent implements OnInit {
     }else{
       this.getChannels(this.groupID, this.userID)
     }
+  }
+
+  clearDisplays(){
+    this.createChannelDisplay = false;
+    this.adddUserToChannelDisplay = false;
   }
 
 
@@ -74,6 +82,25 @@ export class ChannelsComponent implements OnInit {
     })
   }
 
+  getUserAndChannelID(){
+    //A function that will get the user and channel id and calls the addUserChannel function.
+    let userName = this.addUserData.userName
+    let channelName = this.addUserData.channelName
+
+    this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
+      if(data[0] != undefined){
+        let userID = data[0].userID;
+
+        this.httpClient.post(BACKEND_URL + "/getChannelByChannelName", {channelName}, httpOptions).subscribe((data: any) =>{
+          let channelID = data.channelID;
+
+          this.addUserToChannel(userID, channelID)
+        })
+      }
+    })
+
+
+  }
 
   addUserToChannel(userID: string, channelID: string){
     this.httpClient.post(BACKEND_URL + "/addUserToChannel", {userID, channelID}, httpOptions).subscribe((data: any) =>{})

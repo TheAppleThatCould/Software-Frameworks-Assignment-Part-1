@@ -14,6 +14,41 @@ module.exports = {
             res.send(groupsData);
         })
     },
+    addUserToGroup: function(req, res){
+        fs.readFile("./data/groups.json", 'utf8', function(err, data){
+            if (err) throw err;
+            let groupArray = JSON.parse(data);
+            let groupsData = [];
+
+            let userID = req.body.userID;
+            let groupID = req.body.groupID;
+
+            let isInGroup = false
+
+            groupArray.groups.map(el =>{
+                if(el.groupID == groupID){
+                    el.userID(userIDInGroup =>{
+                        //checking to see if the user is already apart of the group
+                        if(userIDInGroup == userID){
+                            isInGroup = true
+                        }
+
+                        if(!isInGroup){
+                           el.userID.push(userID)
+                        }
+                        groupsData.push(el)
+                    })
+                }
+            })
+            console.log("Data to save: ", groupsData)
+
+            // fs.writeFile("./data/groups.json", JSON.stringify(groupsData), function(err){
+            //     if (err) throw err;
+            // })
+            res.send(true);
+        })
+    },
+
     getGroupDetailsByUserID: function(req, res){
         console.log("THIS IS THE REQ DATA FROM THE GROUP API CALL: ", req.body)
         fs.readFile("./data/groups.json", 'utf8', function(err, data){
