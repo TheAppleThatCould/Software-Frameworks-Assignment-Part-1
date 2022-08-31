@@ -49,8 +49,8 @@ module.exports = {
             })
 
             console.log("removeUserFromChannel function -> New channelsData: ", channelsData)
-            
-            fs.writeFile("./data/groups.json", JSON.stringify({channels: channelsData}), function(err){
+
+            fs.writeFile("./data/channels.json", JSON.stringify({channels: channelsData}), function(err){
                 if (err) throw err;
                 else {
                     res.send(true);
