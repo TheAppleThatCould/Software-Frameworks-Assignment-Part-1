@@ -139,11 +139,11 @@ export class ChannelsComponent implements OnInit {
 
   }
 
-  getAllChannels(){
-    this.httpClient.get(BACKEND_URL + "/getChannel", httpOptions).subscribe((data: any) =>{
-      console.log(data)
-      this.channelArray = data.channels;
-    })
+  // getAllChannels(){
+  //   this.httpClient.get(BACKEND_URL + "/getChannel", httpOptions).subscribe((data: any) =>{
+  //     console.log(data)
+  //     this.channelArray = data.channels;
+  //   })
 
-  }
+  // }
 }
