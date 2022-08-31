@@ -53,7 +53,6 @@ export class ChannelsComponent implements OnInit {
   getChannelsByGroupID(groupID: string){
     this.httpClient.post(BACKEND_URL + "/getChannelsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
       this.channelArray = data;
-      console.log("test", this.channelArray)
 
     })
   }
@@ -61,14 +60,23 @@ export class ChannelsComponent implements OnInit {
   getChannels(groupID: string, userID: string){
     this.httpClient.post(BACKEND_URL + "/getChannelsByUserID", {groupID, userID}, httpOptions).subscribe((data: any) =>{
       this.channelArray = data;
-      console.log("getChannels test", this.channelArray)
 
     })
   }
 
   createChannel(){
-    this.channelData.groupID = this.groupID
-    this.httpClient.post(BACKEND_URL + "/createChannel", this.channelData, httpOptions).subscribe((data: any) =>{})
+    // A function that will create a channel with access permission to all users apart of the same group.
+    let groupID = this.groupID;
+    this.httpClient.post(BACKEND_URL + "/getGroupsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
+      this.channelData.groupID = this.groupID;
+      this.channelData.userID = data.userID;
+      this.httpClient.post(BACKEND_URL + "/createChannel", this.channelData, httpOptions).subscribe((data: any) =>{})
+    })
+  }
+
+
+  addUserToChannel(userID: string, channelID: string){
+    this.httpClient.post(BACKEND_URL + "/addUserToChannel", {userID, channelID}, httpOptions).subscribe((data: any) =>{})
   }
 
 }

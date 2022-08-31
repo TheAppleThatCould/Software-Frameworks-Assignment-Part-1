@@ -55,10 +55,8 @@ export class GroupsComponent implements OnInit {
   }
 
   getGroupDetails(){
-    console.log("test test", this.user)
     this.httpClient.post(BACKEND_URL + '/getGroupsByUserID', this.user, httpOptions).subscribe((data: any) =>{
       this.groupArray = data;
-      console.log("getGroupDetails this.groupArray: ", this.groupArray)
 
     })
   }
@@ -66,7 +64,6 @@ export class GroupsComponent implements OnInit {
   getAllGroups(){
     this.httpClient.get(BACKEND_URL + '/getGroups', httpOptions).subscribe((data: any) =>{
       this.groupArray = data;
-      console.log("getAllGroups this.groupArray: ", this.groupArray)
     })
   }
 

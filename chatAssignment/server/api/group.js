@@ -51,6 +51,23 @@ module.exports = {
             res.send(groupData);
         })
     },
+    getGroupsByGroupID: function(req, res){
+        fs.readFile("./data/groups.json", 'utf8', function(err, data){
+            if (err) throw err;
+            console.log("req.body",req.body)
+            let groupArray = JSON.parse(data);
+            let groupData = {};
+            let groupID = req.body.groupID;
+            
+            groupArray.groups.map((el) => {
+                if(el.groupID == groupID){
+                    groupData = el;
+                }
+            })
+
+            res.send(groupData);
+        })
+    },
     createGroup: function(req, res){
         fs.readFile("./data/groups.json", 'utf8', function(err, data){
             if (err) throw err;

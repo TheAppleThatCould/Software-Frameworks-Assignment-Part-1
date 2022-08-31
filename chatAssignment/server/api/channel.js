@@ -98,5 +98,22 @@ module.exports = {
                 res.send(false)
             }
         })
-    }
+    },
+
+    addUserToChannel: function(req, res){
+        fs.readFile("./data/channels.json", function(err, data){
+            let channelArray = JSON.parse(data);
+            let channelData = [];
+            let valid = true;
+
+            channelArray.channels.map(el => {
+                if(el.channelID == req.body.channelID){
+                    el.userID.push(req.body.userID)
+                }
+                channelData.push(el)
+            })
+
+            console.log("channelData for new user to channel",channelData)
+        })
+    },
 };
