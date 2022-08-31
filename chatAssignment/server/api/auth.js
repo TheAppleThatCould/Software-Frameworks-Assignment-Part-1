@@ -13,7 +13,10 @@ module.exports = function(req, res){
     
         if(arrayOfUsers.length > 0){
             arrayOfUsers.map(el => {
-                if(el.userName == userName || el.email == userName && el.password == password){
+                if(el.userName == userName && el.password == password){
+                    userDetails = el;
+                    userDetails.valid = true;
+                }else if(el.email == userName && el.password == password){
                     userDetails = el;
                     userDetails.valid = true;
                 }
