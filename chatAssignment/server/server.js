@@ -33,6 +33,7 @@ app.post('/getGroupsByUserID', require("./api/group.js").getGroupDetailsByUserID
 app.post('/getGroupsByGroupName', require("./api/group.js").getGroupsByGroupName);
 app.post('/getGroupsByGroupID', require("./api/group.js").getGroupsByGroupID);
 
+app.get('/getChannel', require("./api/channel.js").getChannel);
 
 app.post("/createChannel", require("./api/channel.js").createChannel)
 app.post("/addUserToChannel", require("./api/channel.js").addUserToChannel)
@@ -55,9 +56,9 @@ app.post('/createUser', require("./api/user.js").createUser)
 
 
 
-app.post("/deleteChannel", require("./api/channel.js").deleteChannel);
 // app.post("/deleteUser", require("./api/user.js").deleteUser);
 
+app.post("/deleteChannel", require("./api/channel.js").deleteChannel);
 
 // app.post("/removeUserFromChannel", require("./api/channel.js").removeUserFromChannel);
 

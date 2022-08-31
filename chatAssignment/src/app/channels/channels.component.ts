@@ -138,4 +138,12 @@ export class ChannelsComponent implements OnInit {
     this.httpClient.post(BACKEND_URL + "/deleteChannel", {channelID}, httpOptions).subscribe((data: any) =>{})
 
   }
+
+  getAllChannels(){
+    this.httpClient.get(BACKEND_URL + "/getChannel", httpOptions).subscribe((data: any) =>{
+      console.log(data)
+      this.channelArray = data.channels;
+    })
+
+  }
 }

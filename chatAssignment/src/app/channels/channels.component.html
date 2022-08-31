@@ -11,6 +11,8 @@
     <button mat-raised-button (click)="clearDisplays(); createChannelDisplay = !createChannelDisplay">Create Channel</button><br>
     <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToChannelDisplay = !adddUserToChannelDisplay">Add/remove User to/from Channel</button><br>
     <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToGroupDisplay = !adddUserToGroupDisplay">Add user to Group</button>
+    <button class="btn btn-primary btn-block mb-4" (click)="getAllChannels()">Display All Channels</button>
+
 
     <div *ngIf="createChannelDisplay">
         <br>

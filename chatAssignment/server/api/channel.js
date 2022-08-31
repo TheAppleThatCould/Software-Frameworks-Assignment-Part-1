@@ -1,6 +1,13 @@
 var fs = require('fs')
 
 module.exports = {
+    getChannel:function(req, res){
+        fs.readFile("./data/channels.json", 'utf8', function(err, data){
+            if (err) throw err;
+            let channelArray = JSON.parse(data);
+            res.send(channelArray)
+        })
+    },
     deleteChannel: function(req, res){
         fs.readFile("./data/channels.json", 'utf8', function(err, data){
             if (err) throw err;
