@@ -2,6 +2,7 @@
 <ul>
     <li *ngFor="let channel of channelArray">
         <a [routerLink]="['/chatArea', channel.channelID]">{{channel.name}}</a>
+        <button (click)="deleteChannel(channel.channelID)">Delete</button>
     </li>
 </ul>
 

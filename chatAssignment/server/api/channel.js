@@ -1,6 +1,27 @@
 var fs = require('fs')
 
 module.exports = {
+    deleteChannel: function(req, res){
+        fs.readFile("./data/channels.json", 'utf8', function(err, data){
+            if (err) throw err;
+            let channelArray = JSON.parse(data);
+            let channelsData = [];
+            let channelID = req.body.channelID;
+
+            channelArray.channels.map(el =>{
+                if(el.channelID != channelID){
+                    channelsData.push(el)
+                }
+            })
+            console.log("deleteChannel function -> New channelsData: ", channelsData)
+            fs.writeFile("./data/channels.json", JSON.stringify({channels: channelsData}), function(err){
+                if (err) throw err;
+                else {
+                    res.send(true);
+                }
+            })
+        })
+    },
     getChannelByChannelName: function(req, res){
         fs.readFile("./data/channels.json", 'utf8', function(err, data){
             if (err) throw err;

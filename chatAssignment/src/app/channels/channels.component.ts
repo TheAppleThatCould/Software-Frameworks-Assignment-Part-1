@@ -133,4 +133,9 @@ export class ChannelsComponent implements OnInit {
       }
     })
   }
+
+  deleteChannel(channelID: string){
+    this.httpClient.post(BACKEND_URL + "/deleteChannel", {channelID}, httpOptions).subscribe((data: any) =>{})
+
+  }
 }
