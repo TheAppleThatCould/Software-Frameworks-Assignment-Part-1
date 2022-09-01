@@ -20,13 +20,13 @@
     <div *ngIf="adminAccess <= 3">
         <!-- Group assistant can access these functionality -->
         <button mat-raised-button (click)="clearDisplays(); createChannelDisplay = !createChannelDisplay">Create Channel</button><br>
-        <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToChannelDisplay = !adddUserToChannelDisplay">Add/remove User to/from Channel</button><br>
+        <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToChannelDisplay = !adddUserToChannelDisplay">User's Channel setting</button><br>
 
     </div>
 
     <div *ngIf="adminAccess <= 3">
         <!-- Group admin can access these functionality -->
-        <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToGroupDisplay = !adddUserToGroupDisplay">User group setting</button><br>
+        <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToGroupDisplay = !adddUserToGroupDisplay">User's group setting</button><br>
 
 
         <!-- NEED TO IMPLEMENT  -->
@@ -84,7 +84,7 @@
                 <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="addUserToGroup()">Add User to Group</button>
                 <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="removeUserFromGroup()">Remove User from group</button>
                 <!-- Only super can access this -->
-                <button *ngIf="adminAccess <= 1" mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateGroupAdmin()">Assign Group Admin</button>
+                <button *ngIf="adminAccess <= 1" mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateGroupAdmin('groupAdmin')">Assign Group Admin</button>
     
             </div>
 

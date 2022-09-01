@@ -198,15 +198,28 @@ export class ChannelsComponent implements OnInit {
   }
 
 
-  updateGroupAdmin(){
+  updateGroupAdmin(role: string){
     let groupID = this.groupID
     let userName = this.addUserData.userName
     this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
       let userID = data[0].userID;
-
-      this.httpClient.post(BACKEND_URL + "/updateGroupAdmin", {groupID, userID}, httpOptions).subscribe((data: any) =>{})    
+      this.httpClient.post(BACKEND_URL + "/updateGroupAdmin", {groupID, userID}, httpOptions).subscribe((data: any) =>{})
+      
+      this.updateUserRole(role)
     })
 
+  }
+
+  updateUserRole(role: string = ""){
+    let userName = this.addUserData.userName
+
+    this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
+      data[0].role = role;
+      let userData = data;
+      console.log(userData)
+      // this.httpClient.post(BACKEND_URL + '/updateUser', userData, httpOptions).subscribe((data: any) =>{})
+
+    })
   }
 
   // getAllChannels(){
