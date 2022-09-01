@@ -1,19 +1,22 @@
 <h1>List of groups</h1>
 <ul>
     <li *ngFor="let group of groupArray">
-        <a [routerLink]="['/channels', group.groupID]">{{group.name}}</a>
+        <!-- <a [routerLink]="['/channels', group.groupID]" ">{{group.name}}</a> -->
+        <button (click)="navigateToGroup(group.groupID)">{{group.name}}</button>
+
         <!-- Only super user may delete this group -->
         <button *ngIf="adminAccess <= 1" (click)="deleteGroup(group.groupID)">Delete</button>
-
     </li>
 </ul>
 
-
+<h3 *ngIf="message != ''">
+    {{message}}
+</h3>
 
 
 <div *ngIf="adminAccess <= 2">
     <br>
-    <button mat-raised-button (click)="getAllGroups()">Display All Groups</button>
+    <!-- <button mat-raised-button (click)="getAllGroups()">Display All Groups</button> -->
 
     <button mat-raised-button (click)="createUserDisplay = !createUserDisplay">Create Group</button><br>
 
@@ -30,5 +33,5 @@
     </div>
 
     <br>
-    <a class="nav-link" routerLink="/adminArea">Admin Area</a>
+    <a *ngIf="adminAccess <= 1" class="nav-link" routerLink="/adminArea" >Admin Area</a>
 </div>

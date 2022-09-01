@@ -28,7 +28,7 @@ export class GroupsComponent implements OnInit {
   // Think about setting up a service to check if the user is login.
   // Because there going be alot of pages that need to check that.
   valid: boolean = false;
-  user = {userID: ''};
+  userID: string = '';
 
   // The array that will contain all the groups the user is apart of.
   groupArray = [{groupID: "", name: ""}];
@@ -36,17 +36,18 @@ export class GroupsComponent implements OnInit {
   groupData: GroupData = {groupID: '', name: '', userID: [""], adminID: "", assistantID: [""]};
   createUserDisplay: boolean = false;
 
+  message: string = '';
 
   constructor(private router: Router, private httpClient: HttpClient) {}
 
   ngOnInit(): void {
     this.valid = localStorage.getItem("valid") === 'true' || false;
-    this.user.userID = localStorage.getItem("userID") || "";
+    this.userID = localStorage.getItem("userID") || "";
 
     if(this.valid == false){
       this.router.navigateByUrl('/login');
     } else {
-      this.getGroupDetails()
+      this.getAllGroups();
     }
     
     let adminAccessNum = localStorage.getItem("adminAccess") || '4';
@@ -54,11 +55,11 @@ export class GroupsComponent implements OnInit {
 
   }
 
-  getGroupDetails(){
-    this.httpClient.post(BACKEND_URL + '/getGroupsByUserID', this.user, httpOptions).subscribe((data: any) =>{
-      this.groupArray = data;
-    })
-  }
+  // getGroupDetails(){
+  //   this.httpClient.post(BACKEND_URL + '/getGroupsByUserID', this.user, httpOptions).subscribe((data: any) =>{
+  //     this.groupArray = data;
+  //   })
+  // }
 
   getAllGroups(){
     this.httpClient.get(BACKEND_URL + '/getGroups', httpOptions).subscribe((data: any) =>{
@@ -66,7 +67,22 @@ export class GroupsComponent implements OnInit {
     })
   }
 
-  accessGroup(){
+  navigateToGroup(groupID: string){
+    let userID = this.userID
+    let displayMessage: boolean = true;
+    this.httpClient.post(BACKEND_URL + '/getGroupsByUserID', {userID}, httpOptions).subscribe((data: any) =>{
+      let groupArray: GroupData[] = data;
+      console.log(groupArray);
+      groupArray.map(el => {
+        if(el.groupID == groupID){
+          this.router.navigateByUrl('/channels/' + groupID);
+          displayMessage = false;
+        }
+      })
+      if(displayMessage){
+        this.message = "You Don't have access to this group"
+      }
+    })
     
   }
 
