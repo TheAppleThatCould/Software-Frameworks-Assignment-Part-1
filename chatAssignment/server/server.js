@@ -58,7 +58,8 @@ app.post('/createUser', require("./api/user.js").createUser)
 
 //Need to create theses api
 
-// app.post("/updateGroupAdmin", require("./api/group.js").updateGroupAdmin);
+//An API that will change the group adminID by passing in the groupID and UserID
+app.post("/updateGroupAdmin", require("./api/group.js").updateGroupAdmin);
 
 //Note: Send back an object that can replace the groupAssistant array.
 // app.post("/updateGroupAssistant", require("./api/group.js").updateGroupAssistant);

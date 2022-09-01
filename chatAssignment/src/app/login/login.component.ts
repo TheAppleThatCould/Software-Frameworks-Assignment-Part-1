@@ -23,8 +23,6 @@ export class LoginComponent implements OnInit {
 
   public formSubmit() {
     this.httpClient.post(BACKEND_URL + '/login', this.userDetail, httpOptions).subscribe((data: any) =>{
-      alert(JSON.stringify(this.userDetail));
-      console.log("Data is: ", data)
       if(data.valid){
         localStorage.setItem('userID', data.userID.toString());
         localStorage.setItem('userName', data.userName.toString());
@@ -33,11 +31,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('email', data.email.toString());
         localStorage.setItem('role', data.role.toString());
         localStorage.setItem('valid', data.valid.toString());
-
         this.setUserAccessPermission(data.role.toString())
 
         this.router.navigateByUrl('/account');
-        
       } else {
         this.displayErrorMessage = true;
       }

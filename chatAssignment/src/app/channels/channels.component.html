@@ -24,9 +24,9 @@
 
     </div>
 
-    <div *ngIf="adminAccess <= 2">
+    <div *ngIf="adminAccess <= 3">
         <!-- Group admin can access these functionality -->
-        <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToGroupDisplay = !adddUserToGroupDisplay">Add user to Group</button><br>
+        <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToGroupDisplay = !adddUserToGroupDisplay">User group setting</button><br>
 
 
         <!-- NEED TO IMPLEMENT  -->
@@ -75,13 +75,21 @@
 
     <div *ngIf="adddUserToGroupDisplay">
         <br>
+        <h3>Type the userName for the user to change their setting for this group</h3>
         <form>
             <label>User's Username: </label>
             <input type="text" id="userName" class="form-control" [(ngModel)]="addUserData.userName" name="userName"/>
             <br>
+            <div *ngIf="adminAccess <= 2">
+                <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="addUserToGroup()">Add User to Group</button>
+                <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="removeUserFromGroup()">Remove User from group</button>
+                <!-- Only super can access this -->
+                <button *ngIf="adminAccess <= 1" mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateGroupAdmin()">Assign Group Admin</button>
+    
+            </div>
 
-            <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="addUserToGroup()">add user</button>
-            <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="removeUserFromGroup()">Remove User</button>
+            <!-- Only super can access this -->
+            <!-- <button *ngIf="adminAccess <= 1" mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateGroupAdmin()">Assign Group Assistant</button> -->
 
         </form>
     </div>

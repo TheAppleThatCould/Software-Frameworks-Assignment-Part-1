@@ -174,5 +174,30 @@ module.exports = {
                 res.send(false);
             }
         })
-    }
+    },
+    updateGroupAdmin:  function(req, res){
+        fs.readFile("./data/groups.json", 'utf8', function(err, data){
+            if (err) throw err;
+            let groupArray = JSON.parse(data);
+            let groupsData = [];
+            let userID = req.body.userID;
+
+            groupArray.groups.map((el) => {
+                if(el.groupID == req.body.groupID){
+                    el.adminID = userID
+                    groupsData.push(el)
+                }
+                else{
+                    groupsData.push(el)
+                }
+            })
+
+            console.log("THIS IS THE NEW GROUPSDATA in updateGroupAdmin: ", groupsData)
+            fs.writeFile("./data/groups.json", JSON.stringify({groups:groupsData}), function(err){
+                if (err) throw err;
+            })
+            res.send(true);
+
+        })
+    },
 };

@@ -66,6 +66,10 @@ export class GroupsComponent implements OnInit {
     })
   }
 
+  accessGroup(){
+    
+  }
+
   createGroup(){
     console.log(this.groupData);
     this.httpClient.get(BACKEND_URL + '/getGroups', httpOptions).subscribe((data: any) =>{

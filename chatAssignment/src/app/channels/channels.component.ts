@@ -143,8 +143,6 @@ export class ChannelsComponent implements OnInit {
         })
       }
     })
-
-
   }
 
   addUserToChannel(userID: string, channelID: string){
@@ -196,6 +194,18 @@ export class ChannelsComponent implements OnInit {
 
   deleteChannel(channelID: string){
     this.httpClient.post(BACKEND_URL + "/deleteChannel", {channelID}, httpOptions).subscribe((data: any) =>{})
+
+  }
+
+
+  updateGroupAdmin(){
+    let groupID = this.groupID
+    let userName = this.addUserData.userName
+    this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
+      let userID = data[0].userID;
+
+      this.httpClient.post(BACKEND_URL + "/updateGroupAdmin", {groupID, userID}, httpOptions).subscribe((data: any) =>{})    
+    })
 
   }
 
