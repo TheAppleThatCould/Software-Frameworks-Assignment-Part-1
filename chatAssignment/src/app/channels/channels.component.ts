@@ -221,6 +221,8 @@ export class ChannelsComponent implements OnInit {
   }
 
   updateGroupAssistant(userName: string, deleteAction: boolean){
+    // A function that will update the assistantID array within the current group.
+    // The deleteAction param reduce code by allowing the function call to specify if the action will remove the user from the assistant role or not.
     let groupData: GroupData = {groupID: '', name: '', userID: [""], adminID: "", assistantID: [""]};
     let groupID = this.groupID;
 

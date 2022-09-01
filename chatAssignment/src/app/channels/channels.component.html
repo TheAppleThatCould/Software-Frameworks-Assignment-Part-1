@@ -88,6 +88,7 @@
                 <button *ngIf="adminAccess <= 1" mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateGroupAdmin('groupAdmin')">Assign Group Admin</button>
                 
                 <button *ngIf="adminAccess <= 1" mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateGroupAssistant(addUserData.userName, false)">Assign Group Assistant</button>
+                <button *ngIf="adminAccess <= 1" mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateGroupAssistant(addUserData.userName, true)">Remove User from Group Assistant</button>
     
             </div>
 
