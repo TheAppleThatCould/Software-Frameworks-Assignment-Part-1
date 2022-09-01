@@ -194,7 +194,6 @@ export class ChannelsComponent implements OnInit {
 
   deleteChannel(channelID: string){
     this.httpClient.post(BACKEND_URL + "/deleteChannel", {channelID}, httpOptions).subscribe((data: any) =>{})
-
   }
 
 
@@ -210,15 +209,50 @@ export class ChannelsComponent implements OnInit {
 
   }
 
-  updateUserRole(role: string = ""){
+  updateUserRole(role: string){
     let userName = this.addUserData.userName
 
     this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
       data[0].role = role;
       let userData = data;
       console.log(userData)
-      // this.httpClient.post(BACKEND_URL + '/updateUser', userData, httpOptions).subscribe((data: any) =>{})
+      this.httpClient.post(BACKEND_URL + '/updateUser', userData, httpOptions).subscribe((data: any) =>{})
+    })
+  }
 
+  updateGroupAssistant(userName: string, deleteAction: boolean){
+    let groupData: GroupData = {groupID: '', name: '', userID: [""], adminID: "", assistantID: [""]};
+    let groupID = this.groupID;
+
+    //get groups and edit the groupAssistant element;
+    this.httpClient.post(BACKEND_URL + "/getGroupsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
+      groupData = data;
+
+      this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
+        let userID = data[0].userID;
+
+        if(deleteAction){
+          //Remove the userID from assistantID Array if the array contain that user
+          groupData.assistantID.map((assistantID, index) =>{
+            if(assistantID == userID){
+              groupData.assistantID.splice(index,1)
+            }
+          })
+        }else {
+          //Add the userID to the asssistant array
+          let isAssistant: boolean = false;
+          groupData.assistantID.map((assistantID, index) =>{
+            if(assistantID == userID){
+              isAssistant = true
+            }
+          })
+          if(!isAssistant){
+            groupData.assistantID.push(userID)
+          }
+        }
+
+        this.httpClient.post(BACKEND_URL + '/updateGroupAssistant', groupData, httpOptions).subscribe((data: any) =>{})
+      })
     })
   }
 
