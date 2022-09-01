@@ -4,6 +4,10 @@
 <button mat-raised-button (click)="clearDisplays(); searchUserDisplay = true">Seach for User</button>
 <button mat-raised-button (click)="clearDisplays(); createUserDisplay = true">Create User</button>
 <button mat-raised-button (click)="clearDisplays(); displayAllUsersDisplay = true">Display All Users</button>
+<button mat-raised-button (click)="clearDisplays(); displayAllGroupsDisplay = true">Display All Groups</button>
+<button mat-raised-button (click)="clearDisplays(); displayAllChannelDisplay = true">Display All Channel</button>
+
+
 
 <br>
 <!-- <button mat-raised-button (click)="clearDisplays(); searchGroupDisplay = true">Seach for groups</button> -->
@@ -85,6 +89,45 @@
     </div>
 </div>
 
+
+<div *ngIf="displayAllGroupsDisplay">
+    <div *ngFor="let group of groupArray">
+        <h3>{{group.name}}'s Information: </h3>
+        <p>GroupID: {{group.groupID}}</p>
+        <p>Group Name: {{group.name}}</p>
+
+        <h4>List of Users</h4>
+        <ul>
+            <li *ngFor="let userID of group.userID">
+                UserID: {{userID}}
+            </li>
+        </ul>
+        <p>Group AdminID: {{group.adminID}}</p>
+
+        <h4>List of Assistants</h4>
+        <ul>
+            <li *ngFor="let assistantID of group.assistantID">
+                AssistantID: {{assistantID}}
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div *ngIf="displayAllChannelDisplay">
+    <div *ngFor="let channel of channelArray">
+        <h3>{{channel.name}}'s Information: </h3>
+        <p>ChannelID: {{channel.channelID}}</p>
+        <p>Channel Name: {{channel.name}}</p>
+        <p>GroupID: {{channel.groupID}}</p>
+
+        <h4>List of Users</h4>
+        <ul>
+            <li *ngFor="let userID of channel.userID">
+                UserID: {{userID}}
+            </li>
+        </ul>
+    </div>
+</div>
 
 <!-- <div *ngIf="searchGroupDisplay">
     <form>

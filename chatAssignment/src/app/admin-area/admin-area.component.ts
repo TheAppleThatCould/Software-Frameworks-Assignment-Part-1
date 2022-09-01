@@ -28,6 +28,13 @@ interface GroupData {
   assistantID: string[];
 }
 
+interface ChannelData {
+  channelID: string;
+  name: string;
+  groupID: string;
+  userID: string[];
+}
+
 @Component({
   selector: 'app-admin-area',
   templateUrl: './admin-area.component.html',
@@ -41,16 +48,25 @@ export class AdminAreaComponent implements OnInit {
 
   groupName: string = ""
   groupData: GroupData = {groupID: '', name: '', userID: [""], adminID: "", assistantID: [""]};
+  groupArray: GroupData[] = [];
+
+  channelData: ChannelData = {channelID: "", name: "", groupID: "", userID: [""]};
+  channelArray: ChannelData[] = [];
 
   searchUserDisplay: boolean = false;
   createUserDisplay: boolean = false;
   searchGroupDisplay: boolean = false;
   displayAllUsersDisplay: boolean = false;
+  displayAllGroupsDisplay: boolean = false;
+  displayAllChannelDisplay: boolean = false;
+
 
   constructor(private userAPIService: UserAPIServiceService, private httpClient: HttpClient) { }
 
   ngOnInit(): void {
     this.getAllUsers();
+    this.getAllGroups();
+    this.getAllChannel();
   }
 
   searchUser(userName: string){
@@ -77,13 +93,27 @@ export class AdminAreaComponent implements OnInit {
     this.createUserDisplay = false;
     this.searchGroupDisplay = false;
     this.displayAllUsersDisplay = false;
+    this.displayAllGroupsDisplay = false;
+    this.displayAllChannelDisplay = false;
   }
 
   getAllUsers(){
     this.httpClient.get(BACKEND_URL + '/getAllUsers', httpOptions).subscribe((data: any) =>{
       this.userArray = data.userDetails;
     })
+  }
 
+  getAllGroups(){
+    this.httpClient.get(BACKEND_URL + '/getGroups', httpOptions).subscribe((data: any) =>{
+      console.log(data)
+      this.groupArray = data;
+    })
+  }
+
+  getAllChannel(){
+    this.httpClient.get(BACKEND_URL + '/getChannel', httpOptions).subscribe((data: any) =>{
+      this.channelArray = data.channels;
+    })
   }
 
   // searchGroup(groupName: string){
