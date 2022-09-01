@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json"})
@@ -43,7 +43,9 @@ export class ChannelsComponent implements OnInit {
   adddUserToGroupDisplay: boolean = false;
   addUserData = {channelName: "", userName: ""};
 
-  constructor(private route: ActivatedRoute, private httpClient: HttpClient) { }
+  message: string = '';
+
+  constructor(private route: ActivatedRoute, private httpClient: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
     this.groupID =  this.route.snapshot.params['id'];
@@ -57,11 +59,7 @@ export class ChannelsComponent implements OnInit {
       this.assignGroupPermission()
     }
     // If the user has super role, display all the channel
-    if(this.adminAccess <= 3){
-      this.getChannelsByGroupID(this.groupID);
-    }else{
-      this.getChannels(this.groupID, this.userID)
-    }
+    this.getChannelsByGroupID(this.groupID);
   }
 
   assignGroupPermission(){
@@ -96,7 +94,6 @@ export class ChannelsComponent implements OnInit {
     })
   }
 
-
   clearDisplays(){
     this.createChannelDisplay = false;
     this.adddUserToChannelDisplay = false;
@@ -106,14 +103,26 @@ export class ChannelsComponent implements OnInit {
   getChannelsByGroupID(groupID: string){
     this.httpClient.post(BACKEND_URL + "/getChannelsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
       this.channelArray = data;
-
     })
   }
 
-  getChannels(groupID: string, userID: string){
-    this.httpClient.post(BACKEND_URL + "/getChannelsByUserID", {groupID, userID}, httpOptions).subscribe((data: any) =>{
-      this.channelArray = data;
+  navigateToChatArea(channelName: string){
+    let userID = this.userID;
+    let displayMessage = true;
 
+    this.httpClient.post(BACKEND_URL + "/getChannelByChannelName", {channelName}, httpOptions).subscribe((data: any) =>{
+      let channelData: ChannelData = data;
+      console.log(channelData);
+      
+      channelData.userID.map(channelUserID => {
+        if(channelUserID == userID){
+          this.router.navigateByUrl('/chatArea/' + channelData.channelID);
+          displayMessage = false;
+        }
+      })
+      if(displayMessage){
+        this.message = "You Don't have access to this channel"
+      }
     })
   }
 
@@ -257,12 +266,4 @@ export class ChannelsComponent implements OnInit {
       })
     })
   }
-
-  // getAllChannels(){
-  //   this.httpClient.get(BACKEND_URL + "/getChannel", httpOptions).subscribe((data: any) =>{
-  //     console.log(data)
-  //     this.channelArray = data.channels;
-  //   })
-
-  // }
 }
