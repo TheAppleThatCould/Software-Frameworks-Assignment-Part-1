@@ -55,12 +55,6 @@ export class GroupsComponent implements OnInit {
 
   }
 
-  // getGroupDetails(){
-  //   this.httpClient.post(BACKEND_URL + '/getGroupsByUserID', this.user, httpOptions).subscribe((data: any) =>{
-  //     this.groupArray = data;
-  //   })
-  // }
-
   getAllGroups(){
     this.httpClient.get(BACKEND_URL + '/getGroups', httpOptions).subscribe((data: any) =>{
       this.groupArray = data;
@@ -90,7 +84,16 @@ export class GroupsComponent implements OnInit {
     console.log(this.groupData);
     this.httpClient.get(BACKEND_URL + '/getGroups', httpOptions).subscribe((data: any) =>{
       let groupArray = data;
-      this.groupData.groupID = groupArray.groupID;
+      let lastIndex = groupArray.length
+      
+      let newGroupID = parseInt(groupArray[lastIndex-1].groupID.substr(1)) + 1
+
+
+
+
+      this.groupData.groupID = 'g00'+newGroupID;
+      console.log("this.groupData.groupID: ", this.groupData.groupID)
+
       this.httpClient.post(BACKEND_URL + '/createGroup', this.groupData, httpOptions).subscribe((data: any) =>{})
     })
   }
