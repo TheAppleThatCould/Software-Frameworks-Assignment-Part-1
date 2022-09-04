@@ -44,14 +44,18 @@ export class GroupsComponent implements OnInit {
     this.valid = localStorage.getItem("valid") === 'true' || false;
     this.userID = localStorage.getItem("userID") || "";
 
-    if(this.valid == false){
-      this.router.navigateByUrl('/login');
-    } else {
-      this.getAllGroups();
-    }
-    
     let adminAccessNum = localStorage.getItem("adminAccess") || '4';
     this.adminAccess = +adminAccessNum;
+
+    if(this.valid == false){
+      this.router.navigateByUrl('/login');
+    } else if(this.adminAccess == 1) {
+      this.getAllGroups();
+    } else {
+      this.getGroupsByUserID();
+    }
+    
+
 
   }
 
@@ -59,6 +63,15 @@ export class GroupsComponent implements OnInit {
     this.httpClient.get(BACKEND_URL + '/getGroups', httpOptions).subscribe((data: any) =>{
       this.groupArray = data;
     })
+  }
+
+  getGroupsByUserID(){
+    let userID = this.userID
+    this.httpClient.post(BACKEND_URL + '/getGroupsByUserID', {userID}, httpOptions).subscribe((data: any) =>{
+      this.groupArray = data;
+      console.log(this.groupArray);
+    })
+
   }
 
   navigateToGroup(groupID: string){
@@ -83,17 +96,12 @@ export class GroupsComponent implements OnInit {
   createGroup(){
     console.log(this.groupData);
     this.httpClient.get(BACKEND_URL + '/getGroups', httpOptions).subscribe((data: any) =>{
+      //Get all groups and  create a new groupID by adding 1 to the last group's ID
       let groupArray = data;
       let lastIndex = groupArray.length
-      
       let newGroupID = parseInt(groupArray[lastIndex-1].groupID.substr(1)) + 1
 
-
-
-
       this.groupData.groupID = 'g00'+newGroupID;
-      console.log("this.groupData.groupID: ", this.groupData.groupID)
-
       this.httpClient.post(BACKEND_URL + '/createGroup', this.groupData, httpOptions).subscribe((data: any) =>{})
     })
   }
