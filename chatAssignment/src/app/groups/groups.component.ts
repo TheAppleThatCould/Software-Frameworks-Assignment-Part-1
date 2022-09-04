@@ -69,9 +69,7 @@ export class GroupsComponent implements OnInit {
     let userID = this.userID
     this.httpClient.post(BACKEND_URL + '/getGroupsByUserID', {userID}, httpOptions).subscribe((data: any) =>{
       this.groupArray = data;
-      console.log(this.groupArray);
     })
-
   }
 
   navigateToGroup(groupID: string){

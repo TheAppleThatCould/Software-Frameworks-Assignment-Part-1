@@ -32,9 +32,11 @@ export class ChannelsComponent implements OnInit {
   adminAccess = 4;
 
   groupID: string = "";
+  // The channel array is the array that is getting displayed
   channelArray = [{channelID: "", name: "", groupID: "", userID: [""]}];
 
   createChannelDisplay: boolean = false;
+  //The channelData be passed through an api to create new channel or update channels. When creating an channel the name is assign by the user.
   channelData: ChannelData = {channelID: "", name: "", groupID: "", userID: [""]};
 
   userID = "";
@@ -132,7 +134,19 @@ export class ChannelsComponent implements OnInit {
     this.httpClient.post(BACKEND_URL + "/getGroupsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
       this.channelData.groupID = this.groupID;
       this.channelData.userID = data.userID;
-      this.httpClient.post(BACKEND_URL + "/createChannel", this.channelData, httpOptions).subscribe((data: any) =>{})
+
+      this.httpClient.get(BACKEND_URL + "/getChannel", httpOptions).subscribe((data: any) =>{
+        let channelArray = data.channels
+        let newChannelID = parseInt(channelArray[channelArray.length-1].channelID.substr(1)) + 1
+        this.channelData.channelID = "c"+newChannelID
+
+        console.log(this.channelData)
+
+        this.httpClient.post(BACKEND_URL + "/createChannel", this.channelData, httpOptions).subscribe((data: any) =>{})
+
+      })
+
+      
     })
   }
 
