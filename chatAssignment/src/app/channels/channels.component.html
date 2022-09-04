@@ -10,11 +10,14 @@
             <!-- Only super user may delete this group -->
             <!-- <button (click)="addUserToGroup()">Add</button>
             <button (click)="removeUserFromGroup()">Remove User</button> -->
-
-
         </div>
     </li>
+
 </ul>
+
+<div *ngIf="adminAccess == 3"><p>You are the group assistant of this group</p></div>
+<div *ngIf="adminAccess == 2"><p>You are the group admin of this group</p></div>
+<div *ngIf="adminAccess == 1"><p>You are the super user</p></div>
 
 <h3 *ngIf="message != ''">
     {{message}}

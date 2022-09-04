@@ -85,6 +85,7 @@ module.exports = {
             let channelsData = [];
             let groupID = req.body.groupID;
             let userID = req.body.userID;
+            console.log(userID, groupID)
             
             channelArray.channels.map((el) => {
                 if(el.groupID == groupID){
@@ -95,7 +96,7 @@ module.exports = {
                     })
                 }
             })
-
+            console.log(channelsData)
             res.send(channelsData);
         })
     },

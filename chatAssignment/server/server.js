@@ -32,6 +32,7 @@ app.post("/removeUserFromGroup", require("./api/group.js").removeUserFromGroup);
 
 //An API that will change the group adminID by passing in the groupID and UserID
 app.post("/updateGroupAdmin", require("./api/group.js").updateGroupAdmin);
+app.post("/updateGroupAssistant", require("./api/group.js").updateGroupAssistant);
 
 app.post('/getGroupsByUserID', require("./api/group.js").getGroupDetailsByUserID);
 app.post('/getGroupsByGroupName', require("./api/group.js").getGroupsByGroupName);
@@ -56,17 +57,4 @@ app.post("/deleteUser", require("./api/user.js").deleteUser);
 app.post('/getUserByUserName', require("./api/user.js").getUserByUserName);
 app.post('/updateUser', require("./api/user.js").updateUser);
 app.post('/createUser', require("./api/user.js").createUser)
-
-
-
-//Need to create theses api
-
-
-//Note: Send back an object that can replace the groupAssistant array.
-app.post("/updateGroupAssistant", require("./api/group.js").updateGroupAssistant);
-
-
-
-
-
 

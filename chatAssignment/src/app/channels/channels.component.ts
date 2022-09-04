@@ -53,15 +53,28 @@ export class ChannelsComponent implements OnInit {
     this.groupID =  this.route.snapshot.params['id'];
     this.userID = localStorage.getItem("userID") || "";
 
+
     // get the current user access permission and parse it as a string to adminAccess variable
     let adminAccessNum = localStorage.getItem("adminAccess") || '4';
     this.adminAccess = +adminAccessNum;
 
-    if(this.adminAccess == 3 || this.adminAccess == 2){
-      this.assignGroupPermission()
-    }
-    // If the user has super role, display all the channel
-    this.getChannelsByGroupID(this.groupID);
+
+    this.assignGroupPermission()
+
+  }
+
+  getChannelByUserID(){
+    let userID = this.userID;
+    let groupID = this.groupID;
+
+    this.httpClient.post(BACKEND_URL + "/getChannelsByUserID", {userID, groupID}, httpOptions).subscribe((data: any) =>{
+      if(data.length == 0){
+        this.message = "You are not apart of any channel in this group"
+      } 
+
+      this.channelArray = data
+    })
+
   }
 
   assignGroupPermission(){
@@ -74,25 +87,35 @@ export class ChannelsComponent implements OnInit {
     // If the user have permission of a groupAssis or groupAdmin then check if the user is one for this group.
     this.httpClient.post(BACKEND_URL + "/getGroupsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
       groupArray = data;
-      if(this.adminAccess == 3){
-        groupArray.assistantID.map(assistantID =>{
-          if(assistantID == this.userID){
-            isGroupAssis = true;
-          }
-        })
-      } else if(this.adminAccess == 2){
-        if(groupArray.adminID == this.userID){
-          isGroupAdmin = true;
+
+      groupArray.assistantID.map(assistantID =>{
+        if(assistantID == this.userID){
+          isGroupAssis = true;
+        }
+      })
+
+      if(groupArray.adminID == this.userID){
+        isGroupAdmin = true;
+      }
+      
+      if(this.adminAccess > 1){
+        if(isGroupAdmin){
+          this.adminAccess = 2
+        } else if(isGroupAssis){
+          this.adminAccess = 3
+        } else {
+          this.adminAccess = 4
         }
       }
 
-      if(isGroupAssis){
-        this.adminAccess = 3
-      } else if(isGroupAdmin){
-        this.adminAccess = 2
+      // If the user has super role, or is the groupAdmin or groupAssistatnt then display all the channel
+      // Get all the channel the user is apart of or get all the channel.
+      if(this.adminAccess <= 3){
+        this.getChannelsByGroupID(this.groupID);
       } else {
-        this.adminAccess = 4
+        this.getChannelByUserID();
       }
+
     })
   }
 
@@ -114,7 +137,6 @@ export class ChannelsComponent implements OnInit {
 
     this.httpClient.post(BACKEND_URL + "/getChannelByChannelName", {channelName}, httpOptions).subscribe((data: any) =>{
       let channelData: ChannelData = data;
-      console.log(channelData);
       
       channelData.userID.map(channelUserID => {
         if(channelUserID == userID){
@@ -139,8 +161,6 @@ export class ChannelsComponent implements OnInit {
         let channelArray = data.channels
         let newChannelID = parseInt(channelArray[channelArray.length-1].channelID.substr(1)) + 1
         this.channelData.channelID = "c"+newChannelID
-
-        console.log(this.channelData)
 
         this.httpClient.post(BACKEND_URL + "/createChannel", this.channelData, httpOptions).subscribe((data: any) =>{})
 
@@ -171,7 +191,6 @@ export class ChannelsComponent implements OnInit {
   addUserToChannel(userID: string, channelID: string){
     this.httpClient.post(BACKEND_URL + "/addUserToChannel", {userID, channelID}, httpOptions).subscribe((data: any) =>{})
   }
-
 
   addUserToGroup(){
     //addUserToGroup
@@ -219,7 +238,6 @@ export class ChannelsComponent implements OnInit {
     this.httpClient.post(BACKEND_URL + "/deleteChannel", {channelID}, httpOptions).subscribe((data: any) =>{})
   }
 
-
   updateGroupAdmin(role: string){
     let groupID = this.groupID
     let userName = this.addUserData.userName
@@ -238,7 +256,6 @@ export class ChannelsComponent implements OnInit {
     this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
       data[0].role = role;
       let userData = data;
-      console.log(userData)
       this.httpClient.post(BACKEND_URL + '/updateUser', userData, httpOptions).subscribe((data: any) =>{})
     })
   }
