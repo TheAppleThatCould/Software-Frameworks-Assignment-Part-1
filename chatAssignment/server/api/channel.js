@@ -145,7 +145,7 @@ module.exports = {
             })
         })
 
-        res.send({valid: false})
+        res.send(true)
     },
 
     createChannel: function(req, res){

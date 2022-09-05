@@ -1,19 +1,20 @@
 <h1>Admin Area</h1>
 <br>
+<div *ngIf="adminAccess <= 2">
+    <button mat-raised-button (click)="clearDisplays(); createUserDisplay = true">Create User</button>
+</div>
+<div *ngIf="adminAccess == 1">
+    <button mat-raised-button (click)="clearDisplays(); searchUserDisplay = true">Seach for User</button>
 
-<button mat-raised-button (click)="clearDisplays(); searchUserDisplay = true">Seach for User</button>
-<button mat-raised-button (click)="clearDisplays(); createUserDisplay = true">Create User</button>
-<button mat-raised-button (click)="clearDisplays(); displayAllUsersDisplay = true">Display All Users</button>
-<button mat-raised-button (click)="clearDisplays(); displayAllGroupsDisplay = true">Display All Groups</button>
-<button mat-raised-button (click)="clearDisplays(); displayAllChannelDisplay = true">Display All Channel</button>
+    <button mat-raised-button (click)="clearDisplays(); displayAllUsersDisplay = true">Display All Users</button>
+    <button mat-raised-button (click)="clearDisplays(); displayAllGroupsDisplay = true">Display All Groups</button>
+    <button mat-raised-button (click)="clearDisplays(); displayAllChannelDisplay = true">Display All Channel</button>
+</div>
+
 
 
 
 <br>
-<!-- <button mat-raised-button (click)="clearDisplays(); searchGroupDisplay = true">Seach for groups</button> -->
-
-
-
 <div *ngIf="searchUserDisplay">
     <form>
         <label>Search by userName</label><br>
@@ -128,25 +129,3 @@
         </ul>
     </div>
 </div>
-
-<!-- <div *ngIf="searchGroupDisplay">
-    <form>
-        <label>Search by Group Name</label><br>
-        <input type="text" id="groupName" class="form-control" [(ngModel)]="groupName" name="searchGroupName"/>
-        <button type="submit" class="btn btn-primary btn-block mb-4" (click)="[searchGroup(groupName)]">Search</button>
-    </form>
-
-    <div *ngIf="userData != undefined && userData.userName != '' ">
-        <h3>User Information: </h3>
-        <p>UserID: {{userData.userID}}</p>
-        <p>UserName: {{userData.userName}}</p>
-        <p>Email: {{userData.email}}</p>
-        <p>Birthday: {{userData.birthDate}}</p>
-        <p>Role: {{userData.role}}</p>
-
-        <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateUserRole('super')">Update To SuperUser</button>
-        <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateUserRole('normal')">Update To Normal</button>
-        <button mat-raised-button (click)="deleteUser()">Delete</button>
-    </div>
-</div> -->
-

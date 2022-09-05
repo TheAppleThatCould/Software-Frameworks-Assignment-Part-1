@@ -54,9 +54,6 @@ export class GroupsComponent implements OnInit {
     } else {
       this.getGroupsByUserID();
     }
-    
-
-
   }
 
   getAllGroups(){
@@ -78,12 +75,19 @@ export class GroupsComponent implements OnInit {
     this.httpClient.post(BACKEND_URL + '/getGroupsByUserID', {userID}, httpOptions).subscribe((data: any) =>{
       let groupArray: GroupData[] = data;
       console.log(groupArray);
-      groupArray.map(el => {
-        if(el.groupID == groupID){
-          this.router.navigateByUrl('/channels/' + groupID);
-          displayMessage = false;
-        }
-      })
+
+      if(this.adminAccess > 1){
+        groupArray.map(el => {
+          if(el.groupID == groupID){
+            this.router.navigateByUrl('/channels/' + groupID);
+            displayMessage = false;
+          }
+        })
+      } else {
+        this.router.navigateByUrl('/channels/' + groupID);
+        displayMessage = false;
+      }
+
       if(displayMessage){
         this.message = "You Don't have access to this group"
       }
@@ -100,7 +104,10 @@ export class GroupsComponent implements OnInit {
       let newGroupID = parseInt(groupArray[lastIndex-1].groupID.substr(1)) + 1
 
       this.groupData.groupID = 'g00'+newGroupID;
+      this.groupData.adminID = this.userID
+      this.groupData.userID.push(this.userID)
       this.httpClient.post(BACKEND_URL + '/createGroup', this.groupData, httpOptions).subscribe((data: any) =>{})
+
     })
   }
 

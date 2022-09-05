@@ -41,6 +41,8 @@ interface ChannelData {
   styleUrls: ['./admin-area.component.css']
 })
 export class AdminAreaComponent implements OnInit {
+  adminAccess = 4;
+
   userName: string = ""
   userData: UserData = {userName: "", email: "", birthDate: "", age: 0, password: "", role: "", userID: "", valid: false};
   userArray: UserData[] = [];
@@ -67,6 +69,9 @@ export class AdminAreaComponent implements OnInit {
     this.getAllUsers();
     this.getAllGroups();
     this.getAllChannel();
+
+    let adminAccessNum = localStorage.getItem("adminAccess") || '4';
+    this.adminAccess = +adminAccessNum;
   }
 
   searchUser(userName: string){
