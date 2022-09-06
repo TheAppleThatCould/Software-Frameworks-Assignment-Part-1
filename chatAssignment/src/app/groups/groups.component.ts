@@ -25,8 +25,6 @@ export class GroupsComponent implements OnInit {
   // display link to adminArea component 
   adminAccess = 4;
 
-  // Think about setting up a service to check if the user is login.
-  // Because there going be alot of pages that need to check that.
   valid: boolean = false;
   userID: string = '';
 

@@ -20,8 +20,6 @@ module.exports = {
                     userData.push(el)
                 }
             })
-
-            console.log("deleteUser function -> New userData: ", userData)
             
             fs.writeFile("./data/users.json", JSON.stringify({userDetails: userData}), function(err){
                 if (err) throw err;
@@ -49,12 +47,10 @@ module.exports = {
     updateUser: function(req, res){
         fs.readFile("./data/users.json", 'utf8', function(err, data){
             if (err) throw err;
-            console.log("THIS IS UPDATEUSER: ", req.body)
 
             let userArray = JSON.parse(data);
             let userData = [];
             let userName = req.body.userName;
-
 
             userArray.userDetails.map((el) => {
                 if(el.userName == userName){
@@ -68,7 +64,6 @@ module.exports = {
                 if (err) throw err;
             })
             res.send(true)
-            console.log("THIS IS UPDATEUSER userData: ", {userDetails: userData})
         })
     },
 

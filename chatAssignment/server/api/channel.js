@@ -20,7 +20,6 @@ module.exports = {
                     channelsData.push(el)
                 }
             })
-            console.log("deleteChannel function -> New channelsData: ", channelsData)
             fs.writeFile("./data/channels.json", JSON.stringify({channels: channelsData}), function(err){
                 if (err) throw err;
                 else {
@@ -48,8 +47,6 @@ module.exports = {
                 channelsData.push(el)
             })
 
-            console.log("removeUserFromChannel function -> New channelsData: ", channelsData)
-
             fs.writeFile("./data/channels.json", JSON.stringify({channels: channelsData}), function(err){
                 if (err) throw err;
                 else {
@@ -61,8 +58,6 @@ module.exports = {
     getChannelByChannelName: function(req, res){
         fs.readFile("./data/channels.json", 'utf8', function(err, data){
             if (err) throw err;
-            console.log("THIS IS THE data DATA FROM THE GROUP API CALL: ", data)
-            console.log("THIS IS THE data DATA FROM THE GROUP API CALL: ", req.body)
 
             let channelArray = JSON.parse(data);
             let channelsData = {};
@@ -85,7 +80,6 @@ module.exports = {
             let channelsData = [];
             let groupID = req.body.groupID;
             let userID = req.body.userID;
-            console.log(userID, groupID)
             
             channelArray.channels.map((el) => {
                 if(el.groupID == groupID){
@@ -96,7 +90,6 @@ module.exports = {
                     })
                 }
             })
-            console.log(channelsData)
             res.send(channelsData);
         })
     },
@@ -129,7 +122,6 @@ module.exports = {
                     channelsHistoryData.push(el);
                 }
             })
-            console.log("data for write chat history channelArray: ", channelsHistoryData)
 
             res.send(channelsHistoryData);
         })
@@ -162,8 +154,6 @@ module.exports = {
                 }
             })
             channelsData.push(req.body)
-            console.log("valid channel: ", valid)
-
 
             if(valid){
                 fs.writeFile("./data/channels.json", JSON.stringify({channels: channelsData}), function(err){
@@ -198,8 +188,6 @@ module.exports = {
                 channelData.push(el)
             })
 
-            console.log("channelData for new user to channel",channelData)
-
             fs.writeFile("./data/channels.json", JSON.stringify({channels: channelData}), function(err){
                 if (err) throw err;
                 else {
@@ -208,9 +196,4 @@ module.exports = {
             })
         })
     },
-    // removeUserFromChannel: function(req, res){
-    //     fs.readFile("./data/channels.json", function(err, data){
- 
-    //     })
-    // }
 };

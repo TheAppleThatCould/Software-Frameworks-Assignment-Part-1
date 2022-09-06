@@ -37,7 +37,6 @@ module.exports = {
                 }
                 groupsData.push(el)
             })
-            console.log("Data to save: ", groupsData)
 
             fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
                 if (err) throw err;
@@ -60,7 +59,6 @@ module.exports = {
                     groupsData.push(el)
                 }
             })
-            console.log("DeleteGroup function -> New groupsData: ", groupsData)
             fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
                 if (err) throw err;
                 else {
@@ -87,8 +85,6 @@ module.exports = {
                 }
                 groupsData.push(el)
             })
-
-            console.log("removeUserFromGroup function -> New groupsData: ", groupsData)
 
             fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
                 if (err) throw err;
@@ -120,7 +116,6 @@ module.exports = {
     getGroupsByGroupName: function(req, res){
         fs.readFile("./data/groups.json", 'utf8', function(err, data){
             if (err) throw err;
-            console.log("req.body",req.body)
             let groupArray = JSON.parse(data);
             let groupData = {};
             let groupName = req.body.groupName;
@@ -137,7 +132,6 @@ module.exports = {
     getGroupsByGroupID: function(req, res){
         fs.readFile("./data/groups.json", 'utf8', function(err, data){
             if (err) throw err;
-            console.log("req.body",req.body)
             let groupArray = JSON.parse(data);
             let groupData = {};
             let groupID = req.body.groupID;
@@ -192,7 +186,6 @@ module.exports = {
                 }
             })
 
-            console.log("THIS IS THE NEW GROUPSDATA in updateGroupAdmin: ", groupsData)
             fs.writeFile("./data/groups.json", JSON.stringify({groups:groupsData}), function(err){
                 if (err) throw err;
             })
@@ -216,7 +209,6 @@ module.exports = {
                 }
             })
 
-            console.log("THIS IS THE NEW GROUPSDATA in updateGroupAdmin: ", groupsData)
             fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
                 if (err) throw err;
             })

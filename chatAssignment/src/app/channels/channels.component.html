@@ -4,13 +4,6 @@
         <button (click)="navigateToChatArea(channel.name)">{{channel.name}}</button>
 
         <button *ngIf="adminAccess <= 2" (click)="deleteChannel(channel.channelID)">Delete</button>
-
-        <div *ngIf="adminAccess <= 2">
-            <!-- Note: It might make the UI cleaner to have these button implemented -->
-            <!-- Only super user may delete this group -->
-            <!-- <button (click)="addUserToGroup()">Add</button>
-            <button (click)="removeUserFromGroup()">Remove User</button> -->
-        </div>
     </li>
 
 </ul>
@@ -35,16 +28,7 @@
     <div *ngIf="adminAccess <= 3">
         <!-- Group admin can access these functionality -->
         <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToGroupDisplay = !adddUserToGroupDisplay">User's group setting</button><br>
-
-
-        <!-- NEED TO IMPLEMENT  -->
-        <!-- <button (click)="addGroupAssistant()">ASIGN GROUP ASSISTANT</button> -->
-
-
     </div>
-    
-    <!-- <button class="btn btn-primary btn-block mb-4" (click)="getAllChannels()">Display All Channels</button><br> -->
-
 
     <div *ngIf="createChannelDisplay">
         <br>
@@ -73,8 +57,6 @@
 
             <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="getUserAndChannelID()">Add User</button>
             <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="removeUserFromChannel()">Remove User</button>
-
-
         </form>
     </div>
 
@@ -94,9 +76,6 @@
                 <!-- Only super can access this -->
                 <button *ngIf="adminAccess <= 1" mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateGroupAdmin('groupAdmin')">Assign Group Admin</button>
             </div>
-
-            <!-- Only super can access this -->
-
         </form>
     </div>
 </div>

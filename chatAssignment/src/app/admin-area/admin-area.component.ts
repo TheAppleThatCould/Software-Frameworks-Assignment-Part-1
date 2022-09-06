@@ -120,12 +120,4 @@ export class AdminAreaComponent implements OnInit {
       this.channelArray = data.channels;
     })
   }
-
-  // searchGroup(groupName: string){
-  //   this.httpClient.post(BACKEND_URL + '/getGroupsByGroupName', {groupName}, httpOptions).subscribe((data: any) =>{
-  //     alert(JSON.stringify(data))
-  //     this.groupData = data;
-  //     console.log(this.groupData)
-  //   })
-  // }
 }

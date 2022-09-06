@@ -55,14 +55,11 @@ export class ChatAreaComponent implements OnInit {
   getChatHistory(channelID: string){
     console.log("test", channelID)
     this.httpClient.post(BACKEND_URL + "/getChannelHistory", {channelID}, httpOptions).subscribe((data: any) =>{
-      // alert(JSON.stringify(data));
       this.message = data;
     })
   }
 
   writeChatHistory(newMessage: Object){
-    console.log("Message detail on chatArea component: ", this.channelID, this.userName);
-
     this.httpClient.post(BACKEND_URL + "/writeChannelHistory", newMessage, httpOptions).subscribe((data: any) =>{})
   }
 }

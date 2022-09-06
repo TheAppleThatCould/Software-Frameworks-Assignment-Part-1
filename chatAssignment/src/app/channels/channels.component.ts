@@ -53,14 +53,11 @@ export class ChannelsComponent implements OnInit {
     this.groupID =  this.route.snapshot.params['id'];
     this.userID = localStorage.getItem("userID") || "";
 
-
     // get the current user access permission and parse it as a string to adminAccess variable
     let adminAccessNum = localStorage.getItem("adminAccess") || '4';
     this.adminAccess = +adminAccessNum;
 
-
     this.assignGroupPermission()
-
   }
 
   getChannelByUserID(){
@@ -84,7 +81,6 @@ export class ChannelsComponent implements OnInit {
     let isGroupAssis = false;
     let isGroupAdmin = false;
 
-    // If the user have permission of a groupAssis or groupAdmin then check if the user is one for this group.
     this.httpClient.post(BACKEND_URL + "/getGroupsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
       groupArray = data;
 
