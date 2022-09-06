@@ -233,10 +233,10 @@ The following is a list of server side routes, parameters, return values and pur
 
 ## Describe the details of the interaction between client and server by indicating how the files and global vars in server side will be changed and how the display of each angular component page will be update
 
-** Login component: **
+**Login component:**
 This component interacts with the server side by calling the “/login” route and receiving the user’s account data. The user will provide a userName or email and a password as the parameter for the “/login” api route. The account information will also be stored within the local storage. 
 
-** Groups component: **
+**Groups component:**
 The groups component interact with the server side by using the following routes:
 
 - “/getGroups” -> Display all the groups to the super admin.
@@ -244,13 +244,13 @@ The groups component interact with the server side by using the following routes
 - “/createGroups” -> Allow the admin to create a group.
 - “/deleteGroups” -> Allow the admin to delete a group.
 
-Chat-area component:
+**Chat-area component:**
 The chat-area component interact with the server side by using the following routes:
 
 - “/getChannelHistory” -> Receive and display all the chat history for this channel.
 - “/writeChannelHistory” -> Update this channel history with new history.
 
-** Channels component: **
+**Channels component:**
 The channel component interact with the server side by using the following routes:
 
 - “/getChannelsByUserID” -> Get all the channels that the user is a part of and display them.
@@ -268,7 +268,7 @@ The channel component interact with the server side by using the following route
 - “/updateUser” -> Give the ability to change the user by changing the user’s object and replacing it inside of the Json file.
 - “/updateGroupAssistant” -> Give the ability to update the groupAssistant. 
 
-** Admin-area component: **
+**Admin-area component:**
 The admin-area component interacts with the server side to provide the admin with easy access to receive, update or delete data within the json files. The following are the routes to the server:
 
 - “/getUserByUserName” -> Allow the admin to search for a user.
@@ -279,7 +279,7 @@ The admin-area component interacts with the server side to provide the admin wit
 - “/getGroups” -> Receive and display all the groups.
 - “/getChannel” -> Receive and display all the channels.
 
-** Account component: ** 
+**Account component:** 
 The account component does not interact with the server side. However it does use the local storage to display the account information.
 
 
