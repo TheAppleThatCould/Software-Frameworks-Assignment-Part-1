@@ -68,11 +68,11 @@ export class GroupsComponent implements OnInit {
   }
 
   navigateToGroup(groupID: string){
+    // This function will redirect the user to a channel while preventing them from accessing a group they are not a part of.
     let userID = this.userID
     let displayMessage: boolean = true;
     this.httpClient.post(BACKEND_URL + '/getGroupsByUserID', {userID}, httpOptions).subscribe((data: any) =>{
       let groupArray: GroupData[] = data;
-      console.log(groupArray);
 
       if(this.adminAccess > 1){
         groupArray.map(el => {
@@ -94,7 +94,6 @@ export class GroupsComponent implements OnInit {
   }
 
   createGroup(){
-    console.log(this.groupData);
     this.httpClient.get(BACKEND_URL + '/getGroups', httpOptions).subscribe((data: any) =>{
       //Get all groups and  create a new groupID by adding 1 to the last group's ID
       let groupArray = data;
@@ -110,7 +109,6 @@ export class GroupsComponent implements OnInit {
   }
 
   deleteGroup(groupID: string){
-    console.log(groupID);
     this.httpClient.post(BACKEND_URL + '/deleteGroup', {groupID}, httpOptions).subscribe((data: any) =>{})
     
   }
