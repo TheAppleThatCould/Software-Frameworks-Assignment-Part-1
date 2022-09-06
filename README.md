@@ -93,7 +93,7 @@ The chat area contains the functionality to send and view messages within a chan
 Socket.service - For the socket functionality
 
 #### Models:
-
+None.
 
 #### Routes:
 The following are the routes for the application:
