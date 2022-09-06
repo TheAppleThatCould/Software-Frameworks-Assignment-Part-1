@@ -43,7 +43,7 @@ The following is the groups data structure for a single group:
 - assistantID: string[]
 
 ### Channels:
-Similarly to the user data structure the channel’s data is made up of a Json object with a “channels” key which contains an array of groups. The following is an example of the channel’s data structure:
+Similarly to the user data structure the channel’s data is made up of a Json object with a “channels” key which contains an array of channels. The following is an example of the channel’s data structure:
 `{
 "channels":[{"channelID":"c002","name":"testChannel2","groupID":"g001","userID":["u001","u003"]}]
 }`
@@ -231,28 +231,55 @@ The following is a list of server side routes, parameters, return values and pur
 
 
 
-
-
-
-
 ## Describe the details of the interaction between client and server by indicating how the files and global vars in server side will be changed and how the display of each angular component page will be update
 
-Login component:
+** Login component: **
 This component interacts with the server side by calling the “/login” route and receiving the user’s account data. The user will provide a userName or email and a password as the parameter for the “/login” api route. The account information will also be stored within the local storage. 
 
-Groups component:
-The groups component interact with the server side by 
+** Groups component: **
+The groups component interact with the server side by using the following routes:
+
+- “/getGroups” -> Display all the groups to the super admin.
+- “/getGroupsByUserID” -> Get and display all the groups that the user is a part of.
+- “/createGroups” -> Allow the admin to create a group.
+- “/deleteGroups” -> Allow the admin to delete a group.
 
 Chat-area component:
-The chat-area component interact with the server side by 
+The chat-area component interact with the server side by using the following routes:
 
-Channels component:
-The channel component interact with the server side by 
+- “/getChannelHistory” -> Receive and display all the chat history for this channel.
+- “/writeChannelHistory” -> Update this channel history with new history.
 
-Admin-area component:
-The admin-area component interacts with the server side to provide the admin with access to receive, update or delete data within the json files. 
+** Channels component: **
+The channel component interact with the server side by using the following routes:
 
-Account component: 
+- “/getChannelsByUserID” -> Get all the channels that the user is a part of and display them.
+- “/getChannelsByGroupID” -> For the admin, get all the channels that are a part of the current group.
+- “/getGroupsByGroupID” -> Receive group information in order to change the group data.
+- “/getChannelByChannelName” -> Give the user the ability to edit a channel by inputting the channel name. 
+- “/getChannel” -> Gives the logic to create a new channel id by receiving all the channels and incrementing 1 to the last channel id.
+- “/createChannel” -> Give the admin the ability to create a channel for the current group.
+- “/addUserToChannel” -> Give the ability to add a user to a channel.
+- “/getUserByUserName” -> Allow the admin to edit user’s groups/channel settings by giving them the ability to input the username of a user.
+- “/removeUserFromGroup” -> Give the ability to remove a user from the group.
+- “/removeUserFromChannel” ->Give the ability to remove a user from the channel.
+- “/deleteChannel” -> Give the ability to delete a channel.
+- “/updateGroupAdmin” -> Give the ability to change the group admin of the current group.
+- “/updateUser” -> Give the ability to change the user by changing the user’s object and replacing it inside of the Json file.
+- “/updateGroupAssistant” -> Give the ability to update the groupAssistant. 
+
+** Admin-area component: **
+The admin-area component interacts with the server side to provide the admin with easy access to receive, update or delete data within the json files. The following are the routes to the server:
+
+- “/getUserByUserName” -> Allow the admin to search for a user.
+- “/updateUser” -> Allow the admin to update the user from the admin-area.
+- “/deleteUser” -> Allow the admin to delete the user.
+- “/createUser” -> Allow the admin to create a user.
+- “/getAllUsers” -> Receive and display all the users.
+- “/getGroups” -> Receive and display all the groups.
+- “/getChannel” -> Receive and display all the channels.
+
+** Account component: ** 
 The account component does not interact with the server side. However it does use the local storage to display the account information.
 
 
