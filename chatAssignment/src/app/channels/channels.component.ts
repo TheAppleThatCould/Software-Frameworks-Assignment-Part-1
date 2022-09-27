@@ -135,7 +135,7 @@ export class ChannelsComponent implements OnInit {
     let displayMessage = true;
 
     this.httpClient.post(BACKEND_URL + "/getChannelByChannelName", {channelName}, httpOptions).subscribe((data: any) =>{
-      let channelData: ChannelData = data[0];
+      let channelData: ChannelData = data;
       channelData.userID.map(channelUserID => {
         if(channelUserID == userID){
           this.router.navigateByUrl('/chatArea/' + channelData.id);
@@ -158,13 +158,16 @@ export class ChannelsComponent implements OnInit {
     //A function that will get the user and channel id and calls the addUserChannel function while passing in the two ids.
     let userName = this.addUserData.userName
     let channelName = this.addUserData.channelName
-
+    console.log("test")
     this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
-      if(data[0] != undefined){
-        let userID = data[0].userID;
+      if(data != undefined){
+        console.log(data)
+
+        let userID = data.id;
 
         this.httpClient.post(BACKEND_URL + "/getChannelByChannelName", {channelName}, httpOptions).subscribe((data: any) =>{
-          let channelID = data.channelID;
+          console.log(data)
+          let channelID = data.id;
 
           this.addUserToChannel(userID, channelID)
         })
@@ -172,7 +175,7 @@ export class ChannelsComponent implements OnInit {
     })
   }
 
-  addUserToChannel(userID: string, channelID: string){
+  addUserToChannel(userID: number, channelID: number){
     this.httpClient.post(BACKEND_URL + "/addUserToChannel", {userID, channelID}, httpOptions).subscribe((data: any) =>{})
   }
 

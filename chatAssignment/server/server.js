@@ -10,8 +10,6 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json())
 app.use(cors());
 
-
-
 // Sockets
 const sockets = require("./socket.js");
 const io = require("socket.io")(http, {
@@ -53,24 +51,19 @@ MongoClient.connect(mongoURL, function(err, client){
     require("./api/channel.js").createChannel(db,app);
     require("./api/channel.js").deleteChannel(db,app);
     require("./api/channel.js").removeUserFromChannel(db,app);
-    // require("./api/channel.js").addUserToChannel(db,app);
+    require("./api/channel.js").addUserToChannel(db,app);
     require("./api/channel.js").getChannelByChannelName(db,app);
     require("./api/channel.js").getChannelsByUserID(db,app);
     // require("./api/channel.js").getChannel(db,app);
     require("./api/channel.js").getChannelsByGroupID(db,app);
 
-
-    // app.get('/getChannel', require("./api/channel.js").getChannel);
-    // app.post("/createChannel", require("./api/channel.js").createChannel);
-    // app.post("/deleteChannel", require("./api/channel.js").deleteChannel);
-    // app.post("/removeUserFromChannel", require("./api/channel.js").removeUserFromChannel);
-    // app.post("/addUserToChannel", require("./api/channel.js").addUserToChannel)
-    // app.post("/getChannelByChannelName", require("./api/channel.js").getChannelByChannelName)
-    // app.post('/getChannelsByUserID', require("./api/channel.js").getChannelByUserID)
-    // app.post('/getChannelsByGroupID', require("./api/channel.js").getChannelByGroupID);
-
     // chatHistory APIs ->
 
+    
+    // app.post('/getChannelHistory', require("./api/channel.js").getChannelHistoryByChannelID);
+    // app.post('/writeChannelHistory', require("./api/channel.js").writeChannelHistoryByChannelID);
+
+    
     // Users APIs ->
     require("./api/user.js").getAllUsers(db,app);
     require("./api/user.js").deleteUser(db,app);
@@ -81,6 +74,3 @@ MongoClient.connect(mongoURL, function(err, client){
     server.listen(http, PORT)
 })
 
-
-app.post('/getChannelHistory', require("./api/channel.js").getChannelHistoryByChannelID);
-app.post('/writeChannelHistory', require("./api/channel.js").writeChannelHistoryByChannelID);

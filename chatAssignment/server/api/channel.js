@@ -75,7 +75,7 @@ module.exports = {
 
             collection.find({'name': channelName}).toArray((err, data) => {
                 console.log("getChannelByChannelName: ", data)
-                res.send(data);
+                res.send(data[0]);
             })
         })
     },
@@ -104,29 +104,6 @@ module.exports = {
             })
         })
     },
-    
-    // function(req, res){
-    //     fs.readFile("./data/channels.json", 'utf8', function(err, data){
-    //         if (err) throw err;
-
-    //         let channelArray = JSON.parse(data);
-    //         let channelsData = [];
-    //         let groupID = req.body.groupID;
-    //         let userID = req.body.userID;
-            
-    //         channelArray.channels.map((el) => {
-    //             if(el.groupID == groupID){
-    //                 el.userID.map(channelUserID => {
-    //                     if(channelUserID == userID){
-    //                         channelsData.push(el);
-    //                     }
-    //                 })
-    //             }
-    //         })
-    //         res.send(channelsData);
-    //     })
-    // },
-
 
 
     getChannelsByGroupID: function(db, app){
@@ -136,7 +113,7 @@ module.exports = {
             let groupID = req.body.groupID;
             console.log("This is the groupID: ", groupID)
 
-            collection.find({id: parseInt(groupID)}).toArray((err, data) => {
+            collection.find({'groupID': parseInt(groupID)}).toArray((err, data) => {
                 console.log(data)
                 res.send(data)
             })
@@ -177,33 +154,21 @@ module.exports = {
     },
 
 
-    addUserToChannel: function(req, res){
-        fs.readFile("./data/channels.json", function(err, data){
-            let channelArray = JSON.parse(data);
-            let channelData = [];
-            let isUserInChannel = false;
-            let valid = true;
+    addUserToChannel: function(db, app){
+        app.post('/addUserToChannel', function(req, res){
+            const collection = db.collection('channels');
 
-            channelArray.channels.map(el => {
-                if(el.channelID == req.body.channelID){
-                    el.userID.map(userID=>{
-                        if(userID == req.body.userID){
-                            isUserInChannel = true
-                        }
-                    })
+            let userID = req.body.userID;
+            let channelID = req.body.channelID;
 
-                    if(!isUserInChannel){
-                        el.userID.push(req.body.userID)
-                    }
-                }
-                channelData.push(el)
-            })
+            //TODO: come back later and create code to check for duplicates.
+            collection.find({id: parseInt(channelID)}).toArray((err, data) => {
+                if (err) throw err
 
-            fs.writeFile("./data/channels.json", JSON.stringify({channels: channelData}), function(err){
-                if (err) throw err;
-                else {
-                    res.send(true)
-                }
+                data[0].userID.push(userID)
+
+                collection.updateOne({id: channelID}, {$set: {userID: data[0].userID}})
+                res.sendStatus(200);
             })
         })
     },
