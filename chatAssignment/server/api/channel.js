@@ -30,7 +30,6 @@ module.exports = {
     },
 
     deleteChannel: function(db, app){
-        //TODO: check to see if its working
         app.post('/deleteChannel', function(req, res){
             const collection = db.collection('channels');
             let channelID = req.body.channelID;
@@ -40,33 +39,63 @@ module.exports = {
         })
     },
 
-    removeUserFromChannel: function(req, res){
-        fs.readFile("./data/channels.json", 'utf8', function(err, data){
-            if (err) throw err;
-            let channelArray = JSON.parse(data);
-            let channelsData = [];
-            let userID = req.body.userID;
+    removeUserFromChannel: 
+    function(db, app){
+        //TODO: check to see if its working
+        app.post('/removeUserFromChannel', function(req, res){
+            const collection = db.collection('channels');
             let channelID = req.body.channelID;
+            let userID = req.body.userID;
+            
+            console.log(channelID)
 
-            channelArray.channels.map(el =>{
-                if(el.channelID == channelID){
-                    el.userID.map((userIDInChannel, index) => {
-                        if(userIDInChannel == userID){
-                            el.userID.splice(index,1)
-                        } 
-                    })
-                }
-                channelsData.push(el)
+            collection.find({id: parseInt(channelID)}).toArray((err, data) => {
+                console.log("data: ", data)
+                let newUserArray = []
+
+                data[0].userID.map(el => {
+                    if(el != userID){
+                        newUserArray.push(el)
+                    }
+                })
+                console.log(newUserArray)                    
+
+                collection.updateOne({id: parseInt(channelID)}, {$set: {userID: newUserArray}})
+                res.sendStatus(200);
             })
 
-            fs.writeFile("./data/channels.json", JSON.stringify({channels: channelsData}), function(err){
-                if (err) throw err;
-                else {
-                    res.send(true);
-                }
-            })
         })
     },
+    
+    // function(req, res){
+    //     fs.readFile("./data/channels.json", 'utf8', function(err, data){
+    //         if (err) throw err;
+    //         let channelArray = JSON.parse(data);
+    //         let channelsData = [];
+    //         let userID = req.body.userID;
+    //         let channelID = req.body.channelID;
+
+    //         channelArray.channels.map(el =>{
+    //             if(el.channelID == channelID){
+    //                 el.userID.map((userIDInChannel, index) => {
+    //                     if(userIDInChannel == userID){
+    //                         el.userID.splice(index,1)
+    //                     } 
+    //                 })
+    //             }
+    //             channelsData.push(el)
+    //         })
+
+    //         fs.writeFile("./data/channels.json", JSON.stringify({channels: channelsData}), function(err){
+    //             if (err) throw err;
+    //             else {
+    //                 res.send(true);
+    //             }
+    //         })
+    //     })
+    // },
+
+
     getChannelByChannelName: function(db, app){
         // TODO: need to fix this
         app.post('/getChannelByChannelName', function(req, res){
