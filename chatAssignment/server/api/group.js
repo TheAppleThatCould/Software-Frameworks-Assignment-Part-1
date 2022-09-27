@@ -42,7 +42,7 @@ module.exports = {
             res.sendStatus(200);
         })
     },
-    removeUserFromGroup:  function(db, app){
+    removeUserFromGroup: function(db, app){
         app.post('/removeUserFromGroup', function(req, res){
             const collection = db.collection('groups');
 
@@ -66,52 +66,27 @@ module.exports = {
             })
         })
     },
-    // function(req, res){
-    //     fs.readFile("./data/groups.json", 'utf8', function(err, data){
-    //         if (err) throw err;
-    //         let groupArray = JSON.parse(data);
-    //         let groupsData = [];
-    //         let userID = req.body.userID;
-    //         let groupID = req.body.groupID;
 
-    //         groupArray.groups.map(el =>{
-    //             if(el.groupID == groupID){
-    //                 el.userID.map((userIDInGroup, index) => {
-    //                     if(userIDInGroup == userID){
-    //                         el.userID.splice(index,1)
-    //                     } 
-    //                 })
-    //             }
-    //             groupsData.push(el)
-    //         })
-
-    //         fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
-    //             if (err) throw err;
-    //             else {
-    //                 res.send(true);
-    //             }
-    //         })
-    //     })
-    // },
-
-    getGroupDetailsByUserID: function(req, res){
-        fs.readFile("./data/groups.json", 'utf8', function(err, data){
-            if (err) throw err;
-
-            let groupArray = JSON.parse(data);
-            let groupsData = [];
+    getGroupsByUserID: function(db, app){
+        // Get all the groups that the user is a part of
+        app.post('/getGroupsByUserID', function(req, res){
+            const collection = db.collection('groups');
             let userID = req.body.userID;
-            
-            groupArray.groups.map((el) => {
-                el.userID.map((groupUserID) => {
-                    if(groupUserID == userID){
-                        groupsData.push(el)
-                    }
-                })
+
+            collection.find({}).toArray((err, data) => {
+                let groups = []
+                data.map(groupEl => {
+                    groupEl.userID.map(el => {
+                        if(el == userID){
+                            groups.push(groupEl)
+                        }
+                    })
+                })              
+                res.send(groups);
             })
-            res.send(groupsData);
         })
     },
+    
     getGroupsByGroupName: function(req, res){
         fs.readFile("./data/groups.json", 'utf8', function(err, data){
             if (err) throw err;

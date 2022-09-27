@@ -40,11 +40,11 @@ MongoClient.connect(mongoURL, function(err, client){
     require("./api/group.js").addUserToGroup(db,app);
     require("./api/group.js").deleteGroup(db,app);
     require("./api/group.js").removeUserFromGroup(db,app);
+    require("./api/group.js").getGroupsByUserID(db,app);
 
     // require("./api/group.js").createGroup(db,app);
     // require("./api/group.js").updateGroupAdmin(db,app);
     // require("./api/group.js").updateGroupAssistant(db,app);
-    // require("./api/group.js").getGroupDetailsByUserID(db,app);
     // require("./api/group.js").getGroupsByGroupName(db,app);
     // require("./api/group.js").getGroupsByGroupID(db,app);
 
@@ -58,9 +58,10 @@ MongoClient.connect(mongoURL, function(err, client){
     // app.post("/updateGroupAdmin", require("./api/group.js").updateGroupAdmin);
     // app.post("/updateGroupAssistant", require("./api/group.js").updateGroupAssistant);
 
-    app.post('/getGroupsByUserID', require("./api/group.js").getGroupDetailsByUserID);
     // app.post('/getGroupsByGroupName', require("./api/group.js").getGroupsByGroupName);
     // app.post('/getGroupsByGroupID', require("./api/group.js").getGroupsByGroupID);
+
+    // app.post('/getGroupsByUserID', require("./api/group.js").getGroupDetailsByUserID);
 
     // Channels APIs ->
 
