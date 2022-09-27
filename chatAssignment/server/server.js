@@ -57,7 +57,7 @@ MongoClient.connect(mongoURL, function(err, client){
     require("./api/channel.js").getChannelsByGroupID(db,app);
 
     // chatHistory APIs ->
-    // require("./api/channel.js").getChannelHistory(db,app);
+    require("./api/channel.js").getChannelHistoryByChannelID(db,app);
     require("./api/channel.js").writeChannelHistoryByChannelID(db,app);
 
 

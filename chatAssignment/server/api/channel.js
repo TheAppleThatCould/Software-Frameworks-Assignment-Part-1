@@ -121,26 +121,23 @@ module.exports = {
         })
     },
     
-    getChannelHistoryByChannelID: function(req, res){
-        fs.readFile("./data/chatHistory.json", 'utf8', function(err, data){
-            if (err) throw err;
-            let channelArray = JSON.parse(data);
-            let channelsHistoryData = [];
+    getChannelHistoryByChannelID: function(db, app){
+        app.post('/getChannelHistory', function(req, res){
+            const collection = db.collection('chatHistory');
             let channelID = req.body.channelID;
-            
-            channelArray.map((el) => {
-                if(el.channelID == channelID){
-                    channelsHistoryData.push(el);
-                }
-            })
+            console.log("This is the channelID: ", channelID)
 
-            res.send(channelsHistoryData);
+            collection.find({'channelID': parseInt(channelID)}).toArray((err, data) => {
+
+                console.log(data)
+                res.send(data)
+            })
         })
     },
 
     writeChannelHistoryByChannelID: function(db, app){
         app.post('/writeChannelHistory', function(req, res){
-            const collection = db.collection('channels');
+            const collection = db.collection('chatHistory');
             let chatMessage = req.body;
 
             collection.find().sort({id: -1}).toArray((err, data) => {
