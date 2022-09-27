@@ -1,10 +1,10 @@
 <h1>List of groups</h1>
 <ul>
     <li *ngFor="let group of groupArray">
-        <button (click)="navigateToGroup(group.groupID)">{{group.name}}</button>
+        <button (click)="navigateToGroup(group.id)">{{group.name}}</button>
 
         <!-- Only super user may delete this group -->
-        <button *ngIf="adminAccess <= 1" (click)="deleteGroup(group.groupID)">Delete</button>
+        <button *ngIf="adminAccess <= 1" (click)="deleteGroup(group.id)">Delete</button>
     </li>
 </ul>
 

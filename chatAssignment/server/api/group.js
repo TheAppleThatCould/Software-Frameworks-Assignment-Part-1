@@ -1,14 +1,45 @@
-var fs = require('fs')
+var fs = require('fs');
+const user = require('./user');
 
 module.exports = {
     getGroups: function(db, app){
         app.get('/getGroups', function(req, res){
             const collection = db.collection('groups');
-            
+
             collection.find({}).toArray((err, data) => {
                 console.log("getGroups: ", data)
                 res.send(data);
             })
+        })
+    },
+    addUserToGroup: function(db, app){
+        app.post('/addUserToGroup', function(req, res){
+            const collection = db.collection('groups');
+
+            let userID = req.body.userID;
+            let groupID = req.body.groupID;
+            console.log(userID, " ", parseInt(groupID))
+
+            //TODO: come back later and check for duplicates.
+            collection.find({id: parseInt(groupID)}).toArray((err, data) => {
+                console.log("data: ", data)
+                data[0].userID.push(userID)
+
+                collection.updateOne({id: groupID}, {$set: {userID: data[0].userID}})
+                res.sendStatus(200);
+            })
+        })
+    },
+    deleteGroup: function(db, app){
+        app.post('/deleteGroup', function(req, res){
+            const collection = db.collection('groups');
+
+            let groupID = req.body.groupID;
+            console.log(parseInt(groupID))
+
+
+            collection.deleteOne({id: parseInt(groupID)});
+            res.sendStatus(200);
         })
     },
     
@@ -17,67 +48,21 @@ module.exports = {
     //         if (err) throw err;
     //         let groupArray = JSON.parse(data);
     //         let groupsData = [];
+    //         let groupID = req.body.groupID;
 
     //         groupArray.groups.map(el =>{
-    //             groupsData.push(el)
+    //             if(el.groupID != groupID){
+    //                 groupsData.push(el)
+    //             }
     //         })
-
-    //         res.send(groupsData);
+    //         fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
+    //             if (err) throw err;
+    //             else {
+    //                 res.send(true);
+    //             }
+    //         })
     //     })
     // },
-    addUserToGroup: function(req, res){
-        fs.readFile("./data/groups.json", 'utf8', function(err, data){
-            if (err) throw err;
-            let groupArray = JSON.parse(data);
-            let groupsData = [];
-            let userID = req.body.userID;
-            let groupID = req.body.groupID;
-            let isInGroup = false
-
-            groupArray.groups.map(el =>{
-                if(el.groupID == groupID){
-                    el.userID.map(userIDInGroup =>{
-                        //checking to see if the user is already apart of the group
-                        if(userIDInGroup == userID){
-                            isInGroup = true
-                        }
-                    })
-                    if(!isInGroup){
-                        el.userID.push(userID)
-                     }
-                }
-                groupsData.push(el)
-            })
-
-            fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
-                if (err) throw err;
-                else {
-                    res.send(true);
-                }
-            })
-        })
-    },
-
-    deleteGroup: function(req, res){
-        fs.readFile("./data/groups.json", 'utf8', function(err, data){
-            if (err) throw err;
-            let groupArray = JSON.parse(data);
-            let groupsData = [];
-            let groupID = req.body.groupID;
-
-            groupArray.groups.map(el =>{
-                if(el.groupID != groupID){
-                    groupsData.push(el)
-                }
-            })
-            fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
-                if (err) throw err;
-                else {
-                    res.send(true);
-                }
-            })
-        })
-    },
     removeUserFromGroup:  function(req, res){
         fs.readFile("./data/groups.json", 'utf8', function(err, data){
             if (err) throw err;

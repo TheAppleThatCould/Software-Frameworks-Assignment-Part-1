@@ -9,7 +9,7 @@ const BACKEND_URL = "http://localhost:3000";
 
 
 interface GroupData {
-  groupID: string;
+  id: number;
   name: string;
   userID: string[];
   adminID: string;
@@ -29,9 +29,9 @@ export class GroupsComponent implements OnInit {
   userID: string = '';
 
   // The array that will contain all the groups the user is apart of.
-  groupArray = [{groupID: "", name: ""}];
+  groupArray = [{id: 0, name: ""}];
 
-  groupData: GroupData = {groupID: '', name: '', userID: [""], adminID: "", assistantID: [""]};
+  groupData: GroupData = {id: 0, name: '', userID: [""], adminID: "", assistantID: [""]};
   createUserDisplay: boolean = false;
 
   message: string = '';
@@ -67,7 +67,7 @@ export class GroupsComponent implements OnInit {
     })
   }
 
-  navigateToGroup(groupID: string){
+  navigateToGroup(groupID: number){
     // This function will redirect the user to a channel while preventing them from accessing a group they are not a part of.
     let userID = this.userID
     let displayMessage: boolean = true;
@@ -76,7 +76,7 @@ export class GroupsComponent implements OnInit {
 
       if(this.adminAccess > 1){
         groupArray.map(el => {
-          if(el.groupID == groupID){
+          if(el.id == groupID){
             this.router.navigateByUrl('/channels/' + groupID);
             displayMessage = false;
           }
@@ -98,9 +98,9 @@ export class GroupsComponent implements OnInit {
       //Get all groups and  create a new groupID by adding 1 to the last group's ID
       let groupArray = data;
       let lastIndex = groupArray.length
-      let newGroupID = parseInt(groupArray[lastIndex-1].groupID.substr(1)) + 1
+      let newGroupID = parseInt(groupArray[lastIndex-1].id.substr(1)) + 1
 
-      this.groupData.groupID = 'g00'+newGroupID;
+      // this.groupData.id = 'g00'+newGroupID;
       this.groupData.adminID = this.userID
       this.groupData.userID.push(this.userID)
       this.httpClient.post(BACKEND_URL + '/createGroup', this.groupData, httpOptions).subscribe((data: any) =>{})
@@ -108,7 +108,7 @@ export class GroupsComponent implements OnInit {
     })
   }
 
-  deleteGroup(groupID: string){
+  deleteGroup(groupID: number){
     this.httpClient.post(BACKEND_URL + '/deleteGroup', {groupID}, httpOptions).subscribe((data: any) =>{})
     
   }
