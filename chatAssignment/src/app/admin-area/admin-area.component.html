@@ -25,7 +25,7 @@
 
     <div *ngIf="userData != undefined && userData.userName != '' ">
         <h3>User Information: </h3>
-        <p>UserID: {{userData.userID}}</p>
+        <p>UserID: {{userData.id}}</p>
         <p>UserName: {{userData.userName}}</p>
         <p>Email: {{userData.email}}</p>
         <p>Birthday: {{userData.birthDate}}</p>
@@ -33,7 +33,7 @@
 
         <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateUserRole('super')">Update To SuperUser</button>
         <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateUserRole('normal')">Update To Normal</button>
-        <button mat-raised-button (click)="deleteUser(userData.userID)">Delete</button>
+        <button mat-raised-button (click)="deleteUser(userData.id)">Delete</button>
     </div>
 </div>
 
@@ -41,7 +41,7 @@
 <div *ngIf="createUserDisplay">
         <form>
             <label>UserID: </label>
-            <input type="text" id="userName" class="form-control" [(ngModel)]="userData.userID" name="userID"/>
+            <input type="text" id="userName" class="form-control" [(ngModel)]="userData.id" name="userID"/>
             <br>
 
             <label>UserName: </label>
@@ -80,12 +80,12 @@
 <div *ngIf="displayAllUsersDisplay">
     <div *ngFor="let user of userArray">
         <h3>Users Information: </h3>
-        <p>UserID: {{user.userID}}</p>
+        <p>UserID: {{user.id}}</p>
         <p>UserName: {{user.userName}}</p>
         <p>Email: {{user.email}}</p>
         <p>Birthday: {{user.birthDate}}</p>
         <p>Role: {{user.role}}</p>
-        <button mat-raised-button (click)="deleteUser(user.userID)">Delete</button>
+        <button mat-raised-button (click)="deleteUser(user.id)">Delete</button>
 
     </div>
 </div>

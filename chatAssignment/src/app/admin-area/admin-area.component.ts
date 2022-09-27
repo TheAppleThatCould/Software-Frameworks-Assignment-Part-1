@@ -16,7 +16,7 @@ interface UserData {
   age: number;
   password: string;
   role: string;
-  userID: string;
+  id: number;
   valid: boolean;
 }
 
@@ -44,7 +44,7 @@ export class AdminAreaComponent implements OnInit {
   adminAccess = 4;
 
   userName: string = ""
-  userData: UserData = {userName: "", email: "", birthDate: "", age: 0, password: "", role: "", userID: "", valid: false};
+  userData: UserData = {userName: "", email: "", birthDate: "", age: 0, password: "", role: "", id: 0, valid: false};
   userArray: UserData[] = [];
 
 
@@ -85,7 +85,8 @@ export class AdminAreaComponent implements OnInit {
     this.httpClient.post(BACKEND_URL + '/updateUser', this.userData, httpOptions).subscribe((data: any) =>{})
   }
 
-  deleteUser(userID: string){
+  deleteUser(userID: number){
+    console.log(userID)
     this.httpClient.post(BACKEND_URL + '/deleteUser', {userID}, httpOptions).subscribe((data: any) =>{})
   }
 
@@ -104,7 +105,7 @@ export class AdminAreaComponent implements OnInit {
 
   getAllUsers(){
     this.httpClient.get(BACKEND_URL + '/getAllUsers', httpOptions).subscribe((data: any) =>{
-      this.userArray = data.userDetails;
+      this.userArray = data;
     })
   }
 

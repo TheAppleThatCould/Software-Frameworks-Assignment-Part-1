@@ -4,7 +4,7 @@ module.exports = {
     getAllUsers: function(db, app){
         app.get('/getAllUsers', function(req, res){
             const collection = db.collection('users');
-            
+
             collection.find({}).toArray((err, data) => {
                 console.log("getAllUsers: ", data)
                 res.send(data);
@@ -12,24 +12,20 @@ module.exports = {
 
         })
     },
-    deleteUser:  function(req, res){
-        fs.readFile("./data/users.json", 'utf8', function(err, data){
-            if (err) throw err;
-            let userArray = JSON.parse(data);
-            let userData = [];
-            let userID = req.body.userID;
+    deleteUser: function(db, app){
+        app.post('/deleteUser', function(req, res){
 
-            userArray.userDetails.map(el=>{
-                if(el.userID != userID){
-                    userData.push(el)
-                }
-            })
-            
-            fs.writeFile("./data/users.json", JSON.stringify({userDetails: userData}), function(err){
-                if (err) throw err;
-            })
+            if(!req.body){
+                return res.sendStatus(400);
+            }
+            const userID = req.body.userID;
+            const collection = db.collection('users');
 
-            res.send(true);
+
+            collection.deleteOne({id: userID})
+
+            console.log("Delete! userID")
+            res.sendStatus(200)
         })
     },
     getUserByUserName: function(req, res){

@@ -1,23 +1,25 @@
 const express = require("express");
 const app = express();
-const cors = require("cors");
 const http = require("http").Server(app);
-const io = require("socket.io")(http, {
-    cors: {
-        orgin: "http://localhost:4200",
-        methods: ["GET", "POST"],
-    }
-});
-const sockets = require("./socket.js");
+const cors = require("cors");
 const server = require("./listen.js");
 
 const PORT = 3000;
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
-
 app.use(cors());
 
+
+
+// Sockets
+const sockets = require("./socket.js");
+const io = require("socket.io")(http, {
+    cors: {
+        orgin: "http://localhost:4200",
+        methods: ["GET", "POST"],
+    }
+});
 sockets.connect(io, PORT);
 
 //Database connection
@@ -41,7 +43,7 @@ MongoClient.connect(mongoURL, function(err, client){
 
     // Users APIs ->
     require("./api/user.js").getAllUsers(db,app);
-    // require("./api/user.js").deleteUser(db,app);
+    require("./api/user.js").deleteUser(db,app);
     // require("./api/user.js").getUserByUserName(db,app);
     // require("./api/user.js").updateUser(db,app);
     // require("./api/user.js").createUser(db,app);
