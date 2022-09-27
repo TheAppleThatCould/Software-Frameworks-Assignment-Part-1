@@ -23,8 +23,9 @@ export class LoginComponent implements OnInit {
 
   public formSubmit() {
     this.httpClient.post(BACKEND_URL + '/login', this.userDetail, httpOptions).subscribe((data: any) =>{
+      console.log("This is the data: ", data.userName);
       if(data.valid){
-        localStorage.setItem('userID', data.userID.toString());
+        localStorage.setItem('userID', data.id.toString());
         localStorage.setItem('userName', data.userName.toString());
         localStorage.setItem('birthDate', data.birthDate.toString());
         localStorage.setItem('age', data.age.toString());

@@ -20,9 +20,37 @@ app.use(cors());
 
 sockets.connect(io, PORT);
 
-server.listen(http, PORT)
+//Database connection
+const MongoClient = require("mongodb").MongoClient;
+const mongoURL = "mongodb://localhost:27017/";
 
-app.post('/login', require("./api/auth.js"));
+MongoClient.connect(mongoURL, function(err, client){
+    if(err) throw err;
+
+    const dbName = "ChatAssignment";
+    const db = client.db(dbName);
+
+    // Auth APIs ->
+    require("./api/auth.js").login(db,app);
+
+    // Groups APIs ->
+
+    // Channels APIs ->
+
+    // chatHistory APIs ->
+
+    // Users APIs ->
+    // require("./api/user.js").getAllUsers(db,app);
+    // require("./api/user.js").deleteUser(db,app);
+    // require("./api/user.js").getUserByUserName(db,app);
+    // require("./api/user.js").updateUser(db,app);
+    // require("./api/user.js").createUser(db,app);
+
+    server.listen(http, PORT)
+})
+
+
+
 
 app.get('/getGroups', require("./api/group.js").getGroups);
 app.post('/createGroup', require("./api/group.js").createGroup);
@@ -39,7 +67,7 @@ app.post('/getGroupsByGroupName', require("./api/group.js").getGroupsByGroupName
 app.post('/getGroupsByGroupID', require("./api/group.js").getGroupsByGroupID);
 
 app.get('/getChannel', require("./api/channel.js").getChannel);
-app.post("/createChannel", require("./api/channel.js").createChannel)
+app.post("/createChannel", require("./api/channel.js").createChannel);
 app.post("/deleteChannel", require("./api/channel.js").deleteChannel);
 app.post("/removeUserFromChannel", require("./api/channel.js").removeUserFromChannel);
 app.post("/addUserToChannel", require("./api/channel.js").addUserToChannel)
@@ -52,9 +80,9 @@ app.post('/getChannelHistory', require("./api/channel.js").getChannelHistoryByCh
 app.post('/writeChannelHistory', require("./api/channel.js").writeChannelHistoryByChannelID);
 
 
-app.get("/getAllUsers", require("./api/user.js").getAllUsers)
-app.post("/deleteUser", require("./api/user.js").deleteUser);
-app.post('/getUserByUserName', require("./api/user.js").getUserByUserName);
-app.post('/updateUser', require("./api/user.js").updateUser);
-app.post('/createUser', require("./api/user.js").createUser)
+// app.get("/getAllUsers", require("./api/user.js").getAllUsers);
+// app.post("/deleteUser", require("./api/user.js").deleteUser);
+// app.post('/getUserByUserName', require("./api/user.js").getUserByUserName);
+// app.post('/updateUser', require("./api/user.js").updateUser);
+// app.post('/createUser', require("./api/user.js").createUser);
 
