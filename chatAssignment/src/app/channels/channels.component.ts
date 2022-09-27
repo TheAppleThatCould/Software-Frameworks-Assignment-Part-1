@@ -135,8 +135,7 @@ export class ChannelsComponent implements OnInit {
     let displayMessage = true;
 
     this.httpClient.post(BACKEND_URL + "/getChannelByChannelName", {channelName}, httpOptions).subscribe((data: any) =>{
-      let channelData: ChannelData = data;
-      
+      let channelData: ChannelData = data[0];
       channelData.userID.map(channelUserID => {
         if(channelUserID == userID){
           this.router.navigateByUrl('/chatArea/' + channelData.id);
