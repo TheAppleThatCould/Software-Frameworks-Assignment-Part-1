@@ -54,16 +54,18 @@ MongoClient.connect(mongoURL, function(err, client){
     require("./api/channel.js").addUserToChannel(db,app);
     require("./api/channel.js").getChannelByChannelName(db,app);
     require("./api/channel.js").getChannelsByUserID(db,app);
-    // require("./api/channel.js").getChannel(db,app);
     require("./api/channel.js").getChannelsByGroupID(db,app);
 
     // chatHistory APIs ->
+    // require("./api/channel.js").getChannelHistory(db,app);
+    require("./api/channel.js").writeChannelHistoryByChannelID(db,app);
+
 
     
     // app.post('/getChannelHistory', require("./api/channel.js").getChannelHistoryByChannelID);
     // app.post('/writeChannelHistory', require("./api/channel.js").writeChannelHistoryByChannelID);
 
-    
+
     // Users APIs ->
     require("./api/user.js").getAllUsers(db,app);
     require("./api/user.js").deleteUser(db,app);

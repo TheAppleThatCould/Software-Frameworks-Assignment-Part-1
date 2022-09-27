@@ -105,7 +105,6 @@ module.exports = {
         })
     },
 
-
     getChannelsByGroupID: function(db, app){
         // Get all the groups that the user is a part of
         app.post('/getChannelsByGroupID', function(req, res){
@@ -121,7 +120,6 @@ module.exports = {
     
         })
     },
-
     
     getChannelHistoryByChannelID: function(req, res){
         fs.readFile("./data/chatHistory.json", 'utf8', function(err, data){
@@ -140,17 +138,23 @@ module.exports = {
         })
     },
 
-    writeChannelHistoryByChannelID: function(req, res){
-        fs.readFile("./data/chatHistory.json", function(err, data){
-            let chatHistoryArray = JSON.parse(data);
-            chatHistoryArray.push(req.body)
+    writeChannelHistoryByChannelID: function(db, app){
+        app.post('/writeChannelHistory', function(req, res){
+            const collection = db.collection('channels');
+            let chatMessage = req.body;
 
-            fs.writeFile("./data/chatHistory.json", JSON.stringify(chatHistoryArray), function(err){
-                if (err) throw err;
+            collection.find().sort({id: -1}).toArray((err, data) => {
+                let chatMessageID = data[0].id + 1
+                let message = {id: chatMessageID, channelID: parseInt(chatMessage.channelID), userID: parseInt(chatMessage.userID),
+                                userName: chatMessage.userName, message: chatMessage.message}
+                console.log("This is the new message: ", message)
+
+                collection.insertOne(message, (err, dbres) => {
+                    if (err) throw err;
+                    res.sendStatus(200)
+                })
             })
         })
-
-        res.send(true)
     },
 
 
