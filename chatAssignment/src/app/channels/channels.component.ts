@@ -50,7 +50,7 @@ export class ChannelsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private httpClient: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
-    this.groupID =  this.route.snapshot.params['id'];
+    this.groupID = parseInt(this.route.snapshot.params['id']);
     let userIDString = localStorage.getItem("userID") || '';
     this.userID = parseInt(userIDString);
 
@@ -150,23 +150,9 @@ export class ChannelsComponent implements OnInit {
   }
 
   createChannel(){
-    // A function that will create a channel that grants access permission to all users apart of the same group.
-    let groupID = this.groupID;
-    this.httpClient.post(BACKEND_URL + "/getGroupsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
-      this.channelData.groupID = this.groupID;
-      this.channelData.userID = data.userID;
-
-      this.httpClient.get(BACKEND_URL + "/getChannel", httpOptions).subscribe((data: any) =>{
-        let channelArray = data.channels
-        let newChannelID = parseInt(channelArray[channelArray.length-1].channelID.substr(1)) + 1
-        // this.channelData.id = "c"+newChannelID
-
-        this.httpClient.post(BACKEND_URL + "/createChannel", this.channelData, httpOptions).subscribe((data: any) =>{})
-
-      })
-
-      
-    })
+    let newChannel: ChannelData = {id: 0, name: this.channelData.name, groupID: this.groupID, userID: [this.userID]};
+    console.log("New Channel data: ", newChannel)
+    this.httpClient.post(BACKEND_URL + "/createChannel", newChannel, httpOptions).subscribe((data: any) =>{});
   }
 
   getUserAndChannelID(){

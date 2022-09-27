@@ -11,27 +11,35 @@ module.exports = {
             })
         })
     },
+    
+    createChannel: function(db, app){
+        app.post('/createChannel', function(req, res){
+            const collection = db.collection('channels');
+            let channel = req.body
+            console.log("This is the channel: ", channel)
 
-    deleteChannel: function(req, res){
-        fs.readFile("./data/channels.json", 'utf8', function(err, data){
-            if (err) throw err;
-            let channelArray = JSON.parse(data);
-            let channelsData = [];
-            let channelID = req.body.channelID;
+            collection.find().sort({id: -1}).toArray((err, data) => {
+                channel.id = data[0].id + 1
 
-            channelArray.channels.map(el =>{
-                if(el.channelID != channelID){
-                    channelsData.push(el)
-                }
-            })
-            fs.writeFile("./data/channels.json", JSON.stringify({channels: channelsData}), function(err){
-                if (err) throw err;
-                else {
-                    res.send(true);
-                }
+                collection.insertOne(channel, (err, dbres) => {
+                    if (err) throw err;
+                    res.sendStatus(200)
+                })
             })
         })
     },
+
+    deleteChannel: function(db, app){
+        //TODO: check to see if its working
+        app.post('/deleteChannel', function(req, res){
+            const collection = db.collection('channels');
+            let channelID = req.body.channelID;
+            
+            collection.deleteOne({id: parseInt(channelID)});
+            res.sendStatus(200);
+        })
+    },
+
     removeUserFromChannel: function(req, res){
         fs.readFile("./data/channels.json", 'utf8', function(err, data){
             if (err) throw err;
@@ -59,23 +67,22 @@ module.exports = {
             })
         })
     },
-    getChannelByChannelName: function(req, res){
-        fs.readFile("./data/channels.json", 'utf8', function(err, data){
-            if (err) throw err;
+    getChannelByChannelName: function(db, app){
+        // TODO: need to fix this
+        app.post('/getChannelByChannelName', function(req, res){
+            const collection = db.collection('channels');
+            let channelName = req.body.channelName
+            console.log("TESt")
 
-            let channelArray = JSON.parse(data);
-            let channelsData = {};
-            let channelName = req.body.channelName;
-            
-            channelArray.channels.map((el) => {
-                if(el.name == channelName){
-                    channelsData = el;
-                }
+            collection.find({'name': channelName}).toArray((err, data) => {
+                console.log("getChannelByChannelName: ", data)
+                res.send(data);
             })
-
-            res.send(channelsData);
         })
     },
+    
+
+
     getChannelByUserID: function(req, res){
         fs.readFile("./data/channels.json", 'utf8', function(err, data){
             if (err) throw err;
@@ -144,31 +151,6 @@ module.exports = {
         res.send(true)
     },
 
-    createChannel: function(req, res){
-        fs.readFile("./data/channels.json", function(err, data){
-            let channelArray = JSON.parse(data);
-            let channelsData = [];
-            let valid = true;
-
-            channelArray.channels.map(el => {
-                channelsData.push(el);
-
-                if(el.channelID == req.body.channelID){
-                    valid = false
-                }
-            })
-            channelsData.push(req.body)
-
-            if(valid){
-                fs.writeFile("./data/channels.json", JSON.stringify({channels: channelsData}), function(err){
-                    if (err) throw err;
-                })
-                res.send(true)
-            } else {
-                res.send(false)
-            }
-        })
-    },
 
     addUserToChannel: function(req, res){
         fs.readFile("./data/channels.json", function(err, data){

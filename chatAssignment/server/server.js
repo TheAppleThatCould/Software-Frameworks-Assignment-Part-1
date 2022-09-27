@@ -50,11 +50,11 @@ MongoClient.connect(mongoURL, function(err, client){
     // Channels APIs ->
 
     require("./api/channel.js").getChannel(db,app);
-    // require("./api/channel.js").createChannel(db,app);
-    // require("./api/channel.js").deleteChannel(db,app);
+    require("./api/channel.js").createChannel(db,app);
+    require("./api/channel.js").deleteChannel(db,app);
     // require("./api/channel.js").removeUserFromChannel(db,app);
     // require("./api/channel.js").addUserToChannel(db,app);
-    // require("./api/channel.js").getChannelByChannelName(db,app);
+    require("./api/channel.js").getChannelByChannelName(db,app);
     // require("./api/channel.js").getChannelsByUserID(db,app);
     // require("./api/channel.js").getChannel(db,app);
     require("./api/channel.js").getChannelsByGroupID(db,app);

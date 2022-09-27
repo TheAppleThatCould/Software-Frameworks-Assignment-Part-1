@@ -34,7 +34,6 @@ module.exports = {
             let groupID = req.body.groupID;
             console.log(parseInt(groupID))
 
-
             collection.deleteOne({id: parseInt(groupID)});
             res.sendStatus(200);
         })
