@@ -42,19 +42,49 @@ module.exports = {
             res.sendStatus(200);
         })
     },
-    
+    removeUserFromGroup:  function(db, app){
+        app.post('/removeUserFromGroup', function(req, res){
+            const collection = db.collection('groups');
+
+            let userID = req.body.userID;
+            let groupID = req.body.groupID;
+            console.log(parseInt(groupID))
+
+            collection.find({id: parseInt(groupID)}).toArray((err, data) => {
+                console.log("data: ", data)
+                let newUserArray = []
+
+                data[0].userID.map(el => {
+                    if(el != userID){
+                        newUserArray.push(el)
+                    }
+                })
+                console.log(newUserArray)                    
+
+                collection.updateOne({id: parseInt(groupID)}, {$set: {userID: newUserArray}})
+                res.sendStatus(200);
+            })
+        })
+    },
     // function(req, res){
     //     fs.readFile("./data/groups.json", 'utf8', function(err, data){
     //         if (err) throw err;
     //         let groupArray = JSON.parse(data);
     //         let groupsData = [];
+    //         let userID = req.body.userID;
     //         let groupID = req.body.groupID;
 
     //         groupArray.groups.map(el =>{
-    //             if(el.groupID != groupID){
-    //                 groupsData.push(el)
+    //             if(el.groupID == groupID){
+    //                 el.userID.map((userIDInGroup, index) => {
+    //                     if(userIDInGroup == userID){
+    //                         el.userID.splice(index,1)
+    //                     } 
+    //                 })
     //             }
+    //             groupsData.push(el)
     //         })
+
     //         fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
     //             if (err) throw err;
     //             else {
@@ -63,33 +93,6 @@ module.exports = {
     //         })
     //     })
     // },
-    removeUserFromGroup:  function(req, res){
-        fs.readFile("./data/groups.json", 'utf8', function(err, data){
-            if (err) throw err;
-            let groupArray = JSON.parse(data);
-            let groupsData = [];
-            let userID = req.body.userID;
-            let groupID = req.body.groupID;
-
-            groupArray.groups.map(el =>{
-                if(el.groupID == groupID){
-                    el.userID.map((userIDInGroup, index) => {
-                        if(userIDInGroup == userID){
-                            el.userID.splice(index,1)
-                        } 
-                    })
-                }
-                groupsData.push(el)
-            })
-
-            fs.writeFile("./data/groups.json", JSON.stringify({groups: groupsData}), function(err){
-                if (err) throw err;
-                else {
-                    res.send(true);
-                }
-            })
-        })
-    },
 
     getGroupDetailsByUserID: function(req, res){
         fs.readFile("./data/groups.json", 'utf8', function(err, data){

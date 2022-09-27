@@ -39,9 +39,9 @@ MongoClient.connect(mongoURL, function(err, client){
     require("./api/group.js").getGroups(db,app);
     require("./api/group.js").addUserToGroup(db,app);
     require("./api/group.js").deleteGroup(db,app);
+    require("./api/group.js").removeUserFromGroup(db,app);
 
     // require("./api/group.js").createGroup(db,app);
-    // require("./api/group.js").removeUserFromGroup(db,app);
     // require("./api/group.js").updateGroupAdmin(db,app);
     // require("./api/group.js").updateGroupAssistant(db,app);
     // require("./api/group.js").getGroupDetailsByUserID(db,app);

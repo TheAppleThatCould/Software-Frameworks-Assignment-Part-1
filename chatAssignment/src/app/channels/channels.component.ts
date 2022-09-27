@@ -210,8 +210,8 @@ export class ChannelsComponent implements OnInit {
     let userName = this.addUserData.userName;
 
     this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
-      if(data[0] != undefined){
-        let userID = data[0].userID;
+      if(data != undefined){
+        let userID = data.id;
         this.httpClient.post(BACKEND_URL + "/removeUserFromGroup", {userID, groupID}, httpOptions).subscribe((data: any) =>{})
       }
     })
