@@ -254,7 +254,7 @@ export class ChannelsComponent implements OnInit {
     let userName = this.addUserData.userName
 
     this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
-      data[0].role = role;
+      data.role = role;
       let userData = data;
       this.httpClient.post(BACKEND_URL + '/updateUser', userData, httpOptions).subscribe((data: any) =>{})
     })
@@ -271,7 +271,7 @@ export class ChannelsComponent implements OnInit {
       groupData = data;
 
       this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
-        let userID = data[0].userID;
+        let userID = data.id;
 
         if(deleteAction){
           //Remove the userID from assistantID Array if the array contain that user
@@ -297,4 +297,7 @@ export class ChannelsComponent implements OnInit {
       })
     })
   }
+
+
+  
 }
