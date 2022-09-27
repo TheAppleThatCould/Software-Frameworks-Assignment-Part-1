@@ -101,22 +101,22 @@ module.exports = {
     },
 
 
-    getGroupsByGroupID: function(req, res){
-        fs.readFile("./data/groups.json", 'utf8', function(err, data){
-            if (err) throw err;
-            let groupArray = JSON.parse(data);
-            let groupData = {};
+    getGroupsByGroupID: function(db, app){
+        //TODO: double check this is working
+        app.post('/getGroupsByGroupID', function(req, res){
+            const collection = db.collection('groups');
             let groupID = req.body.groupID;
-            
-            groupArray.groups.map((el) => {
-                if(el.groupID == groupID){
-                    groupData = el;
-                }
-            })
 
-            res.send(groupData);
+            collection.find({id: parseInt(groupID)}).toArray((err, data) => {
+                if (err) throw err;
+                console.log("This is the group by groupID" + data[0])
+                res.send(data[0]);
+            })
         })
     },
+
+    
+    
     createGroup: function(req, res){
         fs.readFile("./data/groups.json", 'utf8', function(err, data){
             if (err) throw err;
