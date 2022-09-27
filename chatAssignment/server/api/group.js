@@ -86,23 +86,21 @@ module.exports = {
             })
         })
     },
-    
-    getGroupsByGroupName: function(req, res){
-        fs.readFile("./data/groups.json", 'utf8', function(err, data){
-            if (err) throw err;
-            let groupArray = JSON.parse(data);
-            let groupData = {};
-            let groupName = req.body.groupName;
-            
-            groupArray.groups.map((el) => {
-                if(el.name == groupName){
-                    groupData = el;
-                }
-            })
 
-            res.send(groupData);
+    getGroupsByGroupName: function(db, app){
+        //TODO: double check this is working
+        app.post('/getGroupsByGroupName', function(req, res){
+            const collection = db.collection('groups');
+            let groupName = req.body.groupName;
+
+            collection.find({name: groupName}).toArray((err, data) => {
+                if (err) throw err;
+                res.send(data);
+            })
         })
     },
+
+
     getGroupsByGroupID: function(req, res){
         fs.readFile("./data/groups.json", 'utf8', function(err, data){
             if (err) throw err;
