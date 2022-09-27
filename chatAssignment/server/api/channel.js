@@ -1,4 +1,5 @@
-var fs = require('fs')
+var fs = require('fs');
+const user = require('./user');
 
 module.exports = {
     getChannel: function(db, app){
@@ -66,38 +67,7 @@ module.exports = {
 
         })
     },
-    
-    // function(req, res){
-    //     fs.readFile("./data/channels.json", 'utf8', function(err, data){
-    //         if (err) throw err;
-    //         let channelArray = JSON.parse(data);
-    //         let channelsData = [];
-    //         let userID = req.body.userID;
-    //         let channelID = req.body.channelID;
-
-    //         channelArray.channels.map(el =>{
-    //             if(el.channelID == channelID){
-    //                 el.userID.map((userIDInChannel, index) => {
-    //                     if(userIDInChannel == userID){
-    //                         el.userID.splice(index,1)
-    //                     } 
-    //                 })
-    //             }
-    //             channelsData.push(el)
-    //         })
-
-    //         fs.writeFile("./data/channels.json", JSON.stringify({channels: channelsData}), function(err){
-    //             if (err) throw err;
-    //             else {
-    //                 res.send(true);
-    //             }
-    //         })
-    //     })
-    // },
-
-
     getChannelByChannelName: function(db, app){
-        // TODO: need to fix this
         app.post('/getChannelByChannelName', function(req, res){
             const collection = db.collection('channels');
             let channelName = req.body.channelName
@@ -112,27 +82,53 @@ module.exports = {
     
 
 
-    getChannelByUserID: function(req, res){
-        fs.readFile("./data/channels.json", 'utf8', function(err, data){
-            if (err) throw err;
+    getChannelsByUserID: function(db, app){
+        app.post('/getChannelsByUserID', function(req, res){
+            const collection = db.collection('channels');
+            let userID = req.body.userID
+            console.log("TESt")
 
-            let channelArray = JSON.parse(data);
-            let channelsData = [];
-            let groupID = req.body.groupID;
-            let userID = req.body.userID;
-            
-            channelArray.channels.map((el) => {
-                if(el.groupID == groupID){
-                    el.userID.map(channelUserID => {
-                        if(channelUserID == userID){
-                            channelsData.push(el);
+            collection.find({}).toArray((err, data) => {
+                let channels = [];
+                console.log("getChannelByChannelName: ", data)
+                data.map(el =>{
+                    el.userID.map(userIDElement => {
+                        if(el.userID == userID){
+                            channels.push(el)
                         }
                     })
-                }
+                })
+                console.log("These are the channels from getChannelsByUserID: ",channels)
+
+                res.send(channels);
             })
-            res.send(channelsData);
         })
     },
+    
+    // function(req, res){
+    //     fs.readFile("./data/channels.json", 'utf8', function(err, data){
+    //         if (err) throw err;
+
+    //         let channelArray = JSON.parse(data);
+    //         let channelsData = [];
+    //         let groupID = req.body.groupID;
+    //         let userID = req.body.userID;
+            
+    //         channelArray.channels.map((el) => {
+    //             if(el.groupID == groupID){
+    //                 el.userID.map(channelUserID => {
+    //                     if(channelUserID == userID){
+    //                         channelsData.push(el);
+    //                     }
+    //                 })
+    //             }
+    //         })
+    //         res.send(channelsData);
+    //     })
+    // },
+
+
+
     getChannelsByGroupID: function(db, app){
         // Get all the groups that the user is a part of
         app.post('/getChannelsByGroupID', function(req, res){
