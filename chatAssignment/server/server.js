@@ -40,7 +40,7 @@ MongoClient.connect(mongoURL, function(err, client){
     // chatHistory APIs ->
 
     // Users APIs ->
-    // require("./api/user.js").getAllUsers(db,app);
+    require("./api/user.js").getAllUsers(db,app);
     // require("./api/user.js").deleteUser(db,app);
     // require("./api/user.js").getUserByUserName(db,app);
     // require("./api/user.js").updateUser(db,app);

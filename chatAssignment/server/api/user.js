@@ -1,11 +1,15 @@
 var fs = require('fs')
 
 module.exports = {
-    getAllUsers: function(req, res){
-        fs.readFile("./data/users.json", 'utf8', function(err, data){
-            if (err) throw err;
-            let userArray = JSON.parse(data);
-            res.send(userArray);
+    getAllUsers: function(db, app){
+        app.get('/getAllUsers', function(req, res){
+            const collection = db.collection('users');
+            
+            collection.find({}).toArray((err, data) => {
+                console.log("getAllUsers: ", data)
+                res.send(data);
+            })
+
         })
     },
     deleteUser:  function(req, res){
