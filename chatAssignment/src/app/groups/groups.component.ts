@@ -11,9 +11,9 @@ const BACKEND_URL = "http://localhost:3000";
 interface GroupData {
   id: number;
   name: string;
-  userID: string[];
-  adminID: string;
-  assistantID: string[];
+  userID: number[];
+  adminID: number;
+  assistantID: number[];
 }
 
 @Component({
@@ -31,7 +31,7 @@ export class GroupsComponent implements OnInit {
   // The array that will contain all the groups the user is apart of.
   groupArray = [{id: 0, name: ""}];
 
-  groupData: GroupData = {id: 0, name: '', userID: [""], adminID: "", assistantID: [""]};
+  groupData: GroupData = {id: 0, name: '', userID: [0], adminID: 0, assistantID: [0]};
   createUserDisplay: boolean = false;
 
   message: string = '';
@@ -94,18 +94,9 @@ export class GroupsComponent implements OnInit {
   }
 
   createGroup(){
-    this.httpClient.get(BACKEND_URL + '/getGroups', httpOptions).subscribe((data: any) =>{
-      //Get all groups and  create a new groupID by adding 1 to the last group's ID
-      let groupArray = data;
-      let lastIndex = groupArray.length
-      let newGroupID = parseInt(groupArray[lastIndex-1].id.substr(1)) + 1
+    let groups = this.groupData;
 
-      // this.groupData.id = 'g00'+newGroupID;
-      this.groupData.adminID = this.userID
-      this.groupData.userID.push(this.userID)
-      this.httpClient.post(BACKEND_URL + '/createGroup', this.groupData, httpOptions).subscribe((data: any) =>{})
-
-    })
+    this.httpClient.post(BACKEND_URL + '/createGroup', groups, httpOptions).subscribe((data: any) =>{})
   }
 
   deleteGroup(groupID: number){

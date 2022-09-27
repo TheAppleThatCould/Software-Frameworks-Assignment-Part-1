@@ -117,30 +117,52 @@ module.exports = {
 
     
     
-    createGroup: function(req, res){
-        fs.readFile("./data/groups.json", 'utf8', function(err, data){
-            if (err) throw err;
-            let groupArray = JSON.parse(data);
-            let validGroup = true;
+    createGroup: function(db, app){
+        //TODO: double check this is working
+        app.post('/createGroup', function(req, res){
+            const collection = db.collection('groups');
+            let group = req.body;
 
-            groupArray.groups.map((el) => {
-                if(el.name == req.body.name || el.groupID == req.body.groupID){
-                    validGroup = false
-                }
-            })
+            // Get the last element in the groups collection and increment the id by 1 then add it to the new group.
+            collection.find().sort({id: -1}).limit(1).toArray((err, data) =>{
+                group.id = data[0].id + 1
 
-            groupArray.groups.push(req.body)
-
-            if(validGroup){
-                fs.writeFile("./data/groups.json", JSON.stringify(groupArray), function(err){
+                collection.insertOne(group, (err, dbres) => {
                     if (err) throw err;
+                    res.sendStatus(200)
                 })
-                res.send(true);
-            } else {
-                res.send(false);
-            }
+            });
+
         })
     },
+    
+    
+    // function(req, res){
+    //     fs.readFile("./data/groups.json", 'utf8', function(err, data){
+    //         if (err) throw err;
+    //         let groupArray = JSON.parse(data);
+    //         let validGroup = true;
+
+    //         groupArray.groups.map((el) => {
+    //             if(el.name == req.body.name || el.groupID == req.body.groupID){
+    //                 validGroup = false
+    //             }
+    //         })
+
+    //         groupArray.groups.push(req.body)
+
+    //         if(validGroup){
+    //             fs.writeFile("./data/groups.json", JSON.stringify(groupArray), function(err){
+    //                 if (err) throw err;
+    //             })
+    //             res.send(true);
+    //         } else {
+    //             res.send(false);
+    //         }
+    //     })
+    // },
+
+
     updateGroupAdmin:  function(req, res){
         fs.readFile("./data/groups.json", 'utf8', function(err, data){
             if (err) throw err;

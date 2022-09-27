@@ -1,5 +1,3 @@
-var fs = require('fs')
-
 module.exports = {
     getAllUsers: function(db, app){
         app.get('/getAllUsers', function(req, res){
@@ -20,7 +18,6 @@ module.exports = {
             }
             const userID = req.body.userID;
             const collection = db.collection('users');
-
 
             collection.deleteOne({id: userID});
 
