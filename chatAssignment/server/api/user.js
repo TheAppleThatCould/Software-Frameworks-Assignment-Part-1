@@ -44,29 +44,35 @@ module.exports = {
             })
         })
     },
-    updateUser: function(req, res){
-        fs.readFile("./data/users.json", 'utf8', function(err, data){
-            if (err) throw err;
+    updateUser: function(db, app){
+        app.post('/updateUser', function(req, res){
 
-            let userArray = JSON.parse(data);
-            let userData = [];
-            let userName = req.body.userName;
+            if(!req.body){
+                return res.sendStatus(400);
+            }
+            const userName = req.body.userName;
+            const collection = db.collection('users');
 
-            userArray.userDetails.map((el) => {
-                if(el.userName == userName){
-                    userData.push(req.body);
-                } else {
-                    userData.push(el)
+            console.log("req.body: ", req.body);
+
+            
+            collection.update(
+                {'userName': userName},
+                {
+                    $set: {
+                        'userName': req.body.userName,
+                        'birthDate': req.body.birthDate,
+                        'age': req.body.age,
+                        'email': req.body.email,
+                        'password': req.body.password,
+                        'role': req.body.role,
+                        'valid': req.body.valid,
+                    }
                 }
-            })
-
-            fs.writeFile("./data/users.json", JSON.stringify({userDetails: userData}), function(err){
-                if (err) throw err;
-            })
-            res.send(true)
+            );
+            res.sendStatus(200)
         })
     },
-
     createUser: function(req, res){
         fs.readFile("./data/users.json", 'utf8', function(err, data){
             if (err) throw err;
