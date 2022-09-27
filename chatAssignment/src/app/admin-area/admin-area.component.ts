@@ -76,7 +76,7 @@ export class AdminAreaComponent implements OnInit {
 
   searchUser(userName: string){
     this.httpClient.post(BACKEND_URL + '/getUserByUserName', {userName}, httpOptions).subscribe((data: any) =>{
-      this.userData = data[0];
+      this.userData = data;
     })
   }
 

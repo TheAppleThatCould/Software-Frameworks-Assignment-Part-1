@@ -22,26 +22,26 @@ module.exports = {
             const collection = db.collection('users');
 
 
-            collection.deleteOne({id: userID})
+            collection.deleteOne({id: userID});
 
-            console.log("Delete! userID")
-            res.sendStatus(200)
+            console.log("Delete! userID: ", userID);
+            res.sendStatus(200);
         })
     },
-    getUserByUserName: function(req, res){
-        fs.readFile("./data/users.json", 'utf8', function(err, data){
-            if (err) throw err;
+    getUserByUserName: function(db, app){
+        app.post('/getUserByUserName', function(req, res){
 
-            let userArray = JSON.parse(data);
-            let userData = [];
-            let userName = req.body.userName;
-            userArray.userDetails.map((el) => {
-                if(el.userName == userName){
-                    userData.push(el);
-                }
+            if(!req.body){
+                return res.sendStatus(400);
+            }
+            const userName = req.body.userName;
+            const collection = db.collection('users');
+
+            console.log("userName: ", userName);
+
+            collection.find({'userName': userName}).toArray((err, data) => {
+                res.send(data[0])
             })
-
-            res.send(userData);
         })
     },
     updateUser: function(req, res){
