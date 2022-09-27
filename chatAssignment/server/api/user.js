@@ -54,7 +54,6 @@ module.exports = {
             const collection = db.collection('users');
 
             console.log("req.body: ", req.body);
-
             
             collection.update(
                 {'userName': userName},
@@ -73,32 +72,21 @@ module.exports = {
             res.sendStatus(200)
         })
     },
-    createUser: function(req, res){
-        fs.readFile("./data/users.json", 'utf8', function(err, data){
-            if (err) throw err;
+    createUser: function(db, app){
+        app.post('/createUser', function(req, res){
 
-            let userArray = JSON.parse(data);
-            let validUser = true;
-
-            //Check if there is already a user with that userName and password
-            userArray.userDetails.map((el) => {
-                if(el.userName == req.body.userName || el.userID == req.body.userID){
-                    validUser = false
-                }
-            })
-
-            userArray.userDetails.push(req.body)
-
-            if(validUser){
-                fs.writeFile("./data/users.json", JSON.stringify(userArray), function(err){
-                    if (err) throw err;
-                })
-                console.log("User is valid")
-                res.send(true)
-            }else {
-                console.log("User not valid")
-                res.send(false)
+            if(!req.body){
+                return res.sendStatus(400);
             }
+            const user = req.body;
+            const collection = db.collection('users');
+
+            console.log("req.body: ", req.body);
+            
+            collection.insertOne(user, (err, dbres) => {
+                if (err) throw err;
+            })
+            res.sendStatus(200)
         })
-    },
+    }
 };

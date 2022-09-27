@@ -46,7 +46,7 @@ MongoClient.connect(mongoURL, function(err, client){
     require("./api/user.js").deleteUser(db,app);
     require("./api/user.js").getUserByUserName(db,app);
     require("./api/user.js").updateUser(db,app);
-    // require("./api/user.js").createUser(db,app);
+    require("./api/user.js").createUser(db,app);
 
     server.listen(http, PORT)
 })
