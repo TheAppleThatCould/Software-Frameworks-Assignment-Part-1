@@ -1,6 +1,3 @@
-var fs = require('fs');
-const user = require('./user');
-
 module.exports = {
     getGroups: function(db, app){
         app.get('/getGroups', function(req, res){

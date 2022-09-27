@@ -1,13 +1,17 @@
 var fs = require('fs')
 
 module.exports = {
-    getChannel: function(req, res){
-        fs.readFile("./data/channels.json", 'utf8', function(err, data){
-            if (err) throw err;
-            let channelArray = JSON.parse(data);
-            res.send(channelArray)
+    getChannel: function(db, app){
+        app.get('/getChannel', function(req, res){
+            const collection = db.collection('channels');
+
+            collection.find({}).toArray((err, data) => {
+                console.log("getChannel: ", data)
+                res.send(data);
+            })
         })
     },
+
     deleteChannel: function(req, res){
         fs.readFile("./data/channels.json", 'utf8', function(err, data){
             if (err) throw err;
@@ -93,23 +97,23 @@ module.exports = {
             res.send(channelsData);
         })
     },
-    getChannelByGroupID: function(req, res){
-        fs.readFile("./data/channels.json", 'utf8', function(err, data){
-            if (err) throw err;
-
-            let channelArray = JSON.parse(data);
-            let channelsData = [];
+    getChannelsByGroupID: function(db, app){
+        // Get all the groups that the user is a part of
+        app.post('/getChannelsByGroupID', function(req, res){
+            const collection = db.collection('channels');
             let groupID = req.body.groupID;
-            
-            channelArray.channels.map((el) => {
-                if(el.groupID == groupID){
-                    channelsData.push(el);
-                }
-            })
+            console.log("This is the groupID: ", groupID)
 
-            res.send(channelsData);
+            collection.find({id: parseInt(groupID)}).toArray((err, data) => {
+                console.log(data)
+                res.send(data)
+            })
+            
+    
         })
     },
+
+    
     getChannelHistoryByChannelID: function(req, res){
         fs.readFile("./data/chatHistory.json", 'utf8', function(err, data){
             if (err) throw err;

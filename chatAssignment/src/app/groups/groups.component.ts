@@ -55,7 +55,9 @@ export class GroupsComponent implements OnInit {
   }
 
   getAllGroups(){
+    console.log("test")
     this.httpClient.get(BACKEND_URL + '/getGroups', httpOptions).subscribe((data: any) =>{
+      console.log("this is group data: ", data)
       this.groupArray = data;
     })
   }

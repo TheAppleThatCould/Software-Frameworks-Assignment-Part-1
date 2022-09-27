@@ -8,18 +8,18 @@ const httpOptions = {
 const BACKEND_URL = "http://localhost:3000";
 
 interface ChannelData {
-  channelID: string;
+  id: number;
   name: string;
-  groupID: string;
-  userID: string[];
+  groupID: number;
+  userID: number[];
 }
 
 interface GroupData {
   id: number;
   name: string;
-  userID: string[];
-  adminID: string;
-  assistantID: string[];
+  userID: number[];
+  adminID: number;
+  assistantID: number[];
 }
 
 
@@ -33,13 +33,13 @@ export class ChannelsComponent implements OnInit {
 
   groupID: number = 0;
   // The channel array is the array that is getting displayed
-  channelArray = [{channelID: "", name: "", groupID: "", userID: [""]}];
+  channelArray = [{id: 0, name: "", groupID: 0, userID: [0]}];
 
   createChannelDisplay: boolean = false;
   //The channelData be passed through an api to create new channel or update channels. When creating an channel the name is assign by the user.
-  channelData: ChannelData = {channelID: "", name: "", groupID: "", userID: [""]};
+  channelData: ChannelData = {id: 0, name: "", groupID: 0, userID: [0]};
 
-  userID = "";
+  userID: number = 0;
 
   adddUserToChannelDisplay: boolean = false;
   adddUserToGroupDisplay: boolean = false;
@@ -51,12 +51,13 @@ export class ChannelsComponent implements OnInit {
 
   ngOnInit(): void {
     this.groupID =  this.route.snapshot.params['id'];
-    this.userID = localStorage.getItem("userID") || "";
+    let userIDString = localStorage.getItem("userID") || '';
+    this.userID = parseInt(userIDString);
 
 
     // get the current user access permission and parse it as a string to adminAccess variable
     let adminAccessNum = localStorage.getItem("adminAccess") || '4';
-    this.adminAccess = +adminAccessNum;
+    this.adminAccess = + adminAccessNum;
 
     this.assignGroupPermission()
   }
@@ -77,7 +78,7 @@ export class ChannelsComponent implements OnInit {
 
   assignGroupPermission(){
     // a function that will check if the user is a groupadmin or groupassis of this group and grant corresponding permission
-    let groupArray: GroupData = {id: 0, name: '', userID: [""], adminID: "", assistantID: [""]};
+    let groupArray: GroupData = {id: 0, name: '', userID: [0], adminID: 0, assistantID: [0]};
     let groupID = this.groupID;
     let isGroupAssis = false;
     let isGroupAdmin = false;
@@ -124,6 +125,7 @@ export class ChannelsComponent implements OnInit {
 
   getChannelsByGroupID(groupID: number){
     this.httpClient.post(BACKEND_URL + "/getChannelsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
+      console.log(data)
       this.channelArray = data;
     })
   }
@@ -137,7 +139,7 @@ export class ChannelsComponent implements OnInit {
       
       channelData.userID.map(channelUserID => {
         if(channelUserID == userID){
-          this.router.navigateByUrl('/chatArea/' + channelData.channelID);
+          this.router.navigateByUrl('/chatArea/' + channelData.id);
           displayMessage = false;
         }
       })
@@ -151,13 +153,13 @@ export class ChannelsComponent implements OnInit {
     // A function that will create a channel that grants access permission to all users apart of the same group.
     let groupID = this.groupID;
     this.httpClient.post(BACKEND_URL + "/getGroupsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
-      this.channelData.groupID = this.groupID + "";
+      this.channelData.groupID = this.groupID;
       this.channelData.userID = data.userID;
 
       this.httpClient.get(BACKEND_URL + "/getChannel", httpOptions).subscribe((data: any) =>{
         let channelArray = data.channels
         let newChannelID = parseInt(channelArray[channelArray.length-1].channelID.substr(1)) + 1
-        this.channelData.channelID = "c"+newChannelID
+        // this.channelData.id = "c"+newChannelID
 
         this.httpClient.post(BACKEND_URL + "/createChannel", this.channelData, httpOptions).subscribe((data: any) =>{})
 
@@ -234,7 +236,7 @@ export class ChannelsComponent implements OnInit {
     })
   }
 
-  deleteChannel(channelID: string){
+  deleteChannel(channelID: number){
     this.httpClient.post(BACKEND_URL + "/deleteChannel", {channelID}, httpOptions).subscribe((data: any) =>{})
   }
 
@@ -263,7 +265,7 @@ export class ChannelsComponent implements OnInit {
   updateGroupAssistant(userName: string, deleteAction: boolean){
     // A function that will update the assistantID array within the current group.
     // The deleteAction param reduce code by allowing the function call to specify if the action will remove the user from the assistant role or not.
-    let groupData: GroupData = {id: 0, name: '', userID: [""], adminID: "", assistantID: [""]};
+    let groupData: GroupData = {id: 0, name: '', userID: [0], adminID: 0, assistantID: [0]};
     let groupID = this.groupID;
 
     //get groups and edit the groupAssistant element;

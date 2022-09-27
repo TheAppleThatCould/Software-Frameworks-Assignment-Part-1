@@ -44,28 +44,30 @@ MongoClient.connect(mongoURL, function(err, client){
     require("./api/group.js").getGroupsByGroupName(db,app);
     require("./api/group.js").getGroupsByGroupID(db,app);
     require("./api/group.js").createGroup(db,app);
-
     require("./api/group.js").updateGroupAdmin(db,app);
     require("./api/group.js").updateGroupAssistant(db,app);
 
-
-
-    // app.get('/getGroups', require("./api/group.js").getGroups);
-    // app.post('/createGroup', require("./api/group.js").createGroup);
-    // app.post("/deleteGroup", require("./api/group.js").deleteGroup);
-    // app.post('/addUserToGroup', require("./api/group.js").addUserToGroup)
-    // app.post("/removeUserFromGroup", require("./api/group.js").removeUserFromGroup);
-
-    // //An API that will change the group adminID by passing in the groupID and UserID
-    // app.post("/updateGroupAdmin", require("./api/group.js").updateGroupAdmin);
-    // app.post("/updateGroupAssistant", require("./api/group.js").updateGroupAssistant);
-
-    // app.post('/getGroupsByGroupName', require("./api/group.js").getGroupsByGroupName);
-    // app.post('/getGroupsByGroupID', require("./api/group.js").getGroupsByGroupID);
-
-    // app.post('/getGroupsByUserID', require("./api/group.js").getGroupDetailsByUserID);
-
     // Channels APIs ->
+
+    require("./api/channel.js").getChannel(db,app);
+    // require("./api/channel.js").createChannel(db,app);
+    // require("./api/channel.js").deleteChannel(db,app);
+    // require("./api/channel.js").removeUserFromChannel(db,app);
+    // require("./api/channel.js").addUserToChannel(db,app);
+    // require("./api/channel.js").getChannelByChannelName(db,app);
+    // require("./api/channel.js").getChannelsByUserID(db,app);
+    // require("./api/channel.js").getChannel(db,app);
+    require("./api/channel.js").getChannelsByGroupID(db,app);
+
+
+    // app.get('/getChannel', require("./api/channel.js").getChannel);
+    // app.post("/createChannel", require("./api/channel.js").createChannel);
+    // app.post("/deleteChannel", require("./api/channel.js").deleteChannel);
+    // app.post("/removeUserFromChannel", require("./api/channel.js").removeUserFromChannel);
+    // app.post("/addUserToChannel", require("./api/channel.js").addUserToChannel)
+    // app.post("/getChannelByChannelName", require("./api/channel.js").getChannelByChannelName)
+    // app.post('/getChannelsByUserID', require("./api/channel.js").getChannelByUserID)
+    // app.post('/getChannelsByGroupID', require("./api/channel.js").getChannelByGroupID);
 
     // chatHistory APIs ->
 
@@ -78,16 +80,6 @@ MongoClient.connect(mongoURL, function(err, client){
 
     server.listen(http, PORT)
 })
-
-
-app.get('/getChannel', require("./api/channel.js").getChannel);
-app.post("/createChannel", require("./api/channel.js").createChannel);
-app.post("/deleteChannel", require("./api/channel.js").deleteChannel);
-app.post("/removeUserFromChannel", require("./api/channel.js").removeUserFromChannel);
-app.post("/addUserToChannel", require("./api/channel.js").addUserToChannel)
-app.post("/getChannelByChannelName", require("./api/channel.js").getChannelByChannelName)
-app.post('/getChannelsByUserID', require("./api/channel.js").getChannelByUserID)
-app.post('/getChannelsByGroupID', require("./api/channel.js").getChannelByGroupID);
 
 
 app.post('/getChannelHistory', require("./api/channel.js").getChannelHistoryByChannelID);

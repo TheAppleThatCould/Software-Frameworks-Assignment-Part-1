@@ -3,7 +3,7 @@
     <li *ngFor="let channel of channelArray">
         <button (click)="navigateToChatArea(channel.name)">{{channel.name}}</button>
 
-        <button *ngIf="adminAccess <= 2" (click)="deleteChannel(channel.channelID)">Delete</button>
+        <button *ngIf="adminAccess <= 2" (click)="deleteChannel(channel.id)">Delete</button>
     </li>
 
 </ul>
