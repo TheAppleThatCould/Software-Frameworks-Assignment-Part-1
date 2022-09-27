@@ -21,7 +21,7 @@ interface UserData {
 }
 
 interface GroupData {
-  groupID: string;
+  id: number;
   name: string;
   userID: string[];
   adminID: string;
@@ -49,7 +49,7 @@ export class AdminAreaComponent implements OnInit {
 
 
   groupName: string = ""
-  groupData: GroupData = {groupID: '', name: '', userID: [""], adminID: "", assistantID: [""]};
+  groupData: GroupData = {id: 0, name: '', userID: [""], adminID: "", assistantID: [""]};
   groupArray: GroupData[] = [];
 
   channelData: ChannelData = {channelID: "", name: "", groupID: "", userID: [""]};

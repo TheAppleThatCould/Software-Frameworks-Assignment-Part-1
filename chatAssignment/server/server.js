@@ -36,6 +36,30 @@ MongoClient.connect(mongoURL, function(err, client){
     require("./api/auth.js").login(db,app);
 
     // Groups APIs ->
+    require("./api/group.js").getGroups(db,app);
+    // require("./api/group.js").createGroup(db,app);
+    // require("./api/group.js").deleteGroup(db,app);
+    // require("./api/group.js").addUserToGroup(db,app);
+    // require("./api/group.js").removeUserFromGroup(db,app);
+    // require("./api/group.js").updateGroupAdmin(db,app);
+    // require("./api/group.js").updateGroupAssistant(db,app);
+    // require("./api/group.js").getGroupDetailsByUserID(db,app);
+    // require("./api/group.js").getGroupsByGroupName(db,app);
+    // require("./api/group.js").getGroupsByGroupID(db,app);
+
+    // app.get('/getGroups', require("./api/group.js").getGroups);
+    // app.post('/createGroup', require("./api/group.js").createGroup);
+    // app.post("/deleteGroup", require("./api/group.js").deleteGroup);
+    // app.post('/addUserToGroup', require("./api/group.js").addUserToGroup)
+    // app.post("/removeUserFromGroup", require("./api/group.js").removeUserFromGroup);
+
+    // //An API that will change the group adminID by passing in the groupID and UserID
+    // app.post("/updateGroupAdmin", require("./api/group.js").updateGroupAdmin);
+    // app.post("/updateGroupAssistant", require("./api/group.js").updateGroupAssistant);
+
+    // app.post('/getGroupsByUserID', require("./api/group.js").getGroupDetailsByUserID);
+    // app.post('/getGroupsByGroupName', require("./api/group.js").getGroupsByGroupName);
+    // app.post('/getGroupsByGroupID', require("./api/group.js").getGroupsByGroupID);
 
     // Channels APIs ->
 
@@ -52,22 +76,6 @@ MongoClient.connect(mongoURL, function(err, client){
 })
 
 
-
-
-app.get('/getGroups', require("./api/group.js").getGroups);
-app.post('/createGroup', require("./api/group.js").createGroup);
-app.post("/deleteGroup", require("./api/group.js").deleteGroup);
-app.post('/addUserToGroup', require("./api/group.js").addUserToGroup)
-app.post("/removeUserFromGroup", require("./api/group.js").removeUserFromGroup);
-
-//An API that will change the group adminID by passing in the groupID and UserID
-app.post("/updateGroupAdmin", require("./api/group.js").updateGroupAdmin);
-app.post("/updateGroupAssistant", require("./api/group.js").updateGroupAssistant);
-
-app.post('/getGroupsByUserID', require("./api/group.js").getGroupDetailsByUserID);
-app.post('/getGroupsByGroupName', require("./api/group.js").getGroupsByGroupName);
-app.post('/getGroupsByGroupID', require("./api/group.js").getGroupsByGroupID);
-
 app.get('/getChannel', require("./api/channel.js").getChannel);
 app.post("/createChannel", require("./api/channel.js").createChannel);
 app.post("/deleteChannel", require("./api/channel.js").deleteChannel);
@@ -80,11 +88,3 @@ app.post('/getChannelsByGroupID', require("./api/channel.js").getChannelByGroupI
 
 app.post('/getChannelHistory', require("./api/channel.js").getChannelHistoryByChannelID);
 app.post('/writeChannelHistory', require("./api/channel.js").writeChannelHistoryByChannelID);
-
-
-// app.get("/getAllUsers", require("./api/user.js").getAllUsers);
-// app.post("/deleteUser", require("./api/user.js").deleteUser);
-// app.post('/getUserByUserName', require("./api/user.js").getUserByUserName);
-// app.post('/updateUser', require("./api/user.js").updateUser);
-// app.post('/createUser', require("./api/user.js").createUser);
-

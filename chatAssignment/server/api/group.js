@@ -1,19 +1,30 @@
 var fs = require('fs')
 
 module.exports = {
-    getGroups: function(req, res){
-        fs.readFile("./data/groups.json", 'utf8', function(err, data){
-            if (err) throw err;
-            let groupArray = JSON.parse(data);
-            let groupsData = [];
-
-            groupArray.groups.map(el =>{
-                groupsData.push(el)
+    getGroups: function(db, app){
+        app.get('/getGroups', function(req, res){
+            const collection = db.collection('groups');
+            
+            collection.find({}).toArray((err, data) => {
+                console.log("getGroups: ", data)
+                res.send(data);
             })
-
-            res.send(groupsData);
         })
     },
+    
+    // function(req, res){
+    //     fs.readFile("./data/groups.json", 'utf8', function(err, data){
+    //         if (err) throw err;
+    //         let groupArray = JSON.parse(data);
+    //         let groupsData = [];
+
+    //         groupArray.groups.map(el =>{
+    //             groupsData.push(el)
+    //         })
+
+    //         res.send(groupsData);
+    //     })
+    // },
     addUserToGroup: function(req, res){
         fs.readFile("./data/groups.json", 'utf8', function(err, data){
             if (err) throw err;
