@@ -1,6 +1,3 @@
-var fs = require('fs');
-const user = require('./user');
-
 module.exports = {
     getChannel: function(db, app){
         app.get('/getChannel', function(req, res){

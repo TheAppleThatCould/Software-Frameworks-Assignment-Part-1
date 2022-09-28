@@ -60,12 +60,6 @@ MongoClient.connect(mongoURL, function(err, client){
     require("./api/channel.js").getChannelHistoryByChannelID(db,app);
     require("./api/channel.js").writeChannelHistoryByChannelID(db,app);
 
-
-    
-    // app.post('/getChannelHistory', require("./api/channel.js").getChannelHistoryByChannelID);
-    // app.post('/writeChannelHistory', require("./api/channel.js").writeChannelHistoryByChannelID);
-
-
     // Users APIs ->
     require("./api/user.js").getAllUsers(db,app);
     require("./api/user.js").deleteUser(db,app);
