@@ -1,34 +1,37 @@
-<h1>List of groups</h1>
-<ul>
-    <li *ngFor="let group of groupArray">
-        <button (click)="navigateToGroup(group.id)">{{group.name}}</button>
-
-        <!-- Only super user may delete this group -->
-        <button *ngIf="adminAccess <= 1" (click)="deleteGroup(group.id)">Delete</button>
-    </li>
-</ul>
-
-<h3 *ngIf="message != ''">
-    {{message}}
-</h3>
-
-
-<div *ngIf="adminAccess <= 2">
-    <br>
-    <button mat-raised-button (click)="createUserDisplay = !createUserDisplay">Create Group</button><br>
-
-    <div *ngIf="createUserDisplay">
-        <form>
-
-            <label>Group Name: </label>
-            <input type="text" id="name" class="form-control" [(ngModel)]="groupData.name" name="name"/>
-            <br>
-
-            <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="createGroup()">Create Group</button>
-        </form>
-
+<div>
+    <h1>List of groups</h1>
+    <ul>
+        <li *ngFor="let group of groupArray">
+            <button (click)="navigateToGroup(group.id)" class="btn btn-primary">{{group.name}}</button>
+    
+            <!-- Only super user may delete this group -->
+            <button *ngIf="adminAccess <= 1" (click)="deleteGroup(group.id)" class="btn btn-danger">Delete</button>
+        </li>
+    </ul>
+    
+    <h3 *ngIf="message != ''">
+        {{message}}
+    </h3>
+    
+    
+    <div *ngIf="adminAccess <= 2">
+        <br>
+        <button mat-raised-button (click)="createUserDisplay = !createUserDisplay" class="btn btn-primary">Create Group</button><br>
+    
+        <div *ngIf="createUserDisplay">
+            <form>
+    
+                <label>Group Name: </label>
+                <input type="text" id="name" class="form-control" [(ngModel)]="groupData.name" name="name"/>
+                <br>
+    
+                <button type="submit" (click)="createGroup()" class="btn btn-primary">Create Group</button>
+            </form>
+    
+        </div>
+    
+        <br>
+        <a *ngIf="adminAccess <= 2" class="nav-link" routerLink="/adminArea" class="btn btn-primary">Admin Area</a>
     </div>
-
-    <br>
-    <a *ngIf="adminAccess <= 2" class="nav-link" routerLink="/adminArea" >Admin Area</a>
+    
 </div>

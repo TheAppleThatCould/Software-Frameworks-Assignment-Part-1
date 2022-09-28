@@ -1,9 +1,9 @@
 <h1>List of channels</h1>
 <ul>
     <li *ngFor="let channel of channelArray">
-        <button (click)="navigateToChatArea(channel.name)">{{channel.name}}</button>
+        <button (click)="navigateToChatArea(channel.name)" class="btn btn-primary">{{channel.name}}</button>
 
-        <button *ngIf="adminAccess <= 2" (click)="deleteChannel(channel.id)">Delete</button>
+        <button *ngIf="adminAccess <= 2" (click)="deleteChannel(channel.id)" class="btn btn-danger">Delete</button>
     </li>
 
 </ul>
@@ -20,7 +20,8 @@
 <div *ngIf="adminAccess <= 3">
     <div *ngIf="adminAccess <= 3">
         <!-- Group assistant can access these functionality -->
-        <button mat-raised-button (click)="clearDisplays(); createChannelDisplay = !createChannelDisplay">Create Channel</button><br>
+        <button mat-raised-button (click)="clearDisplays(); createChannelDisplay = !createChannelDisplay" class="btn btn-primary">Create Channel</button><br><br>
+
         <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToChannelDisplay = !adddUserToChannelDisplay">User's Channel setting</button><br>
 
     </div>

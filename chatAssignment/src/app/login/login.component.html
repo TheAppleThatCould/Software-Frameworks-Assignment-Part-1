@@ -1,18 +1,19 @@
-<div class="tab-content">
+<div class="container">
     <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
         <form>
         <!-- userName input -->
         <div class="form-outline mb-4" >
+            <label class="form-label" for="loginName">Email or username</label>
+
             <input type="text" id="loginName" class="form-control" [(ngModel)]="userDetail.userName" name="userName" />
 
-            <label class="form-label" for="loginName">Email or username</label>
         </div>
 
         <!-- Password input -->
         <div class="form-outline mb-4">
-            <input type="password" id="loginPassword" class="form-control" [(ngModel)]="userDetail.password" name="password"/>
-
             <label class="form-label" for="loginPassword">Password</label>
+
+            <input type="password" id="loginPassword" class="form-control" [(ngModel)]="userDetail.password" name="password"/>
         </div>
 
         <div *ngIf="displayErrorMessage == true">

@@ -1,16 +1,19 @@
-<nav>
-  <div>
-    <ul>
-      <li><a routerLink="/">Home</a></li>
-      <li><a routerLink="/login">Login</a></li>
-      <li><a routerLink="/account">Account</a></li>
-      <li><a routerLink="/groups">Groups</a></li>
-      <li><button class="nav-link" (click)="logout()">Logout</button></li>
+<div class="flex-row ">
 
-    </ul>
+  <nav class="col-xl-2 bg-dark ">
+    <div >
+      <ul>
+        <li class="nav-item"><a routerLink="/" class="text-white text-decoration-none" >Home</a></li>
+        <li><a routerLink="/login" class="text-white text-decoration-none">Login</a></li>
+        <li><a routerLink="/account" class="text-white text-decoration-none">Account</a></li>
+        <li><a routerLink="/groups" class="text-white text-decoration-none">Groups</a></li>
+        <li><button class="nav-link" (click)="logout()" class="btn btn-primary">Logout</button></li>
+      </ul>
+    </div>
+  </nav>
+  
+
+  <div class="container bg-dark text-white">
+    <router-outlet></router-outlet>
   </div>
-</nav>
-
-<div>
-  <router-outlet></router-outlet>
 </div>
