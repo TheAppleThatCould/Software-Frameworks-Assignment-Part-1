@@ -5,7 +5,11 @@ module.exports = {
 
             collection.find({}).toArray((err, data) => {
                 console.log("getAllUsers: ", data)
-                res.send(data);
+                if(!data){
+                    res.send("");
+                } else{
+                    res.send(data);
+                }
             })
 
         })

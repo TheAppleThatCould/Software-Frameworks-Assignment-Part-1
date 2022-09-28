@@ -57,7 +57,7 @@
             <br>
 
             <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="getUserAndChannelID()">Add User</button>
-            <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="removeUserFromChannel()">Remove User</button>
+            <button mat-raised-button type="submit" class="btn btn-danger btn-block mb-4" (click)="removeUserFromChannel()">Remove User</button>
         </form>
     </div>
 
@@ -70,9 +70,9 @@
             <br>
             <div *ngIf="adminAccess <= 2">
                 <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="addUserToGroup()">Add User to Group</button>
-                <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="removeUserFromGroup()">Remove User from group</button>
+                <button mat-raised-button type="submit" class="btn btn-danger btn-block mb-4" (click)="removeUserFromGroup()">Remove User from group</button>
                 <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateGroupAssistant(addUserData.userName, false)">Assign Group Assistant</button>
-                <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateGroupAssistant(addUserData.userName, true)">Remove User from Group Assistant</button>
+                <button mat-raised-button type="submit" class="btn btn-danger btn-block mb-4" (click)="updateGroupAssistant(addUserData.userName, true)">Remove User from Group Assistant</button>
 
                 <!-- Only super can access this -->
                 <button *ngIf="adminAccess <= 1" mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="updateGroupAdmin('groupAdmin')">Assign Group Admin</button>

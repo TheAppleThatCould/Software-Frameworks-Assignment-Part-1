@@ -1,6 +1,25 @@
+<h2>User's Details</h2>
 <p>Username: {{userName}}</p>
 <p>Birthdate: {{birthDate}}</p>
 <p>Email: {{email}}</p>
 <p>Age: {{age}}</p>
 <p>Role: {{role}}</p>
 <p>Valid: {{valid}}</p>
+
+<br>
+
+<h2>User's Avatar</h2>
+
+<form>
+    <div class="form-group">
+        <input type="file" class="form-control" (change)="onFileSelected($event)" name="uploadfile" id = "uploadfile" />
+    </div>
+    <button class="btn btn-primary" type="button" (click) ="uploadImage()">Submit</button>
+
+</form>
+
+
+<div *ngIf="imagePath != '' ">
+    <img src="http://localhost:3000\images\{{imagePath}}"/>
+</div>
+

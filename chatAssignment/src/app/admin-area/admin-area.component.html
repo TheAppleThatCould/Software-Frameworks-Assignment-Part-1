@@ -1,14 +1,14 @@
 <h1>Admin Area</h1>
 <br>
 <div *ngIf="adminAccess <= 2">
-    <button mat-raised-button (click)="clearDisplays(); createUserDisplay = true">Create User</button>
+    <button mat-raised-button (click)="clearDisplays(); createUserDisplay = true" class="btn btn-primary">Create User</button>
 </div>
 <div *ngIf="adminAccess == 1">
-    <button mat-raised-button (click)="clearDisplays(); searchUserDisplay = true">Seach for User</button>
+    <button mat-raised-button (click)="clearDisplays(); searchUserDisplay = true" class="btn btn-primary">Seach for User</button>
 
-    <button mat-raised-button (click)="clearDisplays(); displayAllUsersDisplay = true">Display All Users</button>
-    <button mat-raised-button (click)="clearDisplays(); displayAllGroupsDisplay = true">Display All Groups</button>
-    <button mat-raised-button (click)="clearDisplays(); displayAllChannelDisplay = true">Display All Channel</button>
+    <button mat-raised-button (click)="clearDisplays(); displayAllUsersDisplay = true" class="btn btn-primary">Display All Users</button>
+    <button mat-raised-button (click)="clearDisplays(); displayAllGroupsDisplay = true" class="btn btn-primary">Display All Groups</button>
+    <button mat-raised-button (click)="clearDisplays(); displayAllChannelDisplay = true" class="btn btn-primary">Display All Channel</button>
 </div>
 
 
@@ -85,7 +85,7 @@
         <p>Email: {{user.email}}</p>
         <p>Birthday: {{user.birthDate}}</p>
         <p>Role: {{user.role}}</p>
-        <button mat-raised-button (click)="deleteUser(user.id)">Delete</button>
+        <button mat-raised-button (click)="deleteUser(user.id)" class="btn btn-danger">Delete</button>
 
     </div>
 </div>

@@ -22,9 +22,10 @@ export class LoginComponent implements OnInit {
   }
 
   public formSubmit() {
+    console.log("This is the data: ", this.userDetail);
+
     this.httpClient.post(BACKEND_URL + '/login', this.userDetail, httpOptions).subscribe((data: any) =>{
-      console.log("This is the data: ", data.userName);
-      if(data.valid){
+      if(data){
         localStorage.setItem('userID', data.id.toString());
         localStorage.setItem('userName', data.userName.toString());
         localStorage.setItem('birthDate', data.birthDate.toString());

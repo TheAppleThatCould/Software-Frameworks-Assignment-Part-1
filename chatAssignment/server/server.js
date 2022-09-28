@@ -6,9 +6,21 @@ const server = require("./listen.js");
 
 const PORT = 3000;
 
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: true, limit: '50mb'}));
 app.use(express.json())
 app.use(cors());
+
+// Images
+// const bodyParser = require("body-parser")
+
+// app.use(bodyParser.urlencoded({limit: '50mb'}));
+// app.use(bodyParser.json({limit: '50mb'}));
+
+const path = require('path');
+const formidable = require("formidable")
+app.use('/images',express.static(path.join(__dirname , './data/images')));
+var fs = require('fs');
+
 
 // Sockets
 const sockets = require("./socket.js");
@@ -66,6 +78,11 @@ MongoClient.connect(mongoURL, function(err, client){
     require("./api/user.js").getUserByUserName(db,app);
     require("./api/user.js").updateUser(db,app);
     require("./api/user.js").createUser(db,app);
+
+
+    // Images APIs ->
+    require("./api/image.js").imageUpload(app,formidable,fs,path);
+
 
     server.listen(http, PORT)
 })
