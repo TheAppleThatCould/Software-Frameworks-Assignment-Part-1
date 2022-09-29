@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UserAPIServiceService } from '../services/user-apiservice.service';
 
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 const httpOptions = {
@@ -63,7 +62,7 @@ export class AdminAreaComponent implements OnInit {
   displayAllChannelDisplay: boolean = false;
 
 
-  constructor(private userAPIService: UserAPIServiceService, private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
     this.getAllUsers();

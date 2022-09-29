@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageUploadService } from '../services/image-upload.service';
+import { UsersService } from '../services/users.service';
+
 
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -30,7 +32,7 @@ export class AccountComponent implements OnInit {
   selectedFile = null;
   imagePath = "photoOfMySelf.jpg";
 
-  constructor(private router: Router, private ImageUploadService: ImageUploadService, private httpClient: HttpClient) {}
+  constructor(private router: Router, private ImageUploadService: ImageUploadService, private UsersService: UsersService) {}
 
   ngOnInit(): void {
     this.userName = localStorage.getItem("userName") || "";
@@ -58,10 +60,12 @@ export class AccountComponent implements OnInit {
     if(this.selectedFile != null){
       // TODO:  "this.selectedFile.name" not working with typescript
       // @ts-ignore
-      fd.append('image', this.selectedFile, this.selectedFile.name)
+      let fileName = this.selectedFile.name || "";
+      fd.append('image', this.selectedFile, fileName)
 
       this.ImageUploadService.imgUpload(fd).subscribe(res => {
         this.imagePath = res.data.filename;
+        this.UsersService.updateUserAvatar(this.imagePath);
       })
     }
   }

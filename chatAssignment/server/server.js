@@ -11,11 +11,6 @@ app.use(express.json())
 app.use(cors());
 
 // Images
-// const bodyParser = require("body-parser")
-
-// app.use(bodyParser.urlencoded({limit: '50mb'}));
-// app.use(bodyParser.json({limit: '50mb'}));
-
 const path = require('path');
 const formidable = require("formidable")
 app.use('/images',express.static(path.join(__dirname , './data/images')));
@@ -78,6 +73,7 @@ MongoClient.connect(mongoURL, function(err, client){
     require("./api/user.js").getUserByUserName(db,app);
     require("./api/user.js").updateUser(db,app);
     require("./api/user.js").createUser(db,app);
+    require("./api/user.js").updateUserAvatar(db,app);
 
 
     // Images APIs ->

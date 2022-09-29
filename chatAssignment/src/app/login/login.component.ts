@@ -33,6 +33,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('email', data.email.toString());
         localStorage.setItem('role', data.role.toString());
         localStorage.setItem('valid', data.valid.toString());
+        localStorage.setItem('imageURL', data.imageURL.toString());
+        
+        console.log("THIS IS THE USERS: ", data.imageURL.toString())
         this.setUserAccessPermission(data.role.toString())
 
         this.router.navigateByUrl('/account');
