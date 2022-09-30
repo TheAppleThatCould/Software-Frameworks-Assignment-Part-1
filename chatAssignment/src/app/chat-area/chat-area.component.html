@@ -8,6 +8,14 @@
             <button (click)="chat()" class="btn btn-primary"> Send</button>
         </div>
     </form>
+
+    <form>
+        <div class="form-group">
+            <input type="file" class="form-control" (change)="onFileSelected($event)" name="uploadfile" id = "uploadfile" />
+        </div>
+        <button class="btn btn-primary" type="button" (click) ="uploadImage()">Submit</button>
+    
+    </form>
 </div>
 
 <div *ngFor="let m of message" class="p-1">
@@ -19,7 +27,12 @@
         <div>
             <p>User: {{m.userName}}</p>
             <p>Message: {{m.message}}</p>
+            <div *ngIf="m.imageURL">
+                <img src="http://localhost:3000\images\{{m.imageURL}}" style="width:150px;height:150px;"/>
+            </div>
         </div>
+
+
     </div>
 
 

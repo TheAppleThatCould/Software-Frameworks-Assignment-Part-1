@@ -2,16 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageUploadService } from '../services/image-upload.service';
 import { UsersService } from '../services/users.service';
-
-
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json"})
 };
 const BACKEND_URL = "http://localhost:3000";
-
-
 
 @Component({
   selector: 'app-account',
@@ -30,7 +25,7 @@ export class AccountComponent implements OnInit {
 
   // Image
   selectedFile = null;
-  imagePath = "photoOfMySelf.jpg";
+  imagePath = "";
 
   constructor(private router: Router, private ImageUploadService: ImageUploadService, private UsersService: UsersService) {}
 
@@ -48,12 +43,8 @@ export class AccountComponent implements OnInit {
     }
   }
 
-
   onFileSelected(event: any){
-    console.log(event);
     this.selectedFile = event.target.files[0];
-    console.log(this.selectedFile);
-
   }
 
   uploadImage(){
