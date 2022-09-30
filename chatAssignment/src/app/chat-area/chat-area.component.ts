@@ -19,14 +19,17 @@ export class ChatAreaComponent implements OnInit {
   channelID: string = "";
 
   messageContent: string = "";
-  message = [{channelID: "", userID: "", userName: "", message: ""}];
+  message = [{channelID: "", userID: "", userName: "", message: "", avatar: "", imageURL: ""}];
   ioConnection: any;
+
+  avatarURL: string = "";
 
   constructor(private socketService: SocketService, private route: ActivatedRoute, private httpClient: HttpClient) {}
 
   ngOnInit(): void {
     this.userName = localStorage.getItem("userName") || "";
     this.userID = localStorage.getItem("userID") || "";
+    this.avatarURL = localStorage.getItem("imageURL") || '';
 
     this.channelID = this.route.snapshot.params['id'];
     this.getChatHistory(this.channelID);
@@ -37,14 +40,17 @@ export class ChatAreaComponent implements OnInit {
     this.socketService.initSocket();
     this.ioConnection = this.socketService.getMessage()
       .subscribe((message: any) => {
-        this.message.push({channelID: this.channelID, userID: this.userID, userName: this.userName, message: message});
+        this.message.push({channelID: this.channelID, userID: this.userID, userName: this.userName, message: message, avatar: this.avatarURL, imageURL: ""});
+        this.getChatHistory(this.channelID);
+        
       });
   }
 
   public chat(){
     if(this.messageContent){
       this.socketService.send(this.messageContent);
-      this.writeChatHistory({channelID: this.channelID, userID: this.userID, userName: this.userName, message: this.messageContent});
+      this.writeChatHistory({channelID: this.channelID, userID: this.userID, userName: this.userName,
+         message: this.messageContent, avatar: this.avatarURL, imageURL: ""});
       this.messageContent = "";
 
     } else {
@@ -55,7 +61,7 @@ export class ChatAreaComponent implements OnInit {
   getChatHistory(channelID: string){
     console.log("test", channelID)
     this.httpClient.post(BACKEND_URL + "/getChannelHistory", {channelID}, httpOptions).subscribe((data: any) =>{
-      this.message = data;
+      this.message = data.reverse();
     })
   }
 

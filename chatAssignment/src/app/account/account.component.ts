@@ -41,6 +41,7 @@ export class AccountComponent implements OnInit {
     this.age = localStorage.getItem("age") || "";
     this.role = localStorage.getItem("role") || "";
     this.valid = localStorage.getItem("valid") === 'true' || false;
+    this.imagePath = localStorage.getItem("imageURL") || '';
 
     if(this.valid == false){
       this.router.navigateByUrl('/login');
@@ -66,12 +67,8 @@ export class AccountComponent implements OnInit {
       this.ImageUploadService.imgUpload(fd).subscribe(res => {
         this.imagePath = res.data.filename;
         this.UsersService.updateUserAvatar(this.imagePath);
+        localStorage.setItem('imageURL', this.imagePath);
       })
     }
   }
-
-  getImage(){
-
-  }
-
 }

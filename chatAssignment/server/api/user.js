@@ -95,12 +95,10 @@ module.exports = {
             if(!req.body){
                 return res.sendStatus(400);
             }
-
+            
             const userID = req.body.userID;
             const imagePath = req.body.imagePath;
             const collection = db.collection('users');
-
-            console.log("These are the req body: ", userID, "   ", imagePath)
 
             collection.updateOne({id: userID}, {$set: {imageURL: imagePath}})
 

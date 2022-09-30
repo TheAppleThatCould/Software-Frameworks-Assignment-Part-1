@@ -136,11 +136,13 @@ module.exports = {
         app.post('/writeChannelHistory', function(req, res){
             const collection = db.collection('chatHistory');
             let chatMessage = req.body;
+            console.log("This is the chatMessage: ", chatMessage)
 
             collection.find().sort({id: -1}).toArray((err, data) => {
                 let chatMessageID = data[0].id + 1
                 let message = {id: chatMessageID, channelID: parseInt(chatMessage.channelID), userID: parseInt(chatMessage.userID),
-                                userName: chatMessage.userName, message: chatMessage.message}
+                                userName: chatMessage.userName, message: chatMessage.message, avatar: chatMessage.avatar,
+                                imageURL: chatMessage.imageURL}
                 console.log("This is the new message: ", message)
 
                 collection.insertOne(message, (err, dbres) => {
@@ -150,7 +152,6 @@ module.exports = {
             })
         })
     },
-
 
     addUserToChannel: function(db, app){
         app.post('/addUserToChannel', function(req, res){
