@@ -14,10 +14,10 @@ module.exports = {
         app.post('/createChannel', function(req, res){
             const collection = db.collection('channels');
             let channel = req.body
-            console.log("This is the channel: ", channel)
 
             collection.find().sort({id: -1}).toArray((err, data) => {
                 channel.id = data[0].id + 1
+                console.log("This is the channel: ", channel)
 
                 collection.insertOne(channel, (err, dbres) => {
                     if (err) throw err;
@@ -83,15 +83,17 @@ module.exports = {
         app.post('/getChannelsByUserID', function(req, res){
             const collection = db.collection('channels');
             let userID = req.body.userID
-            console.log("TESt")
+            let groupID = req.body.groupID
 
-            collection.find({}).toArray((err, data) => {
+
+            collection.find({'groupID': groupID}).toArray((err, data) => {
                 let channels = [];
-                console.log("getChannelByChannelName: ", data)
                 data.map(el =>{
                     el.userID.map(userIDElement => {
-                        if(el.userID == userID){
+                        if(userIDElement == userID){
+
                             channels.push(el)
+
                         }
                     })
                 })
