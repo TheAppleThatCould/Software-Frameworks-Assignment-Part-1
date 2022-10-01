@@ -45,4 +45,12 @@ export class ChannelsService {
   deleteChannel(channelID: number){
     this.httpClient.post(BACKEND_URL + "/deleteChannel", {channelID}, httpOptions).subscribe((data: any) =>{})
   }
+
+  getChatHistory(channelID: number){
+    return this.httpClient.post(BACKEND_URL + "/getChannelHistory", {channelID}, httpOptions)
+  }
+
+  writeChatHistory(newMessage: Object){
+    this.httpClient.post(BACKEND_URL + "/writeChannelHistory", newMessage, httpOptions).subscribe((data: any) =>{})
+  }
 }

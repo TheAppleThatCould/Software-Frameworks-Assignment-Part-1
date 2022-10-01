@@ -7,7 +7,7 @@ import { UsersService } from '../services/users.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-// A component for the login page
+// A component for the login page.
 export class LoginComponent implements OnInit {
   displayErrorMessage: boolean = false;
   userDetail = {userName: "", password: ""};
@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   // A function that will call the login api to log the user in and set the localstorage variable
   public formSubmit() {
     this.usersService.login(this.userDetail).subscribe((data: any) =>{
+      // set the local storage if the the api returns data.
       if(data){
         localStorage.setItem('userID', data.id.toString());
         localStorage.setItem('userName', data.userName.toString());
@@ -32,6 +33,7 @@ export class LoginComponent implements OnInit {
         this.setUserAccessPermission(data.role.toString())
         this.router.navigateByUrl('/account');
       } else {
+        // Display the error message if the user inputted the wrong password or username
         this.displayErrorMessage = true;
       }
     })

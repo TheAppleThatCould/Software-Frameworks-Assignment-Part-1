@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from "@angular/common/http";
-import { httpOptions, BACKEND_URL } from '../services/server.service';
 import { ImageUploadService } from '../services/image-upload.service';
 import { SocketService } from '../services/socket.service';
+import { ChannelsService } from '../services/channels.service';
 
 @Component({
   selector: 'app-chat-area',
   templateUrl: './chat-area.component.html',
   styleUrls: ['./chat-area.component.css']
 })
+// A component that handle the chat page of the channels.
 export class ChatAreaComponent implements OnInit {
-  userName = "";
-  userID = "";
-  channelID: string = "";
+  userName: string = "";
+  userID: number = 0;
+  channelID: number = 0;
 
   messageContent: string = "";
-  message = [{channelID: "", userID: "", userName: "", message: "", avatar: "", imageURL: ""}];
+  message = [{channelID: 0, userID: 0, userName: "", message: "", avatar: "", imageURL: ""}];
   ioConnection: any;
 
   // Image
@@ -24,15 +24,15 @@ export class ChatAreaComponent implements OnInit {
   imagePath = "";
   avatarURL: string = "";
 
-  constructor(private socketService: SocketService, private route: ActivatedRoute, private httpClient: HttpClient,
-              private ImageUploadService: ImageUploadService) {}
+  constructor(private socketService: SocketService, private route: ActivatedRoute,
+              private ImageUploadService: ImageUploadService, private channelsService: ChannelsService) {}
 
   ngOnInit(): void {
     this.userName = localStorage.getItem("userName") || "";
-    this.userID = localStorage.getItem("userID") || "";
+    this.userID = parseInt(localStorage.getItem("userID") || "");
     this.avatarURL = localStorage.getItem("imageURL") || '';
 
-    this.channelID = this.route.snapshot.params['id'];
+    this.channelID = parseInt(this.route.snapshot.params['id']);
     this.getChatHistory(this.channelID);
     this.initToConnection();
   }
@@ -60,18 +60,16 @@ export class ChatAreaComponent implements OnInit {
     }
   }
 
-  getChatHistory(channelID: string){
-    console.log("test", channelID)
-    this.httpClient.post(BACKEND_URL + "/getChannelHistory", {channelID}, httpOptions).subscribe((data: any) =>{
+
+  getChatHistory(channelID: number){
+    this.channelsService.getChatHistory(channelID).subscribe((data: any) =>{
       this.message = data.reverse();
     })
   }
 
   writeChatHistory(newMessage: Object){
-    console.log(newMessage)
-    this.httpClient.post(BACKEND_URL + "/writeChannelHistory", newMessage, httpOptions).subscribe((data: any) =>{})
+    this.channelsService.writeChatHistory(newMessage);
   }
-
 
   onFileSelected(event: any){
     this.selectedFile = event.target.files[0];
