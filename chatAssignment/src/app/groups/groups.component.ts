@@ -54,13 +54,13 @@ export class GroupsComponent implements OnInit {
 
   // This function will redirect the user to a channel while preventing them from accessing a group they are not a part of.
   navigateToGroup(groupID: number){
-    let userID = this.userID
     let displayMessage: boolean = true;
     // This piece of code will get all the groups that the user is apart of and
     // check it against the groupID param for the group the user clicked on.
     this.groupsService.getAllGroups().subscribe((data: any) => {
       let groupArray: GroupData[] = data;
 
+      // Prevent access to a group a user is not apart of, aside from the super user.
       if(this.adminAccess > 1){
         groupArray.map(el => {
           if(el.id == groupID){

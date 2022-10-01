@@ -34,8 +34,28 @@ export class GroupsService {
     });
   }
 
-    // A function that will delete a group based on the groupID param
-    deleteGroup(groupID: number){
-      this.httpClient.post(BACKEND_URL + '/deleteGroup', {groupID}, httpOptions).subscribe((data: any) =>{})
-    }
+  // A function that will delete a group based on the groupID param
+  deleteGroup(groupID: number){
+    this.httpClient.post(BACKEND_URL + '/deleteGroup', {groupID}, httpOptions).subscribe((data: any) =>{})
+  }
+
+  getGroupByGroupID(groupID: number){
+    return this.httpClient.post(BACKEND_URL + "/getGroupsByGroupID", {groupID}, httpOptions);
+  }
+
+  addUserToGroup(userID: number, groupID: number){
+    this.httpClient.post(BACKEND_URL + '/addUserToGroup', {userID, groupID}, httpOptions).subscribe((data: any) =>{})
+  }
+
+  removeUserFromGroup(userID: number, groupID: number){
+    this.httpClient.post(BACKEND_URL + "/removeUserFromGroup", {userID, groupID}, httpOptions).subscribe((data: any) =>{})
+  }
+
+  updateGroupAdmin(userID: number, groupID: number){
+    this.httpClient.post(BACKEND_URL + "/updateGroupAdmin", {groupID, userID}, httpOptions).subscribe((data: any) =>{})
+  }
+
+  updateGroupAssistant(groupData: GroupData){
+    this.httpClient.post(BACKEND_URL + '/updateGroupAssistant', groupData, httpOptions).subscribe((data: any) =>{})
+  }
 }

@@ -30,4 +30,12 @@ export class UsersService {
     let userID = this.userID;
     this.httpClient.post(BACKEND_URL + '/updateUserAvatar', {imagePath, userID}, httpOptions).subscribe((data: any) =>{ })
   }
+
+  getUserByUserName(userName: string){
+    return this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions);
+  }
+
+  updateUser(userData: UserData){
+    this.httpClient.post(BACKEND_URL + '/updateUser', userData, httpOptions).subscribe((data: any) =>{})
+  }
 }

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { ChannelData } from "../services/channels.service";
+import { ChannelData, ChannelsService } from "../services/channels.service";
 import { GroupsService, GroupData } from '../services/groups.service';
-import { httpOptions, BACKEND_URL } from '../services/server.service';
-
+import { UsersService } from '../services/users.service';
+ 
 @Component({
   selector: 'app-channels',
   templateUrl: './channels.component.html',
@@ -30,13 +29,13 @@ export class ChannelsComponent implements OnInit {
 
   message: string = '';
 
-  constructor(private route: ActivatedRoute, private httpClient: HttpClient, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router,
+    private channelsService: ChannelsService, private groupsService: GroupsService, private usersService: UsersService) { }
 
   ngOnInit(): void {
     this.groupID = parseInt(this.route.snapshot.params['id']);
     let userIDString = localStorage.getItem("userID") || '';
     this.userID = parseInt(userIDString);
-
 
     // get the current user access permission and parse it as a string to adminAccess variable
     let adminAccessNum = localStorage.getItem("adminAccess") || '4';
@@ -46,17 +45,12 @@ export class ChannelsComponent implements OnInit {
   }
 
   getChannelByUserID(){
-    let userID = this.userID;
-    let groupID = this.groupID;
-
-    this.httpClient.post(BACKEND_URL + "/getChannelsByUserID", {userID, groupID}, httpOptions).subscribe((data: any) =>{
+    this.channelsService.getChannelByUserID(this.userID, this.groupID).subscribe((data: any) =>{
       if(data.length == 0){
         this.message = "You are not apart of any channel in this group"
       } 
-
       this.channelArray = data
     })
-
   }
 
   assignGroupPermission(){
@@ -66,7 +60,7 @@ export class ChannelsComponent implements OnInit {
     let isGroupAssis = false;
     let isGroupAdmin = false;
 
-    this.httpClient.post(BACKEND_URL + "/getGroupsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
+    this.groupsService.getGroupByGroupID(this.groupID).subscribe((data: any) =>{
       groupArray = data;
 
       groupArray.assistantID.map(assistantID =>{
@@ -96,7 +90,6 @@ export class ChannelsComponent implements OnInit {
       } else {
         this.getChannelByUserID();
       }
-
     })
   }
 
@@ -107,7 +100,7 @@ export class ChannelsComponent implements OnInit {
   }
 
   getChannelsByGroupID(groupID: number){
-    this.httpClient.post(BACKEND_URL + "/getChannelsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
+    this.channelsService.getChannelsByGroupID(groupID).subscribe((data: any) =>{
       console.log(data)
       this.channelArray = data;
     })
@@ -117,7 +110,7 @@ export class ChannelsComponent implements OnInit {
     let userID = this.userID;
     let displayMessage = true;
 
-    this.httpClient.post(BACKEND_URL + "/getChannelByChannelName", {channelName}, httpOptions).subscribe((data: any) =>{
+    this.channelsService.getChannelByChannelName(channelName).subscribe((data: any) =>{
       let channelData: ChannelData = data;
       channelData.userID.map(channelUserID => {
         if(channelUserID == userID){
@@ -133,25 +126,20 @@ export class ChannelsComponent implements OnInit {
 
   createChannel(){
     let newChannel: ChannelData = {id: 0, name: this.channelData.name, groupID: this.groupID, userID: [this.userID]};
-    console.log("New Channel data: ", newChannel)
-    this.httpClient.post(BACKEND_URL + "/createChannel", newChannel, httpOptions).subscribe((data: any) =>{});
+    this.channelsService.createChannel(newChannel);
   }
 
   getUserAndChannelID(){
     //A function that will get the user and channel id and calls the addUserChannel function while passing in the two ids.
     let userName = this.addUserData.userName
     let channelName = this.addUserData.channelName
-    console.log("test")
-    this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
+
+    // Get 
+    this.usersService.getUserByUserName(userName).subscribe((data: any) =>{
       if(data != undefined){
-        console.log(data)
-
         let userID = data.id;
-
-        this.httpClient.post(BACKEND_URL + "/getChannelByChannelName", {channelName}, httpOptions).subscribe((data: any) =>{
-          console.log(data)
+        this.channelsService.getChannelByChannelName(channelName).subscribe((data: any) =>{
           let channelID = data.id;
-
           this.addUserToChannel(userID, channelID)
         })
       }
@@ -159,7 +147,7 @@ export class ChannelsComponent implements OnInit {
   }
 
   addUserToChannel(userID: number, channelID: number){
-    this.httpClient.post(BACKEND_URL + "/addUserToChannel", {userID, channelID}, httpOptions).subscribe((data: any) =>{})
+    this.channelsService.addUserToChannel(userID, channelID);
   }
 
   addUserToGroup(){
@@ -167,13 +155,10 @@ export class ChannelsComponent implements OnInit {
     let groupID = this.groupID
     let userName = this.addUserData.userName;
 
-    this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
-      console.log(data)
-      console.log(groupID)
-
+    this.usersService.getUserByUserName(userName).subscribe((data: any) =>{
       if(data != undefined){
         let userID = data.id;
-        this.httpClient.post(BACKEND_URL + '/addUserToGroup', {userID, groupID}, httpOptions).subscribe((data: any) =>{})
+        this.groupsService.addUserToGroup(userID, groupID);
       }
     })
   }
@@ -182,10 +167,10 @@ export class ChannelsComponent implements OnInit {
     let groupID = this.groupID
     let userName = this.addUserData.userName;
 
-    this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
+    this.usersService.getUserByUserName(userName).subscribe((data: any) =>{
       if(data != undefined){
         let userID = data.id;
-        this.httpClient.post(BACKEND_URL + "/removeUserFromGroup", {userID, groupID}, httpOptions).subscribe((data: any) =>{})
+        this.groupsService.removeUserFromGroup(userID, groupID)
       }
     })
   }
@@ -193,31 +178,27 @@ export class ChannelsComponent implements OnInit {
   removeUserFromChannel(){
     let userName = this.addUserData.userName
     let channelName = this.addUserData.channelName
-
-    this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
+    this.usersService.getUserByUserName(userName).subscribe((data: any) =>{
       if(data[0] != undefined){
         let userID = data[0].userID;
-
-        this.httpClient.post(BACKEND_URL + "/getChannelByChannelName", {channelName}, httpOptions).subscribe((data: any) =>{
+        this.channelsService.getChannelByChannelName(channelName).subscribe((data: any) =>{
           let channelID = data.channelID;
-
-          this.httpClient.post(BACKEND_URL + "/removeUserFromChannel", {userID, channelID}, httpOptions).subscribe((data: any) =>{})
+          this.channelsService.removeUserFromChannel(userID, channelID);
         })
       }
     })
   }
 
   deleteChannel(channelID: number){
-    this.httpClient.post(BACKEND_URL + "/deleteChannel", {channelID}, httpOptions).subscribe((data: any) =>{})
+    this.channelsService.deleteChannel(channelID);
   }
 
   updateGroupAdmin(role: string){
     let groupID = this.groupID
     let userName = this.addUserData.userName
-    this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
+    this.usersService.getUserByUserName(userName).subscribe((data: any) =>{
       let userID = data[0].userID;
-      this.httpClient.post(BACKEND_URL + "/updateGroupAdmin", {groupID, userID}, httpOptions).subscribe((data: any) =>{})
-      
+      this.groupsService.updateGroupAdmin(groupID, userID);
       this.updateUserRole(role)
     })
 
@@ -226,10 +207,10 @@ export class ChannelsComponent implements OnInit {
   updateUserRole(role: string){
     let userName = this.addUserData.userName
 
-    this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
+    this.usersService.getUserByUserName(userName).subscribe((data: any) =>{
       data.role = role;
       let userData = data;
-      this.httpClient.post(BACKEND_URL + '/updateUser', userData, httpOptions).subscribe((data: any) =>{})
+      this.usersService.updateUser(userData);
     })
   }
 
@@ -240,10 +221,10 @@ export class ChannelsComponent implements OnInit {
     let groupID = this.groupID;
 
     //get groups and edit the groupAssistant element;
-    this.httpClient.post(BACKEND_URL + "/getGroupsByGroupID", {groupID}, httpOptions).subscribe((data: any) =>{
+    this.groupsService.getGroupByGroupID(groupID).subscribe((data: any) =>{
       groupData = data;
 
-      this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions).subscribe((data: any) =>{
+      this.usersService.getUserByUserName(userName).subscribe((data: any) =>{
         let userID = data.id;
 
         if(deleteAction){
@@ -266,11 +247,8 @@ export class ChannelsComponent implements OnInit {
           }
         }
 
-        this.httpClient.post(BACKEND_URL + '/updateGroupAssistant', groupData, httpOptions).subscribe((data: any) =>{})
+        this.groupsService.updateGroupAssistant(groupData);
       })
     })
   }
-
-
-  
 }
