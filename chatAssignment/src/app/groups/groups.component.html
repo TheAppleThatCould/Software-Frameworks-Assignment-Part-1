@@ -9,23 +9,25 @@
         </li>
     </ul>
     
+    <!-- Display a message to the user if there is something to display -->
     <h3 *ngIf="message != ''">
         {{message}}
     </h3>
     
-    
+    <!-- Access level of 2 and below are super(accessLevel 1) and groupAdmin(accessLevel 2) -->
     <div *ngIf="adminAccess <= 2">
         <br>
-        <button mat-raised-button (click)="createUserDisplay = !createUserDisplay" class="btn btn-primary">Create Group</button><br>
+        <!-- A button to toggle the createGroupDisplay boolean variable -->
+        <button mat-raised-button (click)="createGroupDisplay = !createGroupDisplay" class="btn btn-primary">Create Group</button><br>
     
-        <div *ngIf="createUserDisplay">
+        <div *ngIf="createGroupDisplay">
+            <!-- Show the from to create a new group -->
             <form>
-    
                 <label>Group Name: </label>
                 <input type="text" id="name" class="form-control" [(ngModel)]="groupData.name" name="name"/>
                 <br>
     
-                <button type="submit" (click)="createGroup()" class="btn btn-primary">Create Group</button>
+                <button type="submit" (click)="createGroup()" class="btn btn-primary">Submit</button>
             </form>
     
         </div>
