@@ -1,27 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-const httpOptions = {
-  headers: new HttpHeaders({ "Content-Type": "application/json"})
-};
-
-const BACKEND_URL = "http://localhost:3000";
-
-interface ChannelData {
-  id: number;
-  name: string;
-  groupID: number;
-  userID: number[];
-}
-
-interface GroupData {
-  id: number;
-  name: string;
-  userID: number[];
-  adminID: number;
-  assistantID: number[];
-}
-
+import { ChannelData } from "../services/channels.service";
+import { GroupsService, GroupData } from '../services/groups.service';
+import { httpOptions, BACKEND_URL } from '../services/server.service';
 
 @Component({
   selector: 'app-channels',
@@ -36,7 +18,8 @@ export class ChannelsComponent implements OnInit {
   channelArray = [{id: 0, name: "", groupID: 0, userID: [0]}];
 
   createChannelDisplay: boolean = false;
-  //The channelData be passed through an api to create new channel or update channels. When creating an channel the name is assign by the user.
+  //The channelData be passed through an api to create new channel or update channels.
+  // When creating an channel the name is assign by the user.
   channelData: ChannelData = {id: 0, name: "", groupID: 0, userID: [0]};
 
   userID: number = 0;

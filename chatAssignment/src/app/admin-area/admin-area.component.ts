@@ -1,38 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-const httpOptions = {
-  headers: new HttpHeaders({ "Content-Type": "application/json"})
-};
-
-const BACKEND_URL = "http://localhost:3000";
-
-
-interface UserData {
-  userName: string;
-  email: string;
-  birthDate: string;
-  age: number;
-  password: string;
-  role: string;
-  id: number;
-  valid: boolean;
-}
-
-interface GroupData {
-  id: number;
-  name: string;
-  userID: string[];
-  adminID: string;
-  assistantID: string[];
-}
-
-interface ChannelData {
-  channelID: string;
-  name: string;
-  groupID: string;
-  userID: string[];
-}
+import { httpOptions, BACKEND_URL } from '../services/server.service';
+import { UserData } from "../services/users.service";
+import { GroupData } from '../services/groups.service';
+import { ChannelData } from "../services/channels.service";
 
 @Component({
   selector: 'app-admin-area',
@@ -48,12 +19,13 @@ export class AdminAreaComponent implements OnInit {
 
 
   groupName: string = ""
-  groupData: GroupData = {id: 0, name: '', userID: [""], adminID: "", assistantID: [""]};
+  groupData: GroupData = {id: 0, name: '', userID: [0], adminID: 0, assistantID: [0]};
   groupArray: GroupData[] = [];
 
-  channelData: ChannelData = {channelID: "", name: "", groupID: "", userID: [""]};
+  channelData: ChannelData = {id: 0, name: "", groupID: 0, userID: [0]};
   channelArray: ChannelData[] = [];
 
+  
   searchUserDisplay: boolean = false;
   createUserDisplay: boolean = false;
   searchGroupDisplay: boolean = false;

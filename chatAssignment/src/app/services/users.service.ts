@@ -1,9 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-const BACKEND_URL = "http://localhost:3000";
-const httpOptions = {
-  headers: new HttpHeaders({ "Content-Type": "application/json"})
-};
+import { httpOptions, BACKEND_URL } from './server.service';
+
+export interface UserData {
+  userName: string;
+  email: string;
+  birthDate: string;
+  age: number;
+  password: string;
+  role: string;
+  id: number;
+  valid: boolean;
+}
 
 @Injectable({
   providedIn: 'root'

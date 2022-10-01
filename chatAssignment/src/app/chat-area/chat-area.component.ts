@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { SocketService } from '../services/socket.service';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from "@angular/common/http";
+import { httpOptions, BACKEND_URL } from '../services/server.service';
 import { ImageUploadService } from '../services/image-upload.service';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-const httpOptions = {
-  headers: new HttpHeaders({ "Content-Type": "application/json"})
-};
-
-const BACKEND_URL = "http://localhost:3000";
+import { SocketService } from '../services/socket.service';
 
 @Component({
   selector: 'app-chat-area',

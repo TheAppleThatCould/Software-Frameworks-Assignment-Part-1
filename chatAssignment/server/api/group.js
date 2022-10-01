@@ -112,7 +112,6 @@ module.exports = {
     },
     
     createGroup: function(db, app){
-        //TODO: double check this is working
         app.post('/createGroup', function(req, res){
             const collection = db.collection('groups');
             let group = req.body;
@@ -120,6 +119,7 @@ module.exports = {
             // Get the last element in the groups collection and increment the id by 1 then add it to the new group.
             collection.find().sort({id: -1}).limit(1).toArray((err, data) =>{
                 group.id = data[0].id + 1
+                console.log("Create this group: ", group)
 
                 collection.insertOne(group, (err, dbres) => {
                     if (err) throw err;
