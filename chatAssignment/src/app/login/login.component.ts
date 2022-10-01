@@ -1,30 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-const httpOptions = {
-  headers: new HttpHeaders({ "Content-Type": "application/json"})
-};
-
-const BACKEND_URL = "http://localhost:3000";
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+// A component for the login page
 export class LoginComponent implements OnInit {
   displayErrorMessage: boolean = false;
   userDetail = {userName: "", password: ""};
 
-  constructor(private router: Router, private httpClient: HttpClient) { }
+  constructor(private router: Router, private usersService: UsersService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
+  // A function that will call the login api to log the user in and set the localstorage variable
   public formSubmit() {
-    console.log("This is the data: ", this.userDetail);
-
-    this.httpClient.post(BACKEND_URL + '/login', this.userDetail, httpOptions).subscribe((data: any) =>{
+    this.usersService.login(this.userDetail).subscribe((data: any) =>{
       if(data){
         localStorage.setItem('userID', data.id.toString());
         localStorage.setItem('userName', data.userName.toString());
@@ -34,10 +28,8 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('role', data.role.toString());
         localStorage.setItem('valid', data.valid.toString());
         localStorage.setItem('imageURL', data.imageURL.toString());
-        
-        console.log("THIS IS THE USERS: ", data.imageURL.toString())
-        this.setUserAccessPermission(data.role.toString())
 
+        this.setUserAccessPermission(data.role.toString())
         this.router.navigateByUrl('/account');
       } else {
         this.displayErrorMessage = true;
@@ -45,7 +37,7 @@ export class LoginComponent implements OnInit {
     })
   }
 
-
+  // A function that set the user accessLevel depending on their role.
   setUserAccessPermission(userRole: string){
     if(userRole == "super" ){
       localStorage.setItem('adminAccess', "1");

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { httpOptions, BACKEND_URL } from './server.service';
 
 export interface UserData {
@@ -37,5 +37,9 @@ export class UsersService {
 
   updateUser(userData: UserData){
     this.httpClient.post(BACKEND_URL + '/updateUser', userData, httpOptions).subscribe((data: any) =>{})
+  }
+
+  login(userDetail: {userName: string, password: string}){
+    return this.httpClient.post(BACKEND_URL + '/login', userDetail, httpOptions);
   }
 }
