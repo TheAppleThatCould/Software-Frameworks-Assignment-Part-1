@@ -40,9 +40,6 @@
 
 <div *ngIf="createUserDisplay">
         <form>
-            <label>UserID: </label>
-            <input type="text" id="userName" class="form-control" [(ngModel)]="userData.id" name="userID"/>
-            <br>
 
             <label>UserName: </label>
             <input type="text" id="userName" class="form-control" [(ngModel)]="userData.userName" name="userName"/>
@@ -56,20 +53,8 @@
             <input type="text" id="userName" class="form-control" [(ngModel)]="userData.birthDate" name="birthDate"/>
             <br>
 
-            <label>Age: </label>
-            <input type="text" id="userName" class="form-control" [(ngModel)]="userData.age" name="age"/>
-            <br>
-
             <label>Password: </label>
             <input type="text" id="userName" class="form-control" [(ngModel)]="userData.password" name="Password"/>
-            <br>
-
-            <label>Role: </label>
-            <input type="text" id="userName" class="form-control" [(ngModel)]="userData.role" name="userRole"/>
-            <br>
-
-            <label>Valid: </label>
-            <input type="text" id="userName" class="form-control" [(ngModel)]="userData.valid" name="valid"/>
             <br>
 
             <button mat-raised-button type="submit" class="btn btn-primary btn-block mb-4" (click)="createUser()">Create User</button>

@@ -39,6 +39,18 @@ export class UsersService {
     this.httpClient.post(BACKEND_URL + '/updateUser', userData, httpOptions).subscribe((data: any) =>{})
   }
 
+  deleteUser(userID: number){
+    this.httpClient.post(BACKEND_URL + '/deleteUser', {userID}, httpOptions).subscribe((data: any) =>{})
+  }
+
+  createUser(userData: any){
+    this.httpClient.post(BACKEND_URL + '/createUser', userData, httpOptions).subscribe((data: any) =>{})
+  }
+
+  getAllUsers(){
+    return this.httpClient.get(BACKEND_URL + '/getAllUsers', httpOptions);
+  }
+
   login(userDetail: {userName: string, password: string}){
     return this.httpClient.post(BACKEND_URL + '/login', userDetail, httpOptions);
   }

@@ -2,11 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageUploadService } from '../services/image-upload.service';
 import { UsersService } from '../services/users.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-const httpOptions = {
-  headers: new HttpHeaders({ "Content-Type": "application/json"})
-};
-const BACKEND_URL = "http://localhost:3000";
 
 @Component({
   selector: 'app-account',

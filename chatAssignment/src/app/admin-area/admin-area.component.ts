@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { httpOptions, BACKEND_URL } from '../services/server.service';
-import { UserData } from "../services/users.service";
-import { GroupData } from '../services/groups.service';
-import { ChannelData } from "../services/channels.service";
+import { UserData, UsersService } from "../services/users.service";
+import { GroupData, GroupsService } from '../services/groups.service';
+import { ChannelData, ChannelsService } from "../services/channels.service";
 
 @Component({
   selector: 'app-admin-area',
@@ -34,7 +34,8 @@ export class AdminAreaComponent implements OnInit {
   displayAllChannelDisplay: boolean = false;
 
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private usersService: UsersService,
+     private groupsService: GroupsService, private channelsService: ChannelsService) { }
 
   ngOnInit(): void {
     this.getAllUsers();
@@ -46,23 +47,23 @@ export class AdminAreaComponent implements OnInit {
   }
 
   searchUser(userName: string){
-    this.httpClient.post(BACKEND_URL + '/getUserByUserName', {userName}, httpOptions).subscribe((data: any) =>{
+    this.usersService.getUserByUserName(userName).subscribe((data: any) =>{
       this.userData = data;
     })
   }
 
   updateUserRole(role: string){
     this.userData["role"] = role
-    this.httpClient.post(BACKEND_URL + '/updateUser', this.userData, httpOptions).subscribe((data: any) =>{})
+    
+    this.usersService.updateUser(this.userData);
   }
 
   deleteUser(userID: number){
-    console.log(userID)
-    this.httpClient.post(BACKEND_URL + '/deleteUser', {userID}, httpOptions).subscribe((data: any) =>{})
+    this.usersService.deleteUser(userID);
   }
 
   createUser(){
-    this.httpClient.post(BACKEND_URL + '/createUser', this.userData, httpOptions).subscribe((data: any) =>{})
+    this.usersService.createUser(this.userData);
   }
 
   clearDisplays(){
@@ -75,20 +76,19 @@ export class AdminAreaComponent implements OnInit {
   }
 
   getAllUsers(){
-    this.httpClient.get(BACKEND_URL + '/getAllUsers', httpOptions).subscribe((data: any) =>{
+    this.usersService.getAllUsers().subscribe((data: any) =>{
       this.userArray = data;
     })
   }
 
   getAllGroups(){
-    this.httpClient.get(BACKEND_URL + '/getGroups', httpOptions).subscribe((data: any) =>{
-      console.log(data)
+    this.groupsService.getAllGroups().subscribe((data: any) =>{
       this.groupArray = data;
     })
   }
 
   getAllChannel(){
-    this.httpClient.get(BACKEND_URL + '/getChannel', httpOptions).subscribe((data: any) =>{
+    this.channelsService.getAllChannel().subscribe((data: any) =>{
       this.channelArray = data.channels;
     })
   }

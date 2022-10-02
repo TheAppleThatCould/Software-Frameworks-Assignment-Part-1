@@ -18,6 +18,10 @@ export class ChannelsService {
 
   constructor(private httpClient: HttpClient) { }
 
+  getAllChannel(){
+    return this.httpClient.get(BACKEND_URL + '/getChannel', httpOptions);
+  }
+
   getChannelByUserID(userID: number, groupID: number){
     return this.httpClient.post(BACKEND_URL + "/getChannelsByUserID", {userID, groupID}, httpOptions);
   }
