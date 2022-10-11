@@ -52,6 +52,7 @@ export class GroupsService {
   }
 
   updateGroupAdmin(userID: number, groupID: number){
+    console.log(userID, groupID)
     this.httpClient.post(BACKEND_URL + "/updateGroupAdmin", {groupID, userID}, httpOptions).subscribe((data: any) =>{})
   }
 

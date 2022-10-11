@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelData, ChannelsService } from "../services/channels.service";
 import { GroupsService, GroupData } from '../services/groups.service';
-import { UsersService } from '../services/users.service';
+import { UsersService, UserData } from '../services/users.service';
  
 @Component({
   selector: 'app-channels',
@@ -10,22 +10,27 @@ import { UsersService } from '../services/users.service';
   styleUrls: ['./channels.component.css']
 })
 export class ChannelsComponent implements OnInit {
+
+  // group variable -> 
+  groupID: number = 0;
+  adddUserToGroupDisplay: boolean = false;
+
+  // channel variable -> 
+  adddUserToChannelDisplay: boolean = false;
+  channelArray = [{id: 0, name: "", groupID: 0, userID: [0]}]; // The channel array is the array that is getting displayed
+  createChannelDisplay: boolean = false;
+  channelData: ChannelData = {id: 0, name: "", groupID: 0, userID: [0]}; // The channelData will be passed through to an api to create new channel or update channels.
+  channelName: string = "";
+
+  // user variable ->
+  userID: number = 0;
+  userName: string = ""
+  userArray: UserData[] = [];
   adminAccess = 4;
 
-  groupID: number = 0;
-  // The channel array is the array that is getting displayed
-  channelArray = [{id: 0, name: "", groupID: 0, userID: [0]}];
 
-  createChannelDisplay: boolean = false;
-  //The channelData be passed through an api to create new channel or update channels.
-  // When creating an channel the name is assign by the user.
-  channelData: ChannelData = {id: 0, name: "", groupID: 0, userID: [0]};
-
-  userID: number = 0;
-
-  adddUserToChannelDisplay: boolean = false;
-  adddUserToGroupDisplay: boolean = false;
   addUserData = {channelName: "", userName: ""};
+
 
   message: string = '';
 
@@ -33,6 +38,7 @@ export class ChannelsComponent implements OnInit {
     private channelsService: ChannelsService, private groupsService: GroupsService, private usersService: UsersService) { }
 
   ngOnInit(): void {
+    this.getAllUser();
     this.groupID = parseInt(this.route.snapshot.params['id']);
     let userIDString = localStorage.getItem("userID") || '';
     this.userID = parseInt(userIDString);
@@ -56,7 +62,6 @@ export class ChannelsComponent implements OnInit {
   assignGroupPermission(){
     // a function that will check if the user is a groupadmin or groupassis of this group and grant corresponding permission
     let groupArray: GroupData = {id: 0, name: '', userID: [0], adminID: 0, assistantID: [0]};
-    let groupID = this.groupID;
     let isGroupAssis = false;
     let isGroupAdmin = false;
 
@@ -93,19 +98,21 @@ export class ChannelsComponent implements OnInit {
     })
   }
 
+  // clear the html display
   clearDisplays(){
     this.createChannelDisplay = false;
     this.adddUserToChannelDisplay = false;
     this.adddUserToGroupDisplay = false;
   }
 
+  // get group by group id
   getChannelsByGroupID(groupID: number){
     this.channelsService.getChannelsByGroupID(groupID).subscribe((data: any) =>{
-      console.log(data)
       this.channelArray = data;
     })
   }
 
+  // navigate to the chat area and check if the user have access. 
   navigateToChatArea(channelName: string){
     let userID = this.userID;
     let displayMessage = true;
@@ -124,13 +131,14 @@ export class ChannelsComponent implements OnInit {
     })
   }
 
+  // create a channel
   createChannel(){
     let newChannel: ChannelData = {id: 0, name: this.channelData.name, groupID: this.groupID, userID: [this.userID]};
     this.channelsService.createChannel(newChannel);
   }
 
+  //A function that will get the user and channel id and calls the addUserChannel function while passing in the two ids.
   getUserAndChannelID(){
-    //A function that will get the user and channel id and calls the addUserChannel function while passing in the two ids.
     let userName = this.addUserData.userName
     let channelName = this.addUserData.channelName
 
@@ -197,9 +205,12 @@ export class ChannelsComponent implements OnInit {
     let groupID = this.groupID
     let userName = this.addUserData.userName
     this.usersService.getUserByUserName(userName).subscribe((data: any) =>{
-      let userID = data[0].userID;
-      this.groupsService.updateGroupAdmin(groupID, userID);
-      this.updateUserRole(role)
+      let userID = data.id;
+      //Make sure the userID is define
+      if(userID){
+        this.groupsService.updateGroupAdmin(userID, groupID);
+        this.updateUserRole(role)
+      }
     })
 
   }
@@ -251,4 +262,15 @@ export class ChannelsComponent implements OnInit {
       })
     })
   }
+
+  // get all users
+  getAllUser(){
+    this.usersService.getAllUsers().subscribe((data: any)=> {
+      this.userArray = data;
+      console.log(this.userArray)
+
+    })
+    
+  }
+
 }

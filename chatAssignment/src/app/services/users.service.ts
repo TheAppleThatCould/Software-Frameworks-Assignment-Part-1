@@ -11,6 +11,7 @@ export interface UserData {
   role: string;
   id: number;
   valid: boolean;
+  imageURL: string;
 }
 
 @Injectable({
@@ -21,7 +22,7 @@ export class UsersService {
   userID: number = 0;
 
   constructor(private httpClient: HttpClient) {
-    // Recieve the current user's id.
+    // Recieve the current user id.
     this.userID = parseInt(localStorage.getItem("userID") || "");
   }
 
@@ -31,26 +32,32 @@ export class UsersService {
     this.httpClient.post(BACKEND_URL + '/updateUserAvatar', {imagePath, userID}, httpOptions).subscribe((data: any) =>{ })
   }
 
+  // A function that will call the getUserByUserName api
   getUserByUserName(userName: string){
     return this.httpClient.post(BACKEND_URL + "/getUserByUserName", {userName}, httpOptions);
   }
 
+  // A function that will call the updateUser api
   updateUser(userData: UserData){
     this.httpClient.post(BACKEND_URL + '/updateUser', userData, httpOptions).subscribe((data: any) =>{})
   }
 
+  // A function that will call the deleteUser api
   deleteUser(userID: number){
     this.httpClient.post(BACKEND_URL + '/deleteUser', {userID}, httpOptions).subscribe((data: any) =>{})
   }
 
+  // A function that will call the createUser api
   createUser(userData: any){
-    this.httpClient.post(BACKEND_URL + '/createUser', userData, httpOptions).subscribe((data: any) =>{})
+    this.httpClient.post(BACKEND_URL + '/createUser', userData).subscribe((data: any) =>{})
   }
 
+  // A function that will call the getAllUsers api
   getAllUsers(){
     return this.httpClient.get(BACKEND_URL + '/getAllUsers', httpOptions);
   }
 
+  // A function that will call the login api
   login(userDetail: {userName: string, password: string}){
     return this.httpClient.post(BACKEND_URL + '/login', userDetail, httpOptions);
   }

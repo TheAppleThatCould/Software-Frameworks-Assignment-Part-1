@@ -10,6 +10,15 @@ app.use(express.urlencoded({extended: true, limit: '50mb'}));
 app.use(express.json())
 app.use(cors());
 
+//Enable CORS for all HTTP methods
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
+
 // Images
 const path = require('path');
 const formidable = require("formidable")
@@ -26,6 +35,7 @@ const io = require("socket.io")(http, {
     }
 });
 sockets.connect(io, PORT);
+
 
 //Database connection
 const MongoClient = require("mongodb").MongoClient;
@@ -53,7 +63,6 @@ MongoClient.connect(mongoURL, function(err, client){
     require("./api/group.js").updateGroupAssistant(db,app);
 
     // Channels APIs ->
-
     require("./api/channel.js").getChannel(db,app);
     require("./api/channel.js").createChannel(db,app);
     require("./api/channel.js").deleteChannel(db,app);
@@ -75,7 +84,6 @@ MongoClient.connect(mongoURL, function(err, client){
     require("./api/user.js").createUser(db,app);
     require("./api/user.js").updateUserAvatar(db,app);
 
-
     // Images APIs ->
     require("./api/image.js").imageUpload(app,formidable,fs,path);
 
@@ -83,3 +91,4 @@ MongoClient.connect(mongoURL, function(err, client){
     server.listen(http, PORT)
 })
 
+module.exports = app; // this export is for test

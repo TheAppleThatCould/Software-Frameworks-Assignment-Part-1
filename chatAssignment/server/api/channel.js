@@ -4,8 +4,12 @@ module.exports = {
             const collection = db.collection('channels');
 
             collection.find({}).toArray((err, data) => {
-                console.log("getChannel: ", data)
+                if (err) throw err;
+
                 res.send(data);
+                if(data == []){
+                    res.sendStatus(200)
+                }
             })
         })
     },
@@ -13,16 +17,27 @@ module.exports = {
     createChannel: function(db, app){
         app.post('/createChannel', function(req, res){
             const collection = db.collection('channels');
-            let channel = req.body
+            let channel = req.body;
+            let validChannel = true;
 
             collection.find().sort({id: -1}).toArray((err, data) => {
-                channel.id = data[0].id + 1
-                console.log("This is the channel: ", channel)
+                if (err) throw err;
 
-                collection.insertOne(channel, (err, dbres) => {
-                    if (err) throw err;
-                    res.sendStatus(200)
+                channel.id = data[0].id + 1;
+                // Check if the there is a channel with that channel name.
+                data.map(el => {
+                    if(el.name == channel.name){
+                        validChannel = false;
+                    }
                 })
+
+                if(validChannel){
+                    collection.insertOne(channel, (err) => {
+                        if (err) throw err;
+                        console.log("TEST TEST ")
+                        res.sendStatus(200)
+                    })
+                }
             })
         })
     },
@@ -44,19 +59,15 @@ module.exports = {
             const collection = db.collection('channels');
             let channelID = req.body.channelID;
             let userID = req.body.userID;
-            
-            console.log(channelID)
 
             collection.find({id: parseInt(channelID)}).toArray((err, data) => {
-                console.log("data: ", data)
                 let newUserArray = []
 
                 data[0].userID.map(el => {
                     if(el != userID){
                         newUserArray.push(el)
                     }
-                })
-                console.log(newUserArray)                    
+                })                  
 
                 collection.updateOne({id: parseInt(channelID)}, {$set: {userID: newUserArray}})
                 res.sendStatus(200);
@@ -67,11 +78,9 @@ module.exports = {
     getChannelByChannelName: function(db, app){
         app.post('/getChannelByChannelName', function(req, res){
             const collection = db.collection('channels');
-            let channelName = req.body.channelName
-            console.log("TESt")
+            let channelName = req.body.channelName;
 
             collection.find({'name': channelName}).toArray((err, data) => {
-                console.log("getChannelByChannelName: ", data)
                 res.send(data[0]);
             })
         })
@@ -91,13 +100,10 @@ module.exports = {
                 data.map(el =>{
                     el.userID.map(userIDElement => {
                         if(userIDElement == userID){
-
                             channels.push(el)
-
                         }
                     })
                 })
-                console.log("These are the channels from getChannelsByUserID: ",channels)
 
                 res.send(channels);
             })
@@ -109,14 +115,10 @@ module.exports = {
         app.post('/getChannelsByGroupID', function(req, res){
             const collection = db.collection('channels');
             let groupID = req.body.groupID;
-            console.log("This is the groupID: ", groupID)
 
             collection.find({'groupID': parseInt(groupID)}).toArray((err, data) => {
-                console.log(data)
                 res.send(data)
             })
-            
-    
         })
     },
     
@@ -124,11 +126,8 @@ module.exports = {
         app.post('/getChannelHistory', function(req, res){
             const collection = db.collection('chatHistory');
             let channelID = req.body.channelID;
-            console.log("This is the channelID: ", channelID)
 
             collection.find({'channelID': parseInt(channelID)}).toArray((err, data) => {
-
-                console.log(data)
                 res.send(data)
             })
         })
@@ -138,14 +137,12 @@ module.exports = {
         app.post('/writeChannelHistory', function(req, res){
             const collection = db.collection('chatHistory');
             let chatMessage = req.body;
-            console.log("This is the chatMessage: ", chatMessage)
 
             collection.find().sort({id: -1}).toArray((err, data) => {
                 let chatMessageID = data[0].id + 1
                 let message = {id: chatMessageID, channelID: parseInt(chatMessage.channelID), userID: parseInt(chatMessage.userID),
                                 userName: chatMessage.userName, message: chatMessage.message, avatar: chatMessage.avatar,
                                 imageURL: chatMessage.imageURL}
-                console.log("This is the new message: ", message)
 
                 collection.insertOne(message, (err, dbres) => {
                     if (err) throw err;
@@ -165,7 +162,6 @@ module.exports = {
             //TODO: come back later and create code to check for duplicates.
             collection.find({id: parseInt(channelID)}).toArray((err, data) => {
                 if (err) throw err
-
                 data[0].userID.push(userID)
 
                 collection.updateOne({id: channelID}, {$set: {userID: data[0].userID}})

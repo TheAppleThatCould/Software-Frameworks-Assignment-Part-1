@@ -4,7 +4,6 @@ module.exports = {
             const collection = db.collection('groups');
 
             collection.find({}).toArray((err, data) => {
-                console.log("getGroups: ", data)
                 res.send(data);
             })
         })
@@ -15,11 +14,9 @@ module.exports = {
 
             let userID = req.body.userID;
             let groupID = req.body.groupID;
-            console.log(userID, " ", parseInt(groupID))
 
             //TODO: come back later and check for duplicates.
             collection.find({id: parseInt(groupID)}).toArray((err, data) => {
-                console.log("data: ", data)
                 data[0].userID.push(userID)
 
                 collection.updateOne({id: groupID}, {$set: {userID: data[0].userID}})
@@ -32,7 +29,6 @@ module.exports = {
             const collection = db.collection('groups');
 
             let groupID = req.body.groupID;
-            console.log(parseInt(groupID))
 
             collection.deleteOne({id: parseInt(groupID)});
             res.sendStatus(200);
@@ -44,18 +40,15 @@ module.exports = {
 
             let userID = req.body.userID;
             let groupID = req.body.groupID;
-            console.log(parseInt(groupID))
 
             collection.find({id: parseInt(groupID)}).toArray((err, data) => {
-                console.log("data: ", data)
                 let newUserArray = []
 
                 data[0].userID.map(el => {
                     if(el != userID){
                         newUserArray.push(el)
                     }
-                })
-                console.log(newUserArray)                    
+                })               
 
                 collection.updateOne({id: parseInt(groupID)}, {$set: {userID: newUserArray}})
                 res.sendStatus(200);
@@ -105,7 +98,6 @@ module.exports = {
 
             collection.find({id: parseInt(groupID)}).toArray((err, data) => {
                 if (err) throw err;
-                console.log("This is the group by groupID" + data[0])
                 res.send(data[0]);
             })
         })
@@ -119,7 +111,6 @@ module.exports = {
             // Get the last element in the groups collection and increment the id by 1 then add it to the new group.
             collection.find().sort({id: -1}).limit(1).toArray((err, data) =>{
                 group.id = data[0].id + 1
-                console.log("Create this group: ", group)
 
                 collection.insertOne(group, (err, dbres) => {
                     if (err) throw err;
@@ -136,17 +127,25 @@ module.exports = {
 
             let userID = req.body.userID;
             let groupID = req.body.groupID;
-
-            console.log(userID, " ", parseInt(groupID))
+            console.log(userID, groupID)
+            
+            collection.updateOne({id: groupID}, {$set: {adminID: userID}})
+            res.sendStatus(200);
 
             //TODO: come back later and check for duplicates.
-            collection.find({id: parseInt(groupID)}).toArray((err, data) => {
-                console.log("data: ", data)
-                data[0].adminID = userID;
+            // collection.find({id: parseInt(groupID)}).toArray((err, data) => {
+            //     if(data){
+            //         console.log("updateGroupAdmin data: ", data)
 
-                collection.updateOne({id: groupID}, {$set: {userID: data[0].userID}})
-                res.sendStatus(200);
-            })
+            //         data[0].adminID = userID;
+    
+            //         collection.updateOne({id: groupID}, {$set: {adminID: userID}})
+            //         res.sendStatus(200);
+            //     } else {
+            //         res.sendStatus(400);
+            //     }
+
+            // })
         })
     },
 
@@ -154,9 +153,6 @@ module.exports = {
         app.post('/updateGroupAssistant', function(req, res){
             const collection = db.collection('groups');
             let group = req.body;
-
-            console.log("THIS IS THE GROUP: ", group)
-
        
             collection.updateOne(
                 {'id': group.id},

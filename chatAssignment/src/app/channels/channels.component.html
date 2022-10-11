@@ -1,9 +1,9 @@
 <h1>List of channels</h1>
 <ul>
     <li *ngFor="let channel of channelArray">
-        <button (click)="navigateToChatArea(channel.name)" class="btn btn-primary">{{channel.name}}</button>
+        <button (click)="navigateToChatArea(channel.name)" class="btn btn-primary mb-2">{{channel.name}}</button>
 
-        <button *ngIf="adminAccess <= 2" (click)="deleteChannel(channel.id)" class="btn btn-danger">Delete</button>
+        <button *ngIf="adminAccess <= 2" (click)="deleteChannel(channel.id)" class="btn btn-danger mb-2 ms-1">Delete</button>
     </li>
 
 </ul>
@@ -26,10 +26,12 @@
 
     </div>
 
+
     <div *ngIf="adminAccess <= 3">
         <!-- Group admin can access these functionality -->
         <button class="btn btn-primary btn-block mb-4" (click)="clearDisplays(); adddUserToGroupDisplay = !adddUserToGroupDisplay">User's group setting</button><br>
     </div>
+
 
     <div *ngIf="createChannelDisplay">
         <br>
@@ -43,11 +45,25 @@
         </form>
     </div>
 
+
     <div *ngIf="adddUserToChannelDisplay">
         <br>
         <h3>Type the channel name and user name to change their setting for this Channel</h3>
 
         <form>
+            <!-- <label for="channelName">Choose a Channel:</label>
+            <select id="channelName" name="channelName">
+              <option value="volvo">Volvo</option>
+            </select> <br>
+
+            <label for="userName">Choose a user:</label>
+                <ul>
+                    <li *ngFor="let user of userArray"> 
+                        <option value="{{user.userName}}">{{user.userName}}</option> 
+                    </li>
+                </ul>
+            </select><br><br> -->
+
             <label>Channel Name: </label>
             <input type="text" id="channelName" class="form-control" [(ngModel)]="addUserData.channelName" name="channelName"/>
             <br>
@@ -60,6 +76,7 @@
             <button mat-raised-button type="submit" class="btn btn-danger btn-block mb-4" (click)="removeUserFromChannel()">Remove User</button>
         </form>
     </div>
+
 
     <div *ngIf="adddUserToGroupDisplay">
         <br>

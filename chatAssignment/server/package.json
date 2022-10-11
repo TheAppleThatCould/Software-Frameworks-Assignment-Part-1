@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha",
+    "routeTest": "mocha ./test/testRoute.js"
   },
   "author": "",
   "license": "ISC",
@@ -12,5 +13,10 @@
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "socket.io-client": "^4.5.1"
+  },
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.0.0"
   }
 }

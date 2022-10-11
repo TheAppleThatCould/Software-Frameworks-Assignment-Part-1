@@ -15,7 +15,6 @@ module.exports = {
 
                 fs.rename(oldpath, newpath, err => {
                     if(err){
-                        console.log("error parsing the files");
                         return res.status(400).json({
                             status: "Fail",
                             message: "There was an error parsing the files",

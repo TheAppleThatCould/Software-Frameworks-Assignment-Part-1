@@ -10,7 +10,6 @@ module.exports = {
             const collection = db.collection('users');
 
             collection.find({$and: [{"userName": {$eq: userName}}, {"password": {$eq: password}}]}).toArray((err, data) => {
-                console.log(data)
                 res.send(data[0])
             })
 

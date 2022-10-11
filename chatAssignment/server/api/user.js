@@ -1,10 +1,10 @@
 module.exports = {
+    // Get all users in the users collection in the mongodb database
     getAllUsers: function(db, app){
         app.get('/getAllUsers', function(req, res){
             const collection = db.collection('users');
 
             collection.find({}).toArray((err, data) => {
-                console.log("getAllUsers: ", data)
                 if(!data){
                     res.send("");
                 } else{
@@ -14,6 +14,7 @@ module.exports = {
 
         })
     },
+    // Delete the user based on the parameter userID
     deleteUser: function(db, app){
         app.post('/deleteUser', function(req, res){
 
@@ -23,12 +24,12 @@ module.exports = {
             const userID = req.body.userID;
             const collection = db.collection('users');
 
-            collection.deleteOne({id: userID});
-
-            console.log("Delete! userID: ", userID);
-            res.sendStatus(200);
+            collection.deleteOne({id: userID}).then(() => {
+                res.sendStatus(200);
+            });
         })
     },
+    //Get user based on the param userName stringc
     getUserByUserName: function(db, app){
         app.post('/getUserByUserName', function(req, res){
 
@@ -38,13 +39,12 @@ module.exports = {
             const userName = req.body.userName;
             const collection = db.collection('users');
 
-            console.log("userName: ", userName);
-
             collection.find({'userName': userName}).toArray((err, data) => {
                 res.send(data[0])
             })
         })
     },
+    // Update the user based on the param userID
     updateUser: function(db, app){
         app.post('/updateUser', function(req, res){
 
@@ -54,9 +54,8 @@ module.exports = {
             const userName = req.body.userName;
             const collection = db.collection('users');
 
-            console.log("req.body: ", req.body);
-            
-            collection.update(
+
+            collection.updateOne(
                 {'userName': userName},
                 {
                     $set: {
@@ -73,23 +72,51 @@ module.exports = {
             res.sendStatus(200)
         })
     },
+    // Create user in database
     createUser: function(db, app){
         app.post('/createUser', function(req, res){
-
             if(!req.body){
                 return res.sendStatus(400);
             }
             const user = req.body;
             const collection = db.collection('users');
+            let alreadyExist = false;
 
-            console.log("req.body: ", req.body);
-            
-            collection.insertOne(user, (err, dbres) => {
-                if (err) throw err;
+            collection.find({}).toArray((err, data) => {
+                data.map(el =>{
+                    if(el.userName == user.userName){
+                        alreadyExist = true
+                    }
+                })
+                    
+                // Create the user if the userName is unique
+                if(!alreadyExist){
+                    collection.find().sort({id: -1}).toArray((err, data) => {
+                        user.id = data[0].id + 1;
+                        user.valid = true;
+                        user.role = "normal";
+                        user.imageURL = "null";
+                        user.birthDate = "null";
+                        user.age = 1;
+        
+                        collection.insertOne(user, (err, dbres) => {
+                            if (err){
+                                throw err
+                            } else {
+                                res.sendStatus(200);
+                            }
+                        });
+                    });
+                } else {
+                    res.sendStatus(200);
+                }
+
+
             })
-            res.sendStatus(200)
         })
     },
+
+    // Update the user avatar image string with the imageURL parameter
     updateUserAvatar: function(db, app){
         app.post('/updateUserAvatar', function(req, res){
             if(!req.body){
@@ -99,8 +126,7 @@ module.exports = {
             const userID = req.body.userID;
             const imagePath = req.body.imagePath;
             const collection = db.collection('users');
-
-            collection.updateOne({id: userID}, {$set: {imageURL: imagePath}})
+            collection.updateOne({id: parseInt(userID)}, {$set: {imageURL: imagePath}})
 
             return res.sendStatus(200);
 
