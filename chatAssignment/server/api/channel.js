@@ -1,4 +1,6 @@
 module.exports = {
+
+    // Get all channels
     getChannel: function(db, app){
         app.get('/getChannel', function(req, res){
             const collection = db.collection('channels');
@@ -13,7 +15,8 @@ module.exports = {
             })
         })
     },
-    
+
+    // Create a channel based on a channel object
     createChannel: function(db, app){
         app.post('/createChannel', function(req, res){
             const collection = db.collection('channels');
@@ -42,6 +45,7 @@ module.exports = {
         })
     },
 
+    // delete a channel based on the channelID
     deleteChannel: function(db, app){
         app.post('/deleteChannel', function(req, res){
             const collection = db.collection('channels');
@@ -52,9 +56,9 @@ module.exports = {
         })
     },
 
+    // Remove a user from a channel based on the channelID and userID
     removeUserFromChannel: 
     function(db, app){
-        //TODO: check to see if its working
         app.post('/removeUserFromChannel', function(req, res){
             const collection = db.collection('channels');
             let channelID = req.body.channelID;
@@ -75,6 +79,8 @@ module.exports = {
 
         })
     },
+
+    // Get channel based on the channel name.
     getChannelByChannelName: function(db, app){
         app.post('/getChannelByChannelName', function(req, res){
             const collection = db.collection('channels');
@@ -86,8 +92,7 @@ module.exports = {
         })
     },
     
-
-
+    // Get the channel based on the userID
     getChannelsByUserID: function(db, app){
         app.post('/getChannelsByUserID', function(req, res){
             const collection = db.collection('channels');
@@ -110,6 +115,7 @@ module.exports = {
         })
     },
 
+    // Get the channel based on the groupID
     getChannelsByGroupID: function(db, app){
         // Get all the groups that the user is a part of
         app.post('/getChannelsByGroupID', function(req, res){
@@ -122,6 +128,7 @@ module.exports = {
         })
     },
     
+    // Get the channel chat history based on the channelID
     getChannelHistoryByChannelID: function(db, app){
         app.post('/getChannelHistory', function(req, res){
             const collection = db.collection('chatHistory');
@@ -133,6 +140,7 @@ module.exports = {
         })
     },
 
+    // Save the chat history based on the channelID
     writeChannelHistoryByChannelID: function(db, app){
         app.post('/writeChannelHistory', function(req, res){
             const collection = db.collection('chatHistory');
@@ -152,6 +160,7 @@ module.exports = {
         })
     },
 
+    // Add user to a channel based on the channelID and userID
     addUserToChannel: function(db, app){
         app.post('/addUserToChannel', function(req, res){
             const collection = db.collection('channels');
@@ -159,7 +168,6 @@ module.exports = {
             let userID = req.body.userID;
             let channelID = req.body.channelID;
 
-            //TODO: come back later and create code to check for duplicates.
             collection.find({id: parseInt(channelID)}).toArray((err, data) => {
                 if (err) throw err
                 data[0].userID.push(userID)
