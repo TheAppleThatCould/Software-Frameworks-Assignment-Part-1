@@ -45,9 +45,9 @@ export class AccountComponent implements OnInit {
   uploadImage(){
     const fd = new FormData();
     if(this.selectedFile != null){
-      // TODO:  "this.selectedFile.name" not working with typescript
       // @ts-ignore
       let fileName = this.selectedFile.name || "";
+
       fd.append('image', this.selectedFile, fileName)
 
       this.ImageUploadService.imgUpload(fd).subscribe(res => {
