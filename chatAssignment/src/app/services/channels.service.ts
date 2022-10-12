@@ -56,7 +56,7 @@ export class ChannelsService {
   getChatHistory(channelID: number){
     return this.httpClient.post(BACKEND_URL + "/getChannelHistory", {channelID}, httpOptions)
   }
-// A function which will save the chat history
+  // A function which will save the chat history
   writeChatHistory(newMessage: Object){
     this.httpClient.post(BACKEND_URL + "/writeChannelHistory", newMessage, httpOptions).subscribe((data: any) =>{})
   }
