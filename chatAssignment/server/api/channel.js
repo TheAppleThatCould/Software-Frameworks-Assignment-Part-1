@@ -37,8 +37,7 @@ module.exports = {
                 if(validChannel){
                     collection.insertOne(channel, (err) => {
                         if (err) throw err;
-                        console.log("TEST TEST ")
-                        res.sendStatus(200)
+                        res.sendStatus(200);
                     })
                 }
             })
@@ -52,7 +51,7 @@ module.exports = {
             let channelID = req.body.channelID;
             
             collection.deleteOne({id: parseInt(channelID)});
-            res.sendStatus(200);
+            res.sendStatus(200)
         })
     },
 
@@ -74,7 +73,8 @@ module.exports = {
                 })                  
 
                 collection.updateOne({id: parseInt(channelID)}, {$set: {userID: newUserArray}})
-                res.sendStatus(200);
+                res.sendStatus(200)
+
             })
 
         })
@@ -98,7 +98,6 @@ module.exports = {
             const collection = db.collection('channels');
             let userID = req.body.userID
             let groupID = req.body.groupID
-
 
             collection.find({'groupID': groupID}).toArray((err, data) => {
                 let channels = [];
@@ -155,6 +154,7 @@ module.exports = {
                 collection.insertOne(message, (err, dbres) => {
                     if (err) throw err;
                     res.sendStatus(200)
+                   
                 })
             })
         })
@@ -173,7 +173,7 @@ module.exports = {
                 data[0].userID.push(userID)
 
                 collection.updateOne({id: channelID}, {$set: {userID: data[0].userID}})
-                res.sendStatus(200);
+                res.sendStatus(200)
             })
         })
     },

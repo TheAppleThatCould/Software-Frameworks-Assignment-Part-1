@@ -3,7 +3,6 @@ module.exports = {
         app.post('/imageUpload', (req, res) => {
             var form = new formidable.IncomingForm();
             const uploadFolder = path.join(__dirname, "../data/images");
-            // form.maxFileSize = 50 * 1024 * 1024; // 5MB
             form.uploadDir = uploadFolder;
 
             form.keepExtension = true;
@@ -12,12 +11,6 @@ module.exports = {
 
                 let oldpath = files.image.path || "";
                 let newpath = form.uploadDir + "/" + files.image.name;
-
-                console.log("files: ", files);
-
-                console.log("oldpath: ", oldpath);
-                console.log("newpath: ", newpath);
-
 
                 fs.rename(oldpath, newpath, err => {
                     if(err){

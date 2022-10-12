@@ -107,15 +107,25 @@ module.exports = {
         app.post('/createGroup', function(req, res){
             const collection = db.collection('groups');
             let group = req.body;
+            let valid = true;
 
             // Get the last element in the groups collection and increment the id by 1 then add it to the new group.
             collection.find().sort({id: -1}).limit(1).toArray((err, data) =>{
                 group.id = data[0].id + 1
-
-                collection.insertOne(group, (err, dbres) => {
-                    if (err) throw err;
-                    res.sendStatus(200)
+                
+                data.map(el =>{
+                    // Checks for duplicates
+                    if(group.name == el.name){
+                        valid = false;
+                    }
                 })
+
+                if(valid){
+                    collection.insertOne(group, (err) => {
+                        if (err) throw err;
+                        res.sendStatus(200)
+                    })
+                }
             });
 
         })
@@ -127,25 +137,9 @@ module.exports = {
 
             let userID = req.body.userID;
             let groupID = req.body.groupID;
-            console.log(userID, groupID)
             
             collection.updateOne({id: groupID}, {$set: {adminID: userID}})
             res.sendStatus(200);
-
-            //TODO: come back later and check for duplicates.
-            // collection.find({id: parseInt(groupID)}).toArray((err, data) => {
-            //     if(data){
-            //         console.log("updateGroupAdmin data: ", data)
-
-            //         data[0].adminID = userID;
-    
-            //         collection.updateOne({id: groupID}, {$set: {adminID: userID}})
-            //         res.sendStatus(200);
-            //     } else {
-            //         res.sendStatus(400);
-            //     }
-
-            // })
         })
     },
 
