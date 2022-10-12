@@ -6,6 +6,12 @@ Documentation for stage 1 Assignment 1
 Student Name: Joshua Adams
 Student Number: s5224647
 
+# Testing
+
+## server-side
+In order to run the server side testing you must navigate to the server folder and run the following:
+  - `npm run routeTest`
+
 # Documentation
 ## Organization of the Git Repository:
 During development I committed code to the main branch every time I had created a new functionality. I had tested the code to ensure it was working before committing it.
