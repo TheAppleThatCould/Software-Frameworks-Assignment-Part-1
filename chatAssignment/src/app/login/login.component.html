@@ -15,7 +15,7 @@
 
             <input type="password" id="loginPassword" class="form-control" [(ngModel)]="userDetail.password" name="password"/>
         </div>
-
+        <!-- Display error message if the user inputted the wrong password or username -->
         <div *ngIf="displayErrorMessage == true">
             <h1>Failed Login</h1>
 

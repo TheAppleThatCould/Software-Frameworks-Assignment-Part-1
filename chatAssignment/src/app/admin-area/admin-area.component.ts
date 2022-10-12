@@ -38,10 +38,12 @@ export class AdminAreaComponent implements OnInit {
               private channelsService: ChannelsService){}
 
   ngOnInit(): void {
+    // Initialize userArray, groupArray, and channelArray with the following three functions.
     this.getAllUsers();
     this.getAllGroups();
     this.getAllChannel();
 
+    // Get the user access level
     let adminAccessNum = localStorage.getItem("adminAccess") || '4';
     this.adminAccess = +adminAccessNum;
   }

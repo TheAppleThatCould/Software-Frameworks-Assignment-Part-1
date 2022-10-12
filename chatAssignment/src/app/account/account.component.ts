@@ -25,6 +25,7 @@ export class AccountComponent implements OnInit {
   constructor(private router: Router, private ImageUploadService: ImageUploadService, private UsersService: UsersService) {}
 
   ngOnInit(): void {
+    // Get all the user data from local storage
     this.userName = localStorage.getItem("userName") || "";
     this.birthDate = localStorage.getItem("birthDate") || "";
     this.email = localStorage.getItem("email") || "";
@@ -37,11 +38,13 @@ export class AccountComponent implements OnInit {
       this.router.navigateByUrl('/login');
     }
   }
-
+  
+  // Asign the file to the selectedFile variable
   onFileSelected(event: any){
     this.selectedFile = event.target.files[0];
   }
 
+  // A function which will upload and recieve a image
   uploadImage(){
     const fd = new FormData();
     if(this.selectedFile != null){

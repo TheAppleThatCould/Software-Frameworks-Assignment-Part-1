@@ -28,6 +28,7 @@ export class ChatAreaComponent implements OnInit {
               private ImageUploadService: ImageUploadService, private channelsService: ChannelsService) {}
 
   ngOnInit(): void {
+    // Initialize variable and get data from local storage
     this.userName = localStorage.getItem("userName") || "";
     this.userID = parseInt(localStorage.getItem("userID") || "");
     this.avatarURL = localStorage.getItem("imageURL") || '';
@@ -37,6 +38,7 @@ export class ChatAreaComponent implements OnInit {
     this.initToConnection();
   }
 
+  // Create the connection with the socket
   private initToConnection(){
     this.socketService.initSocket();
     this.ioConnection = this.socketService.getMessage()
@@ -48,6 +50,7 @@ export class ChatAreaComponent implements OnInit {
       });
   }
 
+  // A function which will send a meesage
   public chat(){
     if(this.messageContent){
       this.socketService.send(this.messageContent);
@@ -60,21 +63,24 @@ export class ChatAreaComponent implements OnInit {
     }
   }
 
-
+  // Get all the chat history for this channel based on the channelID
   getChatHistory(channelID: number){
     this.channelsService.getChatHistory(channelID).subscribe((data: any) =>{
       this.message = data.reverse();
     })
   }
 
+  // Add a new message to the chat history for this channels 
   writeChatHistory(newMessage: Object){
     this.channelsService.writeChatHistory(newMessage);
   }
 
+  // A function which will asign the file to this.selectedFile
   onFileSelected(event: any){
     this.selectedFile = event.target.files[0];
   }
 
+  // A function which will upload and recieve a image
   uploadImage(){
     const fd = new FormData();
     if(this.selectedFile != null){

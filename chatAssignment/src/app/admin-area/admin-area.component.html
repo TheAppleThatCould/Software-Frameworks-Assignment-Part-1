@@ -1,5 +1,7 @@
 <h1>Admin Area</h1>
 <br>
+
+<!-- Display different forms depending on the user access level -->
 <div *ngIf="adminAccess <= 2" class="pb-2">
     <button mat-raised-button (click)="clearDisplays(); createUserDisplay = true" class="btn btn-primary  mx-2">Create User</button>
 </div>
@@ -13,7 +15,7 @@
 
 
 
-
+<!-- Display the form to look up users -->
 <br>
 <div *ngIf="searchUserDisplay">
     <form>
@@ -37,7 +39,7 @@
     </div>
 </div>
 
-
+<!-- Display the form to create a user -->
 <div *ngIf="createUserDisplay">
         <form>
 
@@ -57,7 +59,7 @@
         </form>
 
 </div>
-
+<!-- Display all the users -->
 <div *ngIf="displayAllUsersDisplay">
     <div *ngFor="let user of userArray">
         <h3>Users Information: </h3>
@@ -71,7 +73,7 @@
     </div>
 </div>
 
-
+<!-- Display all the groups -->
 <div *ngIf="displayAllGroupsDisplay">
     <div *ngFor="let group of groupArray">
         <h3>{{group.name}}'s Information: </h3>
@@ -95,6 +97,7 @@
     </div>
 </div>
 
+<!-- Display all the channels -->
 <div *ngIf="displayAllChannelDisplay">
     <div *ngFor="let channel of channelArray">
         <h3>{{channel.name}}'s Information: </h3>

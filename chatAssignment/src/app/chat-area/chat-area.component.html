@@ -1,4 +1,5 @@
 <div class="container">
+    <!-- Display the form to send a new message -->
     <form>
         <div>
             <label for="messageContent"> New Message</label>
@@ -8,7 +9,7 @@
             <button (click)="chat()" class="btn btn-primary"> Send</button>
         </div>
     </form>
-
+    <!-- Display the form to upload a new image -->
     <form>
         <div class="form-group">
             <input type="file" class="form-control" (change)="onFileSelected($event)" name="uploadfile" id = "uploadfile" />
@@ -18,6 +19,7 @@
     </form>
 </div>
 
+<!-- Display all the images -->
 <div *ngFor="let m of message" class="p-1">
     <div class="d-inline-flex bg-success p-1">
         <div *ngIf="m.avatar">
@@ -31,9 +33,5 @@
                 <img src="http://localhost:3000\images\{{m.imageURL}}" style="width:150px;height:150px;"/>
             </div>
         </div>
-
-
     </div>
-
-
 </div>

@@ -87,7 +87,7 @@ MongoClient.connect(mongoURL, function(err, client){
     // Images APIs ->
     require("./api/image.js").imageUpload(app,formidable,fs,path);
 
-
+    // Start server listening
     server.listen(http, PORT)
 })
 

@@ -1,5 +1,6 @@
 <div>
     <h1>List of groups</h1>
+    <!-- Display all the groups -->
     <ul>
         <li *ngFor="let group of groupArray">
             <button (click)="navigateToGroup(group.id)" class="btn btn-primary mb-2">{{group.name}}</button>

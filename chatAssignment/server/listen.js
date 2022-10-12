@@ -1,4 +1,5 @@
 module.exports = {
+    // A function which wil start the server and listen 
     listen: function(app, PORT){
         app.listen(PORT, ()=>{
             let d = new Date();

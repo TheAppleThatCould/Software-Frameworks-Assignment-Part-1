@@ -1,3 +1,4 @@
+<!-- Display the user information -->
 <h2>User's Details</h2>
 <p>Username: {{userName}}</p>
 <p>Birthdate: {{birthDate}}</p>
@@ -10,6 +11,7 @@
 
 <h2>User's Avatar</h2>
 
+<!-- Display form to select a image -->
 <form>
     <div class="form-group">
         <input type="file" class="form-control" (change)="onFileSelected($event)" name="uploadfile" id = "uploadfile" />
@@ -18,7 +20,7 @@
 
 </form>
 
-
+<!-- Display the image if the imagePath isn't a empty string -->
 <div *ngIf="imagePath != '' ">
     <img src="http://localhost:3000\images\{{imagePath}}"/>
 </div>

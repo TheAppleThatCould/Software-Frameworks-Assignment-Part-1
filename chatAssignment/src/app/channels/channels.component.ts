@@ -28,16 +28,14 @@ export class ChannelsComponent implements OnInit {
   userArray: UserData[] = [];
   adminAccess = 4;
 
-
   addUserData = {channelName: "", userName: ""};
-
-
   message: string = '';
 
   constructor(private route: ActivatedRoute, private router: Router,
     private channelsService: ChannelsService, private groupsService: GroupsService, private usersService: UsersService) { }
 
   ngOnInit(): void {
+    // Initialize the component variables
     this.getAllUser();
     this.groupID = parseInt(this.route.snapshot.params['id']);
     let userIDString = localStorage.getItem("userID") || '';
@@ -47,9 +45,11 @@ export class ChannelsComponent implements OnInit {
     let adminAccessNum = localStorage.getItem("adminAccess") || '4';
     this.adminAccess = + adminAccessNum;
 
+    // Asign the user their permission for this group
     this.assignGroupPermission()
   }
 
+  // Get the channel which the user is a part of
   getChannelByUserID(){
     this.channelsService.getChannelByUserID(this.userID, this.groupID).subscribe((data: any) =>{
       if(data.length == 0){
@@ -59,6 +59,7 @@ export class ChannelsComponent implements OnInit {
     })
   }
 
+  // A function which will asign the user their permission for this group
   assignGroupPermission(){
     // a function that will check if the user is a groupadmin or groupassis of this group and grant corresponding permission
     let groupArray: GroupData = {id: 0, name: '', userID: [0], adminID: 0, assistantID: [0]};
@@ -142,7 +143,6 @@ export class ChannelsComponent implements OnInit {
     let userName = this.addUserData.userName
     let channelName = this.addUserData.channelName
 
-    // Get 
     this.usersService.getUserByUserName(userName).subscribe((data: any) =>{
       if(data != undefined){
         let userID = data.id;
@@ -154,12 +154,13 @@ export class ChannelsComponent implements OnInit {
     })
   }
 
+  // A function which will add a user to the channel
   addUserToChannel(userID: number, channelID: number){
     this.channelsService.addUserToChannel(userID, channelID);
   }
 
+  // A function which will add the user to this group
   addUserToGroup(){
-    //addUserToGroup
     let groupID = this.groupID
     let userName = this.addUserData.userName;
 
@@ -171,6 +172,7 @@ export class ChannelsComponent implements OnInit {
     })
   }
 
+  // A function which will remove the user from this group
   removeUserFromGroup(){
     let groupID = this.groupID
     let userName = this.addUserData.userName;
@@ -183,6 +185,7 @@ export class ChannelsComponent implements OnInit {
     })
   }
 
+  // A function which will remove the user from this channel
   removeUserFromChannel(){
     let userName = this.addUserData.userName
     let channelName = this.addUserData.channelName
@@ -197,10 +200,12 @@ export class ChannelsComponent implements OnInit {
     })
   }
 
+  // A function which will delete a channel
   deleteChannel(channelID: number){
     this.channelsService.deleteChannel(channelID);
   }
 
+  // A function which will update the group admin for this group
   updateGroupAdmin(role: string){
     let groupID = this.groupID
     let userName = this.addUserData.userName
@@ -215,6 +220,7 @@ export class ChannelsComponent implements OnInit {
 
   }
 
+  // A function which will update the user role
   updateUserRole(role: string){
     let userName = this.addUserData.userName
 
@@ -225,6 +231,7 @@ export class ChannelsComponent implements OnInit {
     })
   }
 
+  // A function which will update the group assistant.
   updateGroupAssistant(userName: string, deleteAction: boolean){
     // A function that will update the assistantID array within the current group.
     // The deleteAction param reduce code by allowing the function call to specify if the action will remove the user from the assistant role or not.
@@ -263,14 +270,10 @@ export class ChannelsComponent implements OnInit {
     })
   }
 
-  // get all users
+  // A function which will get all the users.
   getAllUser(){
     this.usersService.getAllUsers().subscribe((data: any)=> {
       this.userArray = data;
-      console.log(this.userArray)
-
     })
-    
   }
-
 }

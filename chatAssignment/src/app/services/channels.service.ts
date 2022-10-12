@@ -32,31 +32,31 @@ export class ChannelsService {
   getChannelsByGroupID(groupID: number){
     return this.httpClient.post(BACKEND_URL + "/getChannelsByGroupID", {groupID}, httpOptions)
   }
-
+  // A function which will get the channel based on the channel name
   getChannelByChannelName(channelName: string){
     return this.httpClient.post(BACKEND_URL + "/getChannelByChannelName", {channelName}, httpOptions)
   }
-
+  // A function which will create a channel
   createChannel(newChannel: ChannelData){
     this.httpClient.post(BACKEND_URL + "/createChannel", newChannel, httpOptions).subscribe((data: any) =>{});
   }
-
+  // A function which will add a user to a channel
   addUserToChannel(userID: number, channelID: number){
     this.httpClient.post(BACKEND_URL + "/addUserToChannel", {userID, channelID}, httpOptions).subscribe((data: any) =>{})
   }
-
+  // A function which will remove a user from a channel
   removeUserFromChannel(userID: number, channelID: number){
     this.httpClient.post(BACKEND_URL + "/removeUserFromChannel", {userID, channelID}, httpOptions).subscribe((data: any) =>{})
   }
-
+  // A function which will delete a channel
   deleteChannel(channelID: number){
     this.httpClient.post(BACKEND_URL + "/deleteChannel", {channelID}, httpOptions).subscribe((data: any) =>{})
   }
-
+  // A function which will get the chat history
   getChatHistory(channelID: number){
     return this.httpClient.post(BACKEND_URL + "/getChannelHistory", {channelID}, httpOptions)
   }
-
+// A function which will save the chat history
   writeChatHistory(newMessage: Object){
     this.httpClient.post(BACKEND_URL + "/writeChannelHistory", newMessage, httpOptions).subscribe((data: any) =>{})
   }
