@@ -1,4 +1,5 @@
 module.exports = {
+    // Get all groups
     getGroups: function(db, app){
         app.get('/getGroups', function(req, res){
             const collection = db.collection('groups');
@@ -8,6 +9,7 @@ module.exports = {
             })
         })
     },
+    // Add user to a group based on the userID and groupID
     addUserToGroup: function(db, app){
         app.post('/addUserToGroup', function(req, res){
             const collection = db.collection('groups');
@@ -24,6 +26,7 @@ module.exports = {
             })
         })
     },
+    // Delete the group based on the groupID
     deleteGroup: function(db, app){
         app.post('/deleteGroup', function(req, res){
             const collection = db.collection('groups');
@@ -34,6 +37,7 @@ module.exports = {
             res.sendStatus(200);
         })
     },
+    // Remove user from a group based on the groupID and userID
     removeUserFromGroup: function(db, app){
         app.post('/removeUserFromGroup', function(req, res){
             const collection = db.collection('groups');
@@ -55,7 +59,7 @@ module.exports = {
             })
         })
     },
-
+    // Get all groups based on the userID
     getGroupsByUserID: function(db, app){
         // Get all the groups that the user is a part of
         app.post('/getGroupsByUserID', function(req, res){
@@ -75,9 +79,8 @@ module.exports = {
             })
         })
     },
-
+    // Get group based on the group name
     getGroupsByGroupName: function(db, app){
-        //TODO: double check this is working
         app.post('/getGroupsByGroupName', function(req, res){
             const collection = db.collection('groups');
             let groupName = req.body.groupName;
@@ -89,9 +92,8 @@ module.exports = {
         })
     },
 
-
+    // Get group based on the groupID
     getGroupsByGroupID: function(db, app){
-        //TODO: double check this is working
         app.post('/getGroupsByGroupID', function(req, res){
             const collection = db.collection('groups');
             let groupID = req.body.groupID;
@@ -102,7 +104,7 @@ module.exports = {
             })
         })
     },
-    
+    // Create group based on a group object
     createGroup: function(db, app){
         app.post('/createGroup', function(req, res){
             const collection = db.collection('groups');
@@ -130,7 +132,7 @@ module.exports = {
 
         })
     },
-
+    // Update the group admin based on a userID and groupID
     updateGroupAdmin: function(db, app){
         app.post('/updateGroupAdmin', function(req, res){
             const collection = db.collection('groups');
@@ -142,7 +144,7 @@ module.exports = {
             res.sendStatus(200);
         })
     },
-
+    // Update the group assistant based on a group object
     updateGroupAssistant: function(db, app){
         app.post('/updateGroupAssistant', function(req, res){
             const collection = db.collection('groups');

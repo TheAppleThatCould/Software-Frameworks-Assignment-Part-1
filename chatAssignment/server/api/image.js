@@ -1,4 +1,5 @@
 module.exports = {
+    // A function that will upload a image and send back the image path
     imageUpload: function(app, formidable, fs, path){
         app.post('/imageUpload', (req, res) => {
             var form = new formidable.IncomingForm();

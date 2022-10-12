@@ -1,4 +1,5 @@
 module.exports = {
+    // A function that will recieve the user detail based on the userName and password which was passed through.
     login: function(db, app){
         app.post('/login', function(req, res){
             if(!req.body){
