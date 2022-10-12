@@ -38,24 +38,25 @@ export class GroupsService {
   deleteGroup(groupID: number){
     this.httpClient.post(BACKEND_URL + '/deleteGroup', {groupID}, httpOptions).subscribe((data: any) =>{})
   }
-
+  // A function which will get the group based on the group name
   getGroupByGroupID(groupID: number){
     return this.httpClient.post(BACKEND_URL + "/getGroupsByGroupID", {groupID}, httpOptions);
   }
-
+  // A function which will get the user based on the groupID and userID
   addUserToGroup(userID: number, groupID: number){
     this.httpClient.post(BACKEND_URL + '/addUserToGroup', {userID, groupID}, httpOptions).subscribe((data: any) =>{})
   }
 
+  // A function whichi will remove a user from a group based on the userID and the groupID
   removeUserFromGroup(userID: number, groupID: number){
     this.httpClient.post(BACKEND_URL + "/removeUserFromGroup", {userID, groupID}, httpOptions).subscribe((data: any) =>{})
   }
-
+  // A function which will update the groupAdmin
   updateGroupAdmin(userID: number, groupID: number){
     console.log(userID, groupID)
     this.httpClient.post(BACKEND_URL + "/updateGroupAdmin", {groupID, userID}, httpOptions).subscribe((data: any) =>{})
   }
-
+  // A function which will update the group assistant
   updateGroupAssistant(groupData: GroupData){
     this.httpClient.post(BACKEND_URL + '/updateGroupAssistant', groupData, httpOptions).subscribe((data: any) =>{})
   }
